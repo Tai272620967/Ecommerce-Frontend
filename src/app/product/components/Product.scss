@@ -1,0 +1,202 @@
+.product__wrapper {
+  width: 98%;
+  margin: 0 auto;
+  padding: 10px 64px;
+  // height: 100vh;
+
+  .product {
+    &__bread-crumbs {
+      &__list {
+        display: flex;
+        // justify-content: space-between;
+        list-style: none;
+        // width: 20%;
+        align-items: center;
+        padding: 0;
+
+        &__item {
+          display: flex;
+          align-items: center;
+
+          a {
+            color: #3c3c43;
+            font-size: 12px;
+            text-decoration: none;
+          }
+
+          &__icon {
+            margin: 0 4px;
+          }
+        }
+      }
+    }
+
+    &__title {
+      font-size: 38px;
+      font-weight: 700;
+    }
+
+    &__sub-title__wrapper {
+      margin-top: 48px;
+    }
+
+    &__sub-title {
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    &__pickup-item__wrapper {
+      display: flex;
+      justify-content: space-between;
+      width: 72%;
+      margin-top: 20px;
+    }
+
+    &__pickup-item {
+      &__title {
+        font-size: 18px;
+        font-weight: 700;
+      }
+    }
+
+    &__filter__wrapper {
+      display: flex;
+    }
+
+    &__filter-button-wrapper {
+      width: 60%;
+      margin: 30px 0px 40px 0px;
+    }
+
+    &__filter-button {
+      width: 100%;
+      background: #f4eede;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 700;
+
+    }
+
+    &__list__wrapper {
+      width: 100%;
+    }
+
+    &__list {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(4, 1fr);
+
+      &__inner-wrapper {
+        position: relative;
+      }
+
+      &__inner-wrapper::after {
+        background-color: #f5f5f5;
+        content: "";
+        height: calc(100% + 14px);
+        position: absolute;
+        right: -14px;
+        top: -10px;
+        width: 4px;
+        z-index: 1;
+      }
+
+      &__item {
+        padding-bottom: 20px;
+        // border: 1px solid black;
+        cursor: pointer;
+
+        &__desc__name {
+          font-size: 14px;
+          padding: 0 15px;
+        }
+
+        &__desc__price__wrapper {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          margin-top: 10px;
+        }
+
+        &__desc__price {
+          display: flex;
+          align-items: baseline;
+          flex-wrap: wrap;
+          &__value {
+            display: flex;
+            align-items: baseline;
+            gap: 2px;
+
+            &__number {
+              font-size: 20px;
+              font-weight: 700;
+            }
+
+            &__unit {
+              font-size: 12px;
+            }
+          }
+          &__tilde {
+            margin-left: 8px;
+            margin-right: 2px;
+            font-size: 12px;
+          }
+        }
+
+        &__desc__heart-button {
+          background-color: #fff;
+        }
+
+        &__desc__heart-button-image {
+          height: 40px;
+          width: 40px;
+          align-items: center;
+          background-color: #f4eede;
+          border: 1px solid #e0ceaa;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+        }
+      }
+
+      &__table {
+        // position: absolute;
+        position: relative;
+      }
+
+      &__table::before {
+        background-color: #f5f5f5;
+        block-size: 4px;
+        bottom: -4px;
+        content: "";
+        inline-size: 100%;
+        position: absolute;
+        z-index: 1;
+      }
+    }
+  }
+}
+
+/* HTML: <div class="loader"></div> */
+.loader__wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.loader {
+  width: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l5 1s infinite linear alternate;
+}
+@keyframes l5 {
+    0%  {box-shadow: 20px 0 #000, -20px 0 #0002;background: #000 }
+    33% {box-shadow: 20px 0 #000, -20px 0 #0002;background: #0002}
+    66% {box-shadow: 20px 0 #0002,-20px 0 #000; background: #0002}
+    100%{box-shadow: 20px 0 #0002,-20px 0 #000; background: #000 }
+}

@@ -1,0 +1,16 @@
+.product-dashboard {
+  &__wrapper {
+    padding: 25px;
+    background-color: #f5f6fe;
+    height: 100vh;
+    margin-top: 60px;
+    // margin-left: 250px;
+  }
+
+  &__title {
+    h1 {
+      font-size: 26px;
+      font-weight: bold;
+    }
+  }
+}

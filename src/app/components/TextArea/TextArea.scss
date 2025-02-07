@@ -1,0 +1,37 @@
+.textarea-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.textarea-label {
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.textarea {
+  width: 100%;
+  height: 100px;
+  padding: 0.5rem;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.textarea-error {
+  border-color: #e74c3c;
+}
+
+.textarea-error-message {
+  margin-top: 0.25rem;
+  font-size: 12px;
+  color: #e74c3c;
+}

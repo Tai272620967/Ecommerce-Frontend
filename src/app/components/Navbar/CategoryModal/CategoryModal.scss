@@ -1,0 +1,89 @@
+.category-modal {
+  &__wrapper {
+    position: absolute;
+    top: 80px;
+    background-color: #fff;
+    width: 100vw;
+    height: 95vh;
+    z-index: 120;
+    margin: 0 auto;
+    animation: modalSlideIn 0.3s ease-in-out forwards;
+  }
+
+  &__container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 50px;
+    max-height: 86vh;
+    overflow-y: scroll;
+  }
+
+  &__left {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    ul {
+      list-style: none;
+      li {
+        cursor: pointer;
+        color: rgb(60, 60, 67);
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 11px;
+        padding: 5px;
+        transition: background-color 0.3s ease;
+      }
+    }
+  }
+
+  &__right {
+    right: 30%;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #e2e2e2;
+    padding-left: 30px;
+    height: 85vh;
+
+    &__box {
+      margin-bottom: 20px;
+      &__menu-title {
+        font-size: 15px;
+        font-weight: bold;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        li {
+          font-size: 14px;
+          font-weight: 400;
+          color: rgb(60, 60, 67);
+          line-height: 1.5;
+          margin-bottom: 11px;
+          padding: 5px;
+        }
+      }
+    }
+  }
+
+  &__close-modal-button {
+    margin-top: -30px;
+    .navbar-icon {
+      cursor: pointer;
+    }
+  }
+}
+
+/* Định nghĩa lại animation */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    // transform: translateY(-20px); /* Hiệu ứng trượt từ trên xuống */
+  }
+  to {
+    opacity: 1;
+    // transform: translateY(0);
+  }
+}

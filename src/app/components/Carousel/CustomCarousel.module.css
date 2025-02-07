@@ -1,0 +1,36 @@
+.carouselContainer {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .prevArrow,
+  .nextArrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    color: black;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 2;
+    font-size: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .prevArrow {
+    left: 150px;
+  }
+  
+  .nextArrow {
+    right: 150px;
+  }
+  
+  .prevArrow:hover,
+  .nextArrow:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  

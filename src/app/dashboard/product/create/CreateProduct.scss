@@ -1,0 +1,141 @@
+.create-product {
+  &__title {
+    font-size: 30px;
+  }
+  &__wrapper {
+    margin-left: 250px;
+    padding: 20px;
+    width: 50%;
+    margin: 80px auto 0px;
+    border: 1px solid #b8bdc9;
+    border-radius: 10px;
+    // box-shadow: rgba(0, 0, 0, 0.05) 0px 8px 15px;
+
+    .input {
+      &__product-name {
+        outline: none;
+        border: 1px solid #b8bdc9;
+        border-radius: 4px;
+        padding: 6px;
+        width: 350px;
+      }
+
+      &__product-price {
+        outline: none;
+        border: 1px solid #b8bdc9;
+        border-radius: 4px;
+        padding: 6px;
+        width: 350px;
+
+        &__wrapper {
+          margin-top: 20px;
+        }
+      }
+
+      &__product-stock {
+        outline: none;
+        border: 1px solid #b8bdc9;
+        border-radius: 4px;
+        padding: 6px;
+        width: 350px;
+
+        &__wrapper {
+          margin-top: 20px;
+        }
+      }
+    }
+
+    .custom-select__wrapper {
+      margin-top: 20px;
+      width: 50%;
+    }
+
+    .custom-select {
+      width: 350px;
+    }
+
+    .custom-label {
+      font-size: 13px;
+      color: rgb(88, 88, 88);
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .textarea-container {
+      &.custom {
+        margin-top: 20px;
+      }
+    }
+
+    .textarea-label {
+      &.custom {
+        font-size: 13px;
+        color: rgb(88, 88, 88);
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+  &__upload-image {
+    margin-top: 20px;
+
+    &-label {
+      font-size: 13px;
+      color: rgb(88, 88, 88);
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  }
+
+  &__button {
+    padding: 6px;
+    font-size: 18px;
+    max-width: 200px;
+    line-height: 1.5;
+    background-color: rgb(60, 60, 67);
+    transition: opacity 0.3s, color 0.3s, background-color 0.3s;
+    color: rgb(255, 255, 255);
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #000;
+      font-weight: 100;
+    }
+    &-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+  }
+}
+
+.create-product__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-product__spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #000;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

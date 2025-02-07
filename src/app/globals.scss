@@ -1,0 +1,492 @@
+@import "bootstrap/scss/bootstrap";
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.login-input {
+  width: 100%;
+  border-radius: 4px 4px 4px 4px;
+  border: 1px solid #999999;
+  box-shadow: 0 1px 3px 0 rgba(88, 88, 88, 0.3);
+  max-width: 320px;
+  font-size: 13px;
+  margin-top: 20px;
+  padding: 12px;
+  box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.input-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.login-button {
+  color: #fff;
+  border: 1px solid #7f0019;
+  background: #7f0019;
+  margin-top: 20px;
+  font-size: 13px;
+  border-radius: 20px;
+  max-width: 300px;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+}
+
+.header-container {
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .header-text {
+    &__left {
+      color: #7f0019;
+    }
+
+    &__center {
+      color: #6d6d72;
+      margin-left: 10px;
+      margin-right: 5px;
+    }
+
+    &__text-large {
+      font-size: 16px;
+    }
+
+    &__right {
+      color: #7f0019;
+      font-size: 16px;
+    }
+  }
+}
+
+// .navbar-wrapper {
+//   width: 100%;
+//   border-top: 1px solid #e5e5e5;
+//   border-bottom: 1px solid #e5e5e5;
+//   position: sticky;
+//   top: 0;
+//   z-index: 1000;
+//   background-color: #fff;
+// }
+
+// .navbar-container {
+//   .navbar-logo {
+//     // width: 5%;
+//     // width: fit-content;
+//     margin: auto;
+//     padding: 15px;
+//     cursor: pointer;
+//   }
+//   width: 90%;
+//   height: 80px;
+//   display: flex;
+//   justify-content: center;
+//   margin: 0 auto;
+//   //   border-top: 1px solid #e5e5e5;
+//   //   border-bottom: 1px solid #e5e5e5;
+//   margin: 0 auto;
+
+//   .navbar-center {
+//     width: 70%;
+//     display: flex;
+//     // justify-content: center;
+//     align-items: center;
+//     ul {
+//       width: 60%;
+//       display: flex;
+//       justify-content: space-between;
+//       align-items: center;
+//       margin-bottom: 0px;
+//       padding-left: 0px;
+//       margin-left: 50px;
+//       li {
+//         list-style-type: none;
+//         font-weight: 500;
+//         cursor: pointer;
+//       }
+//     }
+//   }
+
+//   .navbar-right {
+//     width: 20%;
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     .navbar-icon {
+//       width: 20px;
+//       height: 20px;
+//       cursor: pointer;
+//     }
+//   }
+// }
+
+.article-contents {
+  color: #333;
+  background-color: #f5f5f5;
+  width: 80%;
+  margin: 0 auto;
+  height: 61px;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  margin-top: 70px;
+  margin-bottom: 24px;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      list-style-type: none;
+      list-style: none;
+
+      a {
+        text-decoration: none;
+        border-bottom: none;
+        color: rgb(60, 60, 67) !important;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+/* Global styles for swiper arrows */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #c9c9cb !important;
+  // background-color: rgba(0, 0, 0, 0.5) !important;
+  border-radius: 50%;
+  width: 20px !important;
+  height: 20px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  font-size: 12px !important;
+}
+
+.swiper-button-prev:after {
+  font-size: 20px !important;
+}
+
+.swiper-button-next:after {
+  font-size: 20px !important;
+}
+
+.image-name {
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.input-field {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.registration-mailaddress-container {
+  width: 48%;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 30px;
+  .registration-mailaddress {
+    &__title {
+      font-size: 19px;
+      font-weight: 500;
+    }
+  }
+
+  .registration-mail-layout {
+    background: #f2f2f2;
+    margin-top: 30px;
+    padding: 16px;
+
+    .registration-mail {
+      &-content {
+        background-color: rgb(255, 255, 255);
+        box-shadow: rgba(88, 88, 88, 0.3) 0px 1px 3px 0px;
+        padding: 16px;
+      }
+      &-message {
+        white-space: pre-wrap;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.65);
+        line-height: 1.5;
+      }
+      &-note-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        color: rgba(0, 0, 0, 0.65);
+        li {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .registration-mail-input__wrapper {
+    padding: 20px 0;
+
+    .registration-mail-input {
+      width: 100%;
+      height: 40px;
+      border-radius: 4px 4px 4px 4px;
+      border: 1px solid #999999;
+      box-shadow: 0 1px 3px 0 rgba(88, 88, 88, 0.3);
+      max-width: 320px;
+      font-size: 16px;
+      padding: 4px 11px;
+      box-sizing: border-box;
+      box-sizing: border-box;
+      &.input-field--type-radio {
+        width: 10% !important;
+        height: 18px !important;
+        box-shadow: none !important;
+      }
+    }
+  }
+
+  .registration-button-wrapper {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    .registration-button {
+      border-radius: 4px;
+      height: 40px;
+      max-width: 300px;
+      border-width: 1px;
+      margin: 0 auto;
+    }
+  }
+}
+
+.input-error-message {
+  color: #7f0019 !important;
+  font-size: 11px;
+  text-align: left;
+  margin: 0;
+  margin-top: 5px;
+}
+
+.input-field--border-red {
+  border: 1px solid red !important;
+}
+
+.check-verify-code {
+  &__message {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.65);
+  }
+  &__button {
+    background: #fff;
+    margin: 0 auto;
+  }
+  &__button-wrapper {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+  &__resend-button {
+    background: #fff;
+    font-weight: 300;
+    font-size: 12px;
+    text-decoration: underline;
+  }
+  &__message-wrapper {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+}
+
+.registration-mailaddress-container.check-verify-code {
+  width: 40% !important;
+}
+
+.registration-button-wrapper--mt-large {
+  padding-top: 35px !important;
+}
+
+.input-field--custom {
+  align-items: flex-start !important;
+}
+
+.input-field__label {
+  font-size: 13px;
+  color: rgb(88, 88, 88);
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-field__label.custom {
+  margin-left: -25px;
+}
+
+.registration-account {
+  &__text {
+    font-size: 12px;
+    color: rgb(88, 88, 88);
+    &__link {
+      font-size: 12px;
+      color: rgb(88, 88, 88);
+      cursor: pointer;
+    }
+  }
+}
+
+.registration-account--address {
+  display: flex;
+  align-items: center;
+  &__symbol {
+    margin-right: 10px;
+    margin-top: 20px;
+  }
+}
+
+.zipcode-button {
+  max-width: 300px;
+  padding: 0px 15px;
+  margin-top: 23px;
+  margin-left: 20px;
+  height: 40px;
+  background-color: rgb(60, 60, 67);
+  color: rgb(255, 255, 255);
+  border-color: rgb(60, 60, 67);
+  font-size: 14px;
+  font-weight: bold;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+}
+
+.registration-mail-input__wrapper.registration-account--birthday {
+  display: flex;
+  align-items: center;
+  padding-top: 0;
+  width: 50%;
+}
+
+.registration-account--birthday {
+  &__title {
+    font-size: 13px;
+    color: rgb(88, 88, 88);
+    font-weight: bold;
+    margin-top: 30px;
+  }
+  &__text {
+    margin-top: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  &__month {
+    width: 35%;
+  }
+  &__day {
+    width: 35%;
+  }
+}
+
+.registration-account-gender-wrapper {
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+
+  .registration-account-gender__input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &__text {
+      font-size: 12px;
+      margin-top: 7px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    .input-field--type-radio {
+      height: 17px !important;
+      width: 17px;
+    }
+  }
+
+  // .registration-mail-input {
+  //   width: 100%;
+  //   height: 40px;
+  //   border-radius: 4px 4px 4px 4px;
+  //   border: 1px solid #999999;
+  //   box-shadow: 0 1px 3px 0 rgba(88, 88, 88, 0.3);
+  //   max-width: 320px;
+  //   font-size: 16px;
+  //   padding: 4px 11px;
+  //   box-sizing: border-box;
+  //   box-sizing: border-box;
+  // }
+}
+
+// .custom-message {
+//   background-color: #3c3c42 !important;
+//   color: #fff !important;
+//   width: 200px;
+//   margin: 0 auto;
+//   border-radius: 5px;
+// }
+
+// .ant-message {
+//   background-color: #3c3c42; /* Màu nền */
+//   color: #fff; /* Màu chữ */
+//   border-radius: 8px;
+//   padding: 16px;
+// }
+
+.ant-message-notice-content {
+  background-color: #3c3c42 !important;
+  color: #fff !important;
+}
+
+.dashboard-layout {
+  display: flex;
+
+  &__main {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+  }
+}
+
+.error-message {
+  &__upload-image {
+    color: #7f0019;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  &__category {
+    color: #7f0019;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  &__description {
+    color: #7f0019;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+}

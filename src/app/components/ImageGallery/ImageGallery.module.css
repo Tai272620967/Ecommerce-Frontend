@@ -1,0 +1,48 @@
+.swiperContainer {
+  width: 80%;
+  padding: 20px 0;
+  position: relative;
+}
+
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+/* Image Gallery styles */
+.swiper-slide {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .swiper-slide img {
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+    z-index: 1; /* Đảm bảo hình ảnh ở trên lớp phủ */
+  }
+  
+  .swiper-slide::after {
+    content: ""; /* Tạo nội dung cho pseudo-element */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Màu xám nhạt với độ trong suốt */
+    opacity: 0; /* Ban đầu ẩn */
+    transition: opacity 0.3s ease; /* Hiệu ứng mượt mà khi hover */
+    z-index: 0; /* Đặt lớp phủ dưới hình ảnh */
+  }
+  
+  .swiper-slide:hover::after {
+    opacity: 1; /* Hiển thị lớp phủ khi hover */
+  }
+  
+  .swiper-slide:hover img {
+    transform: scale(1.1); /* Tăng kích thước hình ảnh khi hover */
+  }
+  

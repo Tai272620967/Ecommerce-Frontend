@@ -1,0 +1,18 @@
+.products-table {
+    background-color: #ffffff;
+    border-collapse: none;
+    width: 100%;
+    margin: 0 auto;
+    thead {
+        // color: #858c99;
+        font-size: 14px;
+    }
+
+    tbody {
+        tr {
+            td {
+                font-size: 13px;
+            }
+        }
+    }
+}
