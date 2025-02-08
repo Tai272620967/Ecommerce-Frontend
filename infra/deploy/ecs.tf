@@ -83,6 +83,12 @@ resource "aws_ecs_task_definition" "front" {
         image             = var.ecr_front_image
         essential         = true
         memoryReservation = 256
+        portMappings = [
+          {
+            containerPort = 3000
+            hostPort      = 3000
+          }
+        ]
         environment = [
           {
             name  = "PORT"
