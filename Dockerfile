@@ -1,27 +1,3 @@
-# # Sử dụng hình ảnh Node.js chính thức
-# FROM node:18-alpine
-
-# # Thiết lập thư mục làm việc bên trong container
-# WORKDIR /app
-
-# # Copy package.json và package-lock.json vào container
-# COPY package.json package-lock.json ./
-
-# # Cài đặt các dependencies
-# RUN npm install
-
-# # Copy toàn bộ mã nguồn dự án vào container
-# COPY . .
-
-# # Build dự án Next.js
-# RUN npm run build
-
-# # Expose cổng mà Next.js sẽ chạy
-# EXPOSE 3000
-
-# # Command để khởi chạy ứng dụng Next.js
-# CMD ["npm", "start"]
-
 # Stage 1: Build ứng dụng Next.js
 FROM node:18-alpine AS builder
 
