@@ -100,11 +100,11 @@ resource "aws_ecs_task_definition" "front" {
           },
           {
             name  = "NEXT_PUBLIC_API_BASE_URL"
-            value = "http://3.0.184.170:8080/api/v1"
+            value = "http://54.169.44.176:8080/api/v1"
           },
           {
             name  = "NEXT_PUBLIC_API_BASE_URI"
-            value = "http://3.0.184.170:8080/storage"
+            value = "http://:54.169.44.176:8080/storage"
           },
           {
             name  = "ALLOWED_HOSTS"
