@@ -3,6 +3,11 @@ variable "tf_state_bucket" {
   default     = "muji-front-tf-state"
 }
 
+variable "tf_state_api_bucket" {
+  description = "Name of S3 bucket in AWS for storing api TF state"
+  default = "muji-app-tf-state"
+}
+
 variable "tf_state_lock_table" {
   description = "Name of the DynamoDB table for TF state locking"
   default     = "muji-front-tf-lock"
