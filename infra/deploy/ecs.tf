@@ -85,15 +85,19 @@ resource "aws_ecs_task_definition" "front" {
         memoryReservation = 256
         environment = [
           {
-            name = "PORT"
+            name  = "PORT"
             value = "3000"
           },
           {
-            name = "NEXT_PUBLIC_API_BASE_URL"
+            name  = "VITE_ACL_ENABLE"
+            value = "true"
+          },
+          {
+            name  = "NEXT_PUBLIC_API_BASE_URL"
             value = "http://3.0.184.170:8080/api/v1"
           },
           {
-            name = "NEXT_PUBLIC_API_BASE_URI"
+            name  = "NEXT_PUBLIC_API_BASE_URI"
             value = "http://3.0.184.170:8080/storage"
           },
           {
