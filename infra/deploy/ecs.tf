@@ -225,7 +225,7 @@ resource "aws_ecs_service" "front" {
     #   aws_subnet.public_a.id,
     #   aws_subnet.public_b.id
     # ]
-    # security_groups = [aws_security_group.ecs_front_service.id]
+    security_groups = [aws_security_group.ecs_front_service.id]
   }
 }
 
