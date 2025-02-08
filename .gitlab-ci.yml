@@ -33,9 +33,9 @@ Push to ECR:
     - apk update && apk add aws-cli
     - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com
     # 🔥 Thêm file .env.production trước khi build
-    # - echo "NEXT_PUBLIC_API_BASE_URL=http://54.169.44.176:8080/api/v1" > .env.production
-    # - echo "NEXT_PUBLIC_API_BASE_URI=http://54.169.44.176:8080/storage" >> .env.production
-    # - echo "VITE_ACL_ENABLE=true" >> .env.production
+    - echo "NEXT_PUBLIC_API_BASE_URL=http://18.142.237.134:8080/api/v1" > .env.production
+    - echo "NEXT_PUBLIC_API_BASE_URI=http://18.142.237.134:8080/storage" >> .env.production
+    - echo "VITE_ACL_ENABLE=true" >> .env.production
     - docker build --compress -t $ECR_REPO_FRONT:$CI_COMMIT_SHA .
     - docker push $ECR_REPO_FRONT:$CI_COMMIT_SHA
     - docker build --compress -t $ECR_REPO_PROXY:$CI_COMMIT_SHA nginx/

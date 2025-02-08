@@ -3,7 +3,7 @@ import authStorage from '../storage/auth';
 
 // Create axios instance
 const axiosInstance = axios.create({
-  baseURL: "http://54.151.223.148/api/v1", // Ensure this env variable is set
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL, // Ensure this env variable is set
   headers: {
     'Content-Type': 'application/json',
   },
