@@ -48,7 +48,7 @@ Deploy:
       else
         workspace="staging"
       fi
-    - export TF_VAR_ecr_front_image="$ECR_REPO_APP:$CI_COMMIT_SHA"
+    - export TF_VAR_ecr_front_image="$ECR_REPO_FRONT:$CI_COMMIT_SHA"
     - export TF_VAR_ecr_proxy_image="$ECR_REPO_PROXY:$CI_COMMIT_SHA"
     - cd infra/
     - docker compose run --rm terraform -chdir=deploy/ init
