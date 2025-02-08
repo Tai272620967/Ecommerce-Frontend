@@ -39,11 +39,11 @@ data "terraform_remote_state" "be" {
 
   config = {
     bucket               = "muji-app-tf-state"
-    key                  = "tf-state-deploy"
-    workspace_key_prefix = "tf-state-deploy-env"
+    key                  = "tf-state-deploy-env/${terraform.workspace}/tf-state-deploy"
     region               = "ap-southeast-1"
   }
 }
+
 
 
 
