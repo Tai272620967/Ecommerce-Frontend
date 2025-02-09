@@ -261,3 +261,42 @@ resource "aws_iam_user_policy_attachment" "logs" {
   user       = aws_iam_user.cd.name
   policy_arn = aws_iam_policy.logs.arn
 }
+
+##############################
+# Policy for Amplify access #
+##############################
+
+data "aws_iam_policy_document" "amplify" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "amplify:CreateApp",
+      "amplify:UpdateApp",
+      "amplify:DeleteApp",
+      "amplify:CreateBranch",
+      "amplify:UpdateBranch",
+      "amplify:DeleteBranch",
+      "amplify:GetApp",
+      "amplify:GetBranch",
+      "amplify:ListApps",
+      "amplify:ListBranches",
+      "amplify:StartJob",
+      "amplify:StopJob",
+      "amplify:GetJob",
+      "amplify:ListJobs"
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "amplify" {
+  name        = "${aws_iam_user.cd.name}-amplify"
+  description = "Allow user to manage Amplify applications."
+  policy      = data.aws_iam_policy_document.amplify.json
+}
+
+resource "aws_iam_user_policy_attachment" "amplify" {
+  user       = aws_iam_user.cd.name
+  policy_arn = aws_iam_policy.amplify.arn
+}
+

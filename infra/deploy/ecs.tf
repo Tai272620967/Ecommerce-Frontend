@@ -100,11 +100,11 @@ resource "aws_ecs_task_definition" "front" {
           },
           {
             name  = "NEXT_PUBLIC_API_BASE_URL"
-            value = "http://18.142.237.134:8080/api/v1"
+            value = "http://muji-staging-lb-1276137610.ap-southeast-1.elb.amazonaws.com/api/v1"
           },
           {
             name  = "NEXT_PUBLIC_API_BASE_URI"
-            value = "http://18.142.237.134:8080/storage"
+            value = "http://muji-staging-lb-1276137610.ap-southeast-1.elb.amazonaws.com/storage"
           },
           {
             name  = "ALLOWED_HOSTS"
