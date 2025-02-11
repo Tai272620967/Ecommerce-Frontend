@@ -38,8 +38,8 @@ Push to ECR:
     - echo "VITE_ACL_ENABLE=true" >> .env.production
     - docker build --compress -t $ECR_REPO_FRONT:$CI_COMMIT_SHA .
     - docker push $ECR_REPO_FRONT:$CI_COMMIT_SHA
-    - docker build --compress -t $ECR_REPO_PROXY:$CI_COMMIT_SHA nginx/
-    - docker push $ECR_REPO_PROXY:$CI_COMMIT_SHA
+    # - docker build --compress -t $ECR_REPO_PROXY:$CI_COMMIT_SHA nginx/
+    # - docker push $ECR_REPO_PROXY:$CI_COMMIT_SHA
   rules:
     - if: "$CI_COMMIT_BRANCH =~ /^(main|prod)$/"
 

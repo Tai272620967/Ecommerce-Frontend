@@ -1,6 +1,6 @@
-provider "aws" {
-  region = "ap-southeast-1" # Chỉnh theo region của bạn
-}
+# provider "aws" {
+#   region = "ap-southeast-1" # Chỉnh theo region của bạn
+# }
 
 # IAM Role cho Amplify
 resource "aws_iam_role" "amplify_role" {
@@ -31,7 +31,9 @@ resource "aws_amplify_app" "fe_app" {
 
   environment_variables = {
     NODE_VERSION = "18"
-    NEXT_PUBLIC_API_URL = "https://api.example.com" # Thay bằng API backend của bạn
+    NEXT_PUBLIC_API_BASE_URL = "http://muji-staging-lb-1305430612.ap-southeast-1.elb.amazonaws.com/api/v1" # Thay bằng API backend của bạn
+    NEXT_PUBLIC_API_BASE_URI = "http://muji-staging-lb-1305430612.ap-southeast-1.elb.amazonaws.com/storage"
+    VITE_ACL_ENABLE=true
   }
 }
 
@@ -44,11 +46,11 @@ resource "aws_amplify_branch" "main" {
   enable_auto_build = true
 }
 
-# Tạo branch dev (nếu cần)
-resource "aws_amplify_branch" "dev" {
-  app_id      = aws_amplify_app.fe_app.id
-  branch_name = "dev"
+# # Tạo branch dev (nếu cần)
+# resource "aws_amplify_branch" "dev" {
+#   app_id      = aws_amplify_app.fe_app.id
+#   branch_name = "dev"
 
-  # Cấu hình auto build cho branch dev
-  enable_auto_build = true
-}
+#   # Cấu hình auto build cho branch dev
+#   enable_auto_build = true
+# }
