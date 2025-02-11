@@ -14,7 +14,7 @@ output "ecr_repo_front" {
   value       = aws_ecr_repository.front.repository_url
 }
 
-output "ecr_repo_proxy" {
-  description = "ECR repository URL for proxy image"
-  value       = aws_ecr_repository.proxy.repository_url
-}
+# output "ecr_repo_proxy" {
+#   description = "ECR repository URL for proxy image"
+#   value       = aws_ecr_repository.proxy.repository_url
+# }
