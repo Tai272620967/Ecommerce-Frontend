@@ -129,46 +129,6 @@ resource "aws_ecs_task_definition" "front" {
   }
 }
 
-# resource "aws_ecs_task_definition" "proxy" {
-#   family                   = "${local.prefix}-proxy"
-#   requires_compatibilities = ["FARGATE"]
-#   network_mode             = "awsvpc"
-#   cpu                      = 256
-#   memory                   = 512
-#   execution_role_arn       = aws_iam_role.task_execution_role.arn
-#   task_role_arn            = aws_iam_role.app_task.arn
-
-#   container_definitions = jsonencode(
-#     [
-#       {
-#         name              = "proxy"
-#         image             = var.ecr_proxy_image
-#         essential         = true
-#         memoryReservation = 256
-#         portMappings = [
-#           {
-#             containerPort = 80
-#             hostPort      = 80
-#           }
-#         ]
-#         logConfiguration = {
-#           logDriver = "awslogs"
-#           options = {
-#             awslogs-group         = aws_cloudwatch_log_group.ecs_proxy_logs.name
-#             awslogs-region        = data.aws_region.current.name
-#             awslogs-stream-prefix = "proxy"
-#           }
-#         }
-#       }
-#     ]
-#   )
-
-#   runtime_platform {
-#     operating_system_family = "LINUX"
-#     cpu_architecture        = "X86_64"
-#   }
-# }
-
 resource "aws_security_group" "ecs_front_service" {
   description = "Access rules for the ECS front service."
   name        = "${local.prefix}-ecs-front-service"
@@ -188,26 +148,6 @@ resource "aws_security_group" "ecs_front_service" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
-# resource "aws_security_group" "ecs_proxy_service" {
-#   description = "Access rules for the ECS proxy service."
-#   name        = "${local.prefix}-ecs-proxy-service"
-#   vpc_id      = data.terraform_remote_state.be.outputs.vpc_id
-
-#   egress {
-#     from_port   = 443
-#     to_port     = 443
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-
-#   ingress {
-#     from_port   = 80
-#     to_port     = 80
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-# }
 
 resource "aws_ecs_service" "front" {
   name                   = "${local.prefix}-front"
@@ -229,22 +169,3 @@ resource "aws_ecs_service" "front" {
   }
 }
 
-# resource "aws_ecs_service" "proxy" {
-#   name                   = "${local.prefix}-proxy"
-#   cluster                = aws_ecs_cluster.main.name
-#   task_definition        = aws_ecs_task_definition.proxy.family
-#   desired_count          = 1
-#   launch_type            = "FARGATE"
-#   platform_version       = "1.4.0"
-#   enable_execute_command = true
-
-#   network_configuration {
-#     assign_public_ip = true
-#     subnets          = data.terraform_remote_state.be.outputs.public_subnets
-#     # subnets = [
-#     #   aws_subnet.public_a.id,
-#     #   aws_subnet.public_b.id
-#     # ]
-#     security_groups = [aws_security_group.ecs_proxy_service.id]
-#   }
-# }
