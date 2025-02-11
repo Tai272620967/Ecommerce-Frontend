@@ -22,7 +22,7 @@ resource "aws_iam_role" "amplify_role" {
 resource "aws_amplify_app" "fe_app" {
   name          = "muji-fe"
   repository    = "https://gitlab.com/demo373147/muji-frontend-aws-cicd.git" # Thay bằng GitLab repo của bạn
-  platform      = "WEB"
+  platform      = "WEB_COMPUTE"
   iam_service_role_arn = aws_iam_role.amplify_role.arn
 
   enable_branch_auto_build = true
@@ -31,8 +31,8 @@ resource "aws_amplify_app" "fe_app" {
 
   environment_variables = {
     NODE_VERSION = "18"
-    NEXT_PUBLIC_API_BASE_URL = "http://muji-staging-lb-1305430612.ap-southeast-1.elb.amazonaws.com/api/v1" # Thay bằng API backend của bạn
-    NEXT_PUBLIC_API_BASE_URI = "http://muji-staging-lb-1305430612.ap-southeast-1.elb.amazonaws.com/storage"
+    NEXT_PUBLIC_API_BASE_URL = "http://muji-staging-lb-1792493889.ap-southeast-1.elb.amazonaws.com/api/v1" # Thay bằng API backend của bạn
+    NEXT_PUBLIC_API_BASE_URI = "http://muji-staging-lb-1792493889.ap-southeast-1.elb.amazonaws.com/storage"
     VITE_ACL_ENABLE=true
   }
 }
@@ -44,13 +44,5 @@ resource "aws_amplify_branch" "main" {
 
   # Cấu hình auto build cho branch main
   enable_auto_build = true
+  framework         = "Next.js - SSR" # ⚡ Xác định framework để hỗ trợ SSR
 }
-
-# # Tạo branch dev (nếu cần)
-# resource "aws_amplify_branch" "dev" {
-#   app_id      = aws_amplify_app.fe_app.id
-#   branch_name = "dev"
-
-#   # Cấu hình auto build cho branch dev
-#   enable_auto_build = true
-# }
