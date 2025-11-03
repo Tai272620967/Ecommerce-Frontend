@@ -24,6 +24,8 @@ resource "aws_amplify_app" "fe_app" {
   repository    = "https://gitlab.com/demo373147/muji-frontend-aws-cicd.git" # Thay bằng GitLab repo của bạn
   platform      = "WEB_COMPUTE"
   iam_service_role_arn = aws_iam_role.amplify_role.arn
+  # OAuth token for GitLab access - provided via variable to avoid committing secrets
+  oauth_token = var.gitlab_oauth_token
 
   enable_branch_auto_build = true
   enable_branch_auto_deletion = true

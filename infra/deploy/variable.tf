@@ -29,3 +29,11 @@ variable "ecr_proxy_image" {
 variable "ecr_front_image" {
   description = "Path to the ECR repo with the API image"
 }
+
+variable "gitlab_oauth_token" {
+  description = "GitLab OAuth token for AWS Amplify to access the repository"
+  type        = string
+  sensitive   = true
+  # This should be provided via terraform.tfvars or TF_VAR_gitlab_oauth_token environment variable
+  # Never commit terraform.tfvars with secrets to git
+}
