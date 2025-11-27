@@ -6,7 +6,10 @@ import UserMenu from "../UserMenu/UserMenu";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Category, SubCategory } from "@/base/types/category";
-import { fetchAllMainCategoryApi, fetchSubCategoriesApi } from "@/base/utils/api/category";
+import {
+  fetchAllMainCategoryApi,
+  fetchSubCategoriesApi,
+} from "@/base/utils/api/category";
 import CategoryModal from "./CategoryModal/CategoryModal";
 import { useAppDispatch, useAppSelector } from "@/base/redux/hook";
 import { cartTotalQuantityApi } from "@/base/utils/api/cart";
@@ -45,7 +48,7 @@ const NavbarCommon: React.FC<NavbarProps> = () => {
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     fetchSubCategories();
     // if (subCategories) {
@@ -56,7 +59,11 @@ const NavbarCommon: React.FC<NavbarProps> = () => {
       try {
         const cartTotalQuantityRes = await cartTotalQuantityApi();
         if (cartTotalQuantityRes) {
-          dispatch(setTotalQuantity({ totalQuantity: cartTotalQuantityRes.data.totalQuantity }));
+          dispatch(
+            setTotalQuantity({
+              totalQuantity: cartTotalQuantityRes.data.totalQuantity,
+            })
+          );
         }
       } catch (error) {
         console.error(error);
@@ -80,6 +87,7 @@ const NavbarCommon: React.FC<NavbarProps> = () => {
     const fetchAllMainCategories = async () => {
       try {
         const response = await fetchAllMainCategoryApi();
+        console.log("response", response);
         if (response) {
           setMainCategories(response.data.result);
         }
@@ -156,7 +164,10 @@ const NavbarCommon: React.FC<NavbarProps> = () => {
             width={24}
             height={24}
           />
-          <div className="cartIcon-wrapper" onClick={() => router.push("/cart")}>
+          <div
+            className="cartIcon-wrapper"
+            onClick={() => router.push("/cart")}
+          >
             <span className="cartIcon-itemCount">{cart?.totalQuantity}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

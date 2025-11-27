@@ -66,6 +66,7 @@ const Category: React.FC = () => {
   );
 
   useEffect(() => {
+    console.log("hello");
     const fetchMainCategories = async () => {
       try {
         const response = await fetchAllMainCategoryApi();

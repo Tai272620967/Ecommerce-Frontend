@@ -89,8 +89,8 @@ const Cart: React.FC = () => {
       setTimeout(() => {
         message.success({
           content: response.data.message,
-          className: 'custom-message',
-        });        
+          className: "custom-message",
+        });
         setIsDeleting(false);
         setCartItems((prevItems) =>
           prevItems.filter((item) => item.id !== Number(id))
@@ -150,7 +150,8 @@ const Cart: React.FC = () => {
                 <div className="cart__item-row" key={cartItem.id}>
                   <div className="cart__item-thumbnail">
                     <Image
-                      src={process.env.NEXT_PUBLIC_API_BASE_URI + cartItem.product.imageUrl}
+                      // src={process.env.NEXT_PUBLIC_API_BASE_URI + cartItem.product.imageUrl}
+                      src={cartItem.product.imageUrl}
                       alt="Sofa thumbnail"
                       width={150}
                       height={150}
@@ -305,7 +306,9 @@ const Cart: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="cart__item__empty-cart">ショッピングカートの中に商品がございません。</div>
+        <div className="cart__item__empty-cart">
+          ショッピングカートの中に商品がございません。
+        </div>
       )}
     </div>
   );

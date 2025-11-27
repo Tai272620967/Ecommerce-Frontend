@@ -1,7 +1,8 @@
 .swiperContainer {
   width: 80%;
-  padding: 20px 0;
+  padding: 20px 0 40px 0;
   position: relative;
+  margin: 0 auto;
 }
 
 .imageWrapper {
@@ -9,40 +10,121 @@
   justify-content: center;
   align-items: center;
   height: 300px;
+  cursor: pointer;
+  margin-bottom: 12px;
 }
 
-/* Image Gallery styles */
+.categoryImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.categoryName {
+  text-align: center;
+  font-size: 14px;
+  color: #3c3c43;
+  margin: 0;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.categoryName:hover {
+  color: #7f0019;
+}
+
+/* Image Gallery styles - Muji aesthetic */
 .swiper-slide {
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  background-color: #fafafa;
+}
+
+.swiper-slide img {
+  transition: transform 0.4s ease;
+  border-radius: 4px;
+  z-index: 1;
+  object-fit: cover;
+}
+
+.swiper-slide::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+  border-radius: 4px;
+}
+
+.swiper-slide:hover {
+  transform: translateY(-4px);
+}
+
+.swiper-slide:hover::after {
+  opacity: 1;
+}
+
+.swiper-slide:hover img {
+  transform: scale(1.05);
+}
+
+/* Navigation buttons styling */
+.swiperContainer :global(.swiper-button-next),
+.swiperContainer :global(.swiper-button-prev) {
+  color: #3c3c43;
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.swiperContainer :global(.swiper-button-next:hover),
+.swiperContainer :global(.swiper-button-prev:hover) {
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.swiperContainer :global(.swiper-button-next::after),
+.swiperContainer :global(.swiper-button-prev::after) {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Pagination dots styling */
+.swiperContainer :global(.swiper-pagination-bullet) {
+  background-color: #d8d8d9;
+  opacity: 1;
+  width: 8px;
+  height: 8px;
+  transition: all 0.3s ease;
+}
+
+.swiperContainer :global(.swiper-pagination-bullet-active) {
+  background-color: #3c3c43;
+  width: 24px;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .swiperContainer {
+    width: 95%;
+    padding: 20px 0 30px 0;
   }
-  
-  .swiper-slide img {
-    transition: transform 0.3s ease;
-    border-radius: 8px;
-    z-index: 1; /* Đảm bảo hình ảnh ở trên lớp phủ */
+
+  .imageWrapper {
+    height: 250px;
   }
-  
-  .swiper-slide::after {
-    content: ""; /* Tạo nội dung cho pseudo-element */
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.3); /* Màu xám nhạt với độ trong suốt */
-    opacity: 0; /* Ban đầu ẩn */
-    transition: opacity 0.3s ease; /* Hiệu ứng mượt mà khi hover */
-    z-index: 0; /* Đặt lớp phủ dưới hình ảnh */
-  }
-  
-  .swiper-slide:hover::after {
-    opacity: 1; /* Hiển thị lớp phủ khi hover */
-  }
-  
-  .swiper-slide:hover img {
-    transform: scale(1.1); /* Tăng kích thước hình ảnh khi hover */
-  }
-  
+}
+

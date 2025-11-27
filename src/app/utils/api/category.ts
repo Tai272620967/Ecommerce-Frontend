@@ -16,6 +16,8 @@ export const fetchAllMainCategoryApi = async () => {
       "/main-categories"
     );
 
+    console.log("response", response);
+
     if (response.status === 200) {
       return response.data;
     }

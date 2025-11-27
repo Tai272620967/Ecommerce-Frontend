@@ -51,19 +51,16 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ subCategories }) => {
           <Link href={`/product/subCategory/${subCategory.id}`} className={styles.imageWrapper}>
             <Image
               src={subCategory?.imageUrl}
-              alt={`Slide ${index}`}
+              alt={subCategory.name}
               width={250}
               height={250}
               quality={80}
-              style={{
-                objectFit: "cover",
-                borderRadius: "8px",
-                transition: "transform 0.3s ease",
-                zIndex: 1, // Đảm bảo hình ảnh ở trên lớp phủ
-              }}
+              className={styles.categoryImage}
             />
           </Link>
-          <p className="image-name" onClick={() => handleCategoryClick(subCategory)}>{subCategory.name}</p>
+          <p className={styles.categoryName} onClick={() => handleCategoryClick(subCategory)}>
+            {subCategory.name}
+          </p>
         </SwiperSlide>
       ))}
     </Swiper>

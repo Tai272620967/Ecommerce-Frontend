@@ -208,7 +208,8 @@ const ProductDetail: React.FC = () => {
             <div className="product-detail__image__thumbnail-list__item">
               {product?.imageUrl && (
                 <Image
-                  src={process.env.NEXT_PUBLIC_API_BASE_URI + product?.imageUrl as string}
+                  // src={process.env.NEXT_PUBLIC_API_BASE_URI + product?.imageUrl as string}
+                  src={product?.imageUrl as string}
                   alt="Main image"
                   width={734}
                   height={734}
@@ -389,22 +390,34 @@ const ProductDetail: React.FC = () => {
               </div>
               <ul className="product-detail__description__info__choice-group__button__wrapper">
                 <li className="product-detail__description__info__choice-group__button__item">
-                  <button className="product-detail__description__info__choice-group__button" type="button">
+                  <button
+                    className="product-detail__description__info__choice-group__button"
+                    type="button"
+                  >
                     <span>スモール</span>
                   </button>
                 </li>
                 <li className="product-detail__description__info__choice-group__button__item">
-                  <button className="product-detail__description__info__choice-group__button" type="button">
+                  <button
+                    className="product-detail__description__info__choice-group__button"
+                    type="button"
+                  >
                     <span>シングル</span>
                   </button>
                 </li>
                 <li className="product-detail__description__info__choice-group__button__item">
-                  <button className="product-detail__description__info__choice-group__button" type="button">
+                  <button
+                    className="product-detail__description__info__choice-group__button"
+                    type="button"
+                  >
                     <span>セミダブル</span>
                   </button>
                 </li>
                 <li className="product-detail__description__info__choice-group__button__item">
-                  <button className="product-detail__description__info__choice-group__button" type="button">
+                  <button
+                    className="product-detail__description__info__choice-group__button"
+                    type="button"
+                  >
                     <span>ダブル</span>
                   </button>
                 </li>

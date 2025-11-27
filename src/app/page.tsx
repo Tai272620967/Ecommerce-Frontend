@@ -1,14 +1,14 @@
 "use client";
 
-import styles from "./page.module.css";
-import 'bootstrap/dist/css/bootstrap.min.css'; // Thêm dòng này để sử dụng Bootstrap
+import "./page.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
 import CustomCarousel from "./components/Carousel/Carousel";
 import { useEffect, useState } from "react";
 import { SubCategory } from "./types/category";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
-import {
-  fetchSubCategoriesApi,
-} from "./utils/api/category";
+import { fetchSubCategoriesApi } from "./utils/api/category";
+import FeaturedProducts from "./components/FeaturedProducts/FeaturedProducts";
+import LifestyleSection from "./components/LifestyleSection/LifestyleSection";
 
 export default function Home() {
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
@@ -23,6 +23,7 @@ export default function Home() {
     const fetchSubCategories = async () => {
       try {
         const response = await fetchSubCategoriesApi();
+        console.log("response", response);
         if (response) {
           setSubCategories(
             response.data.result.filter((category) => {
@@ -31,10 +32,7 @@ export default function Home() {
           );
         }
       } catch (err) {
-        // setError("Failed to fetch categories");
         console.error(err);
-      } finally {
-        // setLoading(false);
       }
     };
 
@@ -42,19 +40,39 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={styles.page}>
+    <div className="home-page">
+      {/* Notification banner */}
       <div className="article-contents">
         <ul>
           <li>
             <a href="">
-              ・ネットストアお届け日および店舗受け取りサービス商品ご用意
-              延伸のお知らせ
+              • Notice regarding online store delivery dates and store pickup service product preparation extension
             </a>
           </li>
         </ul>
       </div>
-      <CustomCarousel images={imageUrls} />
-      <ImageGallery subCategories={subCategories} />
+
+      {/* Hero carousel section */}
+      <section className="hero-section">
+        <CustomCarousel images={imageUrls} />
+      </section>
+
+      {/* Category gallery section */}
+      <section className="category-gallery-section">
+        <div className="category-gallery-section__header">
+          <h2 className="category-gallery-section__title">Shop by Category</h2>
+          <p className="category-gallery-section__subtitle">
+            Find your favorite category and discover your ideal products
+          </p>
+        </div>
+        <ImageGallery subCategories={subCategories} />
+      </section>
+
+      {/* Featured products section */}
+      <FeaturedProducts />
+
+      {/* Lifestyle section */}
+      <LifestyleSection />
     </div>
   );
 }

@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import "./Product.scss";
 import Image from "next/image";
 import { Product } from "@/base/types/Product";
-import { fetchProductsByCategoryId, fetchProductsBySubCategoryId } from "@/base/utils/api/product";
+import {
+  fetchProductsByCategoryId,
+  fetchProductsBySubCategoryId,
+} from "@/base/utils/api/product";
 import { useParams } from "next/navigation";
 import { Category, SubCategory } from "@/base/types/category";
 import {
@@ -246,7 +249,8 @@ const ProductList: React.FC<ProductListProps> = ({
                   <div className="product__list__item">
                     <div className="product__list__item__image">
                       <Image
-                        src={process.env.NEXT_PUBLIC_API_BASE_URI + product.imageUrl}
+                        // src={process.env.NEXT_PUBLIC_API_BASE_URI + product.imageUrl}
+                        src={product.imageUrl}
                         alt="Search icon"
                         width={320}
                         height={320}

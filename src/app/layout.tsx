@@ -46,13 +46,13 @@ export default function RootLayout({
       <body>
         <Providers>
           <div className="header-container">
-            <span className="header-text__left">ネットストア限定</span>
+            <span className="header-text__left">Online Store Exclusive</span>
             <span className="header-text__center">
-              衣料品,日用品など対象商品 税込
+              Apparel, Daily Goods, etc. Tax included
               <span className="header-text__text-large">5,000</span>
-              円以上購入で
+              ¥ or more purchase
             </span>
-            <span className="header-text__right">配送料無料</span>
+            <span className="header-text__right">Free Shipping</span>
           </div>
           <NavbarCommon />
           <main>{children}</main>
