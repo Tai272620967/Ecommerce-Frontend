@@ -63,19 +63,19 @@ export default function RegistrationMailAddress() {
       className="registration-mailaddress-container"
     >
       <h1 className="registration-mailaddress__title">
-        会員登録メールアドレス入力
+        Member Registration Email Address
       </h1>
       <div className="registration-mail-layout">
         <div className="registration-mail-content">
           <div className="registration-mail-message">
-            <span>会員登録のため、メールアドレスの認証をいたします。</span>
+            <span>We will verify your email address for member registration.</span>
           </div>
           <div className="registration-mail-message">
-            <span>受信が可能なメールアドレスを入力してください。</span>
+            <span>Please enter an email address that can receive emails.</span>
           </div>
           <div className="registration-mail-message">
             <span>
-              ご入力いただいたメールアドレスに、認証コードをお送りします。
+              We will send a verification code to the email address you entered.
             </span>
           </div>
           <div className="registration-mail-input__wrapper">
@@ -89,27 +89,27 @@ export default function RegistrationMailAddress() {
           </div>
           <ul className="registration-mail-note-list">
             <li>
-              <span>※ メールアドレスは、ログインに使用します。</span>
+              <span>※ The email address will be used for login.</span>
             </li>
             <li>
               <span>
                 ※
-                受信メールの設定でドメイン制限をされている方は、（@muji.net）が受信できるよう解除してください。
+                If you have domain restrictions set in your email settings, please allow (@muji.net) to receive emails.
               </span>
             </li>
             <li>
               <span>
                 ※
-                インターネット標準仕様に則り、登録いただけないメールアドレスがございます。詳しくは
+                In accordance with internet standard specifications, some email addresses cannot be registered. For more details, please check
                 <a href="https://faq.muji.com/--656d4e431c58e70026d3c45f">
-                  こちら
+                  here
                 </a>
-                にてご確認ください。
+                .
               </span>
             </li>
             <li>
               <span>
-                ※Gmail等をご利用のお客様は、自動的に「プロモーション」や「迷惑メール」フォルダに振り分けられる場合があります。受信が確認できない場合、上記フォルダも確認ください。
+                ※ For customers using Gmail and similar services, emails may be automatically sorted into "Promotions" or "Spam" folders. If you cannot confirm receipt, please check these folders as well.
               </span>
             </li>
           </ul>
@@ -120,7 +120,7 @@ export default function RegistrationMailAddress() {
             className="login-button mt-0 registration-button"
             isLoading={isLoading}
           >
-            {!isLoading && "認証コードを送る"}
+            {!isLoading && "Send Verification Code"}
           </Button>
         </div>
     </form>

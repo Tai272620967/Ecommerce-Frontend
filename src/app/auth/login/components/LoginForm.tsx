@@ -99,20 +99,20 @@ export default function LoginForm() {
       <div className="logo">
         <Logo />
       </div>
-      <h4>ログイン</h4>
+      <h4>Login</h4>
       <div className="login-form__wrapper">
         <div className="login-form__wrap__inner">
           <div className="login-form__content">
-            <p className="login-form__content__title">会員の方</p>
+            <p className="login-form__content__title">For Members</p>
             <p className="login-form__content__text">
-              メールアドレスとパスワードでログイン
+              Login with email address and password
             </p>
             <InputField
               className="login-input"
               name="username"
               register={register}
               errors={errors}
-              placeHolder="メールアドレス"
+              placeHolder="Email Address"
             />
             <InputField
               className="login-input"
@@ -120,15 +120,15 @@ export default function LoginForm() {
               register={register}
               errors={errors}
               type="password"
-              placeHolder="パスワード"
+              placeHolder="Password"
             />
             <div className="login-form-button__wrapper">
               <Button className="login-form__button mt-0" isLoading={isLoading}>
-                {!isLoading && "ログイン"}
+                {!isLoading && "Login"}
               </Button>
             </div>
             <div className="login-form__forget-pw-button">
-              <a href="#">パスワードを忘れたら</a>
+              <a href="#">Forgot Password</a>
             </div>
           </div>
         </div>
@@ -136,14 +136,14 @@ export default function LoginForm() {
       <div className="login-form__wrapper redirect-registration-page">
         <div className="login-form__wrapper__inner">
           <div className="login-form__content">
-            <p className="login-form__content__title">新規会員登録</p>
+            <p className="login-form__content__title">New Member Registration</p>
             <div className="login-form-button__wrapper">
               <Button
                 className="redirect-registration__button mt-0"
                 type="button"
                 onClick={handleRedirect}
               >
-                新規メンバー登録
+                Register as New Member
               </Button>
             </div>
           </div>

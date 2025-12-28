@@ -90,12 +90,12 @@ export default function CheckVerifyCode() {
       onSubmit={handleSubmit(handleVerifyOtpCode)}
       className="registration-mailaddress-container check-verify-code"
     >
-      <h1 className="registration-mailaddress__title">認証コード入力</h1>
+      <h1 className="registration-mailaddress__title">Enter Verification Code</h1>
       <div className="registration-mail-layout">
         <div className="registration-mail-content">
           <div className="registration-mail-message">
             <span>
-              メールアドレスにお送りした認証コードを入力してください。
+              Please enter the verification code sent to your email address.
             </span>
           </div>
           <div className="registration-mail-input__wrapper">
@@ -104,7 +104,7 @@ export default function CheckVerifyCode() {
               name="verifyCode"
               register={register}
               errors={errors}
-              placeHolder="認証コード"
+              placeHolder="Verification Code"
             />
           </div>
           <div>
@@ -114,12 +114,12 @@ export default function CheckVerifyCode() {
                 onClick={() => handleSendMail()}
                 type="button"
               >
-                認証コードを再送する
+                Resend Verification Code
               </button>
             </div>
             <div className="check-verify-code__message-wrapper">
               <span className="check-verify-code__message">
-                認証コードを再送しました。メールをご確認ください。
+                Verification code has been resent. Please check your email.
               </span>
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function CheckVerifyCode() {
           className="login-button mt-20 registration-button"
           isLoading={isLoading}
         >
-          {!isLoading && "認証コードを送る"}
+          {!isLoading && "Submit Verification Code"}
         </Button>
       </div>
     </form>

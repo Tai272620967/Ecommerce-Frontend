@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./Product.scss";
 import Image from "next/image";
 import { Product } from "@/base/types/Product";
@@ -35,6 +35,7 @@ const ProductList: React.FC<ProductListProps> = ({
   const [size] = useState(4);
   const { categoryId } = useParams<{ categoryId: string }>();
   const router = useRouter();
+  const isFetchingRef = useRef<boolean>(false);
 
   useEffect(() => {
     const fetchSubCategory = async () => {
@@ -62,44 +63,174 @@ const ProductList: React.FC<ProductListProps> = ({
   }, [categoryId]);
 
   useEffect(() => {
+    if (!categoryId) return;
+    
+    // Reset products và page khi categoryId thay đổi
+    setProducts([]);
+    setPage(1);
+    isFetchingRef.current = false;
+    
     const fetchProducts = async () => {
-      // Nếu đang tải, không gọi API nữa
-      if (loading) return;
+      // Nếu đang fetch, không gọi API nữa
+      if (isFetchingRef.current) {
+        console.log("Already fetching, skipping...");
+        return;
+      }
 
+      isFetchingRef.current = true;
       setLoading(true);
+      
       try {
         if (isRenderedBySubCategory) {
+          console.log("Fetching products for subCategory:", categoryId, "page: 1");
+          const response = await fetchProductsBySubCategoryId(
+            categoryId,
+            1,
+            size
+          );
+          console.log("SubCategory products response (full):", JSON.stringify(response, null, 2));
+          console.log("Response type:", typeof response);
+          console.log("Response result:", response?.result);
+          console.log("Is array:", Array.isArray(response?.result));
+          console.log("Result length:", response?.result?.length);
+          
+          // Handle different possible response structures
+          let productsData: Product[] = [];
+          
+          if (response) {
+            // Check if result is directly in response (expected structure)
+            if (Array.isArray(response.result)) {
+              productsData = response.result;
+            } 
+            // Check if result is nested in data (fallback)
+            else if ((response as any).data && Array.isArray((response as any).data.result)) {
+              productsData = (response as any).data.result;
+            }
+            // Check if response itself is an array (fallback)
+            else if (Array.isArray(response)) {
+              productsData = response;
+            }
+          }
+          
+          console.log("Final products data to set:", productsData);
+          console.log("Products data length:", productsData.length);
+          
+          if (productsData.length > 0) {
+            console.log("Setting products:", productsData);
+            setProducts(productsData);
+          } else {
+            console.warn("No products found. Response:", response);
+            setProducts([]);
+          }
+        }
+
+        if (isRenderedByCategory) {
+          console.log("Fetching products for category:", categoryId, "page: 1");
+          const response = await fetchProductsByCategoryId(
+            categoryId,
+            1,
+            size
+          );
+          console.log("Category products response (full):", JSON.stringify(response, null, 2));
+          console.log("Response type:", typeof response);
+          console.log("Response result:", response?.result);
+          console.log("Is array:", Array.isArray(response?.result));
+          console.log("Result length:", response?.result?.length);
+          
+          // Handle different possible response structures
+          let productsData: Product[] = [];
+          
+          if (response) {
+            // Check if result is directly in response (expected structure)
+            if (Array.isArray(response.result)) {
+              productsData = response.result;
+            } 
+            // Check if result is nested in data (fallback)
+            else if ((response as any).data && Array.isArray((response as any).data.result)) {
+              productsData = (response as any).data.result;
+            }
+            // Check if response itself is an array (fallback)
+            else if (Array.isArray(response)) {
+              productsData = response;
+            }
+          }
+          
+          console.log("Final products data to set:", productsData);
+          console.log("Products data length:", productsData.length);
+          
+          if (productsData.length > 0) {
+            console.log("Setting products:", productsData);
+            setProducts(productsData);
+          } else {
+            console.warn("No products found. Response:", response);
+            setProducts([]);
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        setProducts([]);
+      } finally {
+        setLoading(false);
+        isFetchingRef.current = false;
+        console.log("Fetch completed, isFetchingRef set to false");
+      }
+    };
+
+    fetchProducts();
+  }, [categoryId, isRenderedBySubCategory, isRenderedByCategory]); // Chỉ fetch lại khi categoryId thay đổi
+
+  // Fetch thêm products khi page > 1 (lazy load)
+  useEffect(() => {
+    if (!categoryId || page === 1) return;
+    
+    // Nếu đang fetch, không gọi API nữa
+    if (isFetchingRef.current) {
+      console.log("Already fetching, skipping...");
+      return;
+    }
+
+    const fetchMoreProducts = async () => {
+      isFetchingRef.current = true;
+      setLoading(true);
+      
+      try {
+        if (isRenderedBySubCategory) {
+          console.log("Fetching more products for subCategory:", categoryId, "page:", page);
           const response = await fetchProductsBySubCategoryId(
             categoryId,
             page,
             size
-          ); // Lấy 4 sản phẩm mỗi lần
-          if (response && response.result) {
-            // Thêm các sản phẩm mới vào danh sách cũ
+          );
+          
+          if (response && response.result && Array.isArray(response.result) && response.result.length > 0) {
+            console.log("Appending products:", response.result);
             setProducts((prev) => [...prev, ...response.result]);
           }
         }
 
         if (isRenderedByCategory) {
+          console.log("Fetching more products for category:", categoryId, "page:", page);
           const response = await fetchProductsByCategoryId(
             categoryId,
             page,
             size
           );
-          if (response && response.result) {
-            // Thêm các sản phẩm mới vào danh sách cũ
+          
+          if (response && response.result && Array.isArray(response.result) && response.result.length > 0) {
+            console.log("Appending products:", response.result);
             setProducts((prev) => [...prev, ...response.result]);
           }
         }
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching more products:", err);
       } finally {
-        setLoading(false); // Đặt lại loading sau khi API trả về
+        setLoading(false);
+        isFetchingRef.current = false;
       }
     };
 
-    fetchProducts();
-  }, [categoryId, page, size]); // Khi page thay đổi, gọi lại API
+    fetchMoreProducts();
+  }, [page]); // Chỉ fetch thêm khi page > 1
 
   // Hàm chia mảng thành các nhóm nhỏ (mỗi nhóm chứa 4 sản phẩm)
   const chunkProducts = (arr: Product[], chunkSize: number) => {
@@ -112,7 +243,10 @@ const ProductList: React.FC<ProductListProps> = ({
 
   // Chia mảng products thành các nhóm nhỏ, mỗi nhóm chứa 4 sản phẩm
   const productChunks = chunkProducts(products, 4);
-  // console.log("productChunks", productChunks)
+  console.log("Current products state:", products);
+  console.log("Products length:", products.length);
+  console.log("Product chunks:", productChunks);
+  console.log("Product chunks length:", productChunks.length);
 
   // Xử lý khi người dùng kéo xuống dưới cùng của trang (lazy load)
   const handleScroll = () => {
@@ -206,7 +340,7 @@ const ProductList: React.FC<ProductListProps> = ({
         )}
       </div>
       <div className="product__sub-title__wrapper">
-        <h2 className="product__sub-title">ピックアップ</h2>
+        <h2 className="product__sub-title">Pickup</h2>
       </div>
       <div className="product__pickup-item__wrapper">
         <div className="product__pickup-item">
@@ -217,7 +351,7 @@ const ProductList: React.FC<ProductListProps> = ({
             height={272}
           /> */}
           <div className="product__pickup-item__title">
-            <span>ゆったり座ってくつろぐ ソファの選び方</span>
+            <span>How to Choose a Comfortable Sofa for Relaxation</span>
           </div>
         </div>
         <div className="product__pickup-item">
@@ -228,7 +362,7 @@ const ProductList: React.FC<ProductListProps> = ({
             height={272}
           /> */}
           <div className="product__pickup-item__title">
-            <span>搬入スペースシミュレーター</span>
+            <span>Delivery Space Simulator</span>
           </div>
         </div>
       </div>
@@ -236,7 +370,17 @@ const ProductList: React.FC<ProductListProps> = ({
         <CategorySelectionModal subCategoryId={categoryId} />
       </div>
       <div className="product__list__wrapper">
-        {productChunks.map((productChunk, index) => (
+        {loading && <div style={{ padding: "20px", textAlign: "center" }}>Loading products...</div>}
+        {!loading && products.length === 0 && (
+          <div style={{ padding: "20px", textAlign: "center" }}>
+            No products found for this category.
+            <br />
+            <small>Category ID: {categoryId}</small>
+            <br />
+            <small>Check console for API response details.</small>
+          </div>
+        )}
+        {productChunks.length > 0 && productChunks.map((productChunk, index) => (
           <div className="product__list__table" key={index}>
             <div className="product__list">
               {productChunk.map((product, index) => (
@@ -267,7 +411,7 @@ const ProductList: React.FC<ProductListProps> = ({
                               {convertToNumberFormat(product.minPrice)}
                             </span>
                             <span className="product__list__item__desc__price__value__unit">
-                              円
+                              JPY
                             </span>
                           </span>
                           {product.maxPrice && (

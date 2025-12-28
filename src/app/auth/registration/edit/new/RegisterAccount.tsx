@@ -84,11 +84,11 @@ export default function RegisterAccount() {
         setValue("address2", address.city || "");
         setValue("address3", address.area || "");
       } else {
-        message.error("住所が見つかりませんでした");
+        message.error("Address not found");
       }
     } catch (error) {
       console.error("Error fetching address:", error);
-      message.error("住所の取得中にエラーが発生しました");
+      message.error("An error occurred while fetching the address");
     }
   };  
 
@@ -119,16 +119,16 @@ export default function RegisterAccount() {
       onSubmit={handleSubmit(handleRegisterAccount)}
       className="registration-mailaddress-container check-verify-code"
     >
-      <h1 className="registration-mailaddress__title">メンバーの登録</h1>
+      <h1 className="registration-mailaddress__title">Member Registration</h1>
       <p>
-        メンバー登録ができない場合は「メンバー登録の手順」をご確認ください。
+        If you are unable to register, please check the "Member Registration Instructions".
       </p>
       <div className="registration-mail-layout">
         <div className="registration-mail-content">
           <div className="registration-mail-message">
-            <span>ログイン情報</span>
+            <span>Login Information</span>
             <br />
-            <span>メールアドレス（ログインID）</span>
+            <span>Email Address (Login ID)</span>
             <br />
             <span>{emailValue}</span>
           </div>
@@ -139,13 +139,13 @@ export default function RegisterAccount() {
               register={register}
               errors={errors}
               placeHolder="＊＊＊＊＊＊＊＊"
-              label="ご希望のパスワード（必須）"
+              label="Desired Password (Required)"
               type="password"
               isCustom
             />
           </div>
           <div className="registration-account__text">
-            <span>※英字、数字、記号が使用可能です。</span>
+            <span>※Letters, numbers, and symbols can be used.</span>
           </div>
           <div className="registration-mail-input__wrapper registration-account">
             <InputField
@@ -155,7 +155,7 @@ export default function RegisterAccount() {
               errors={errors}
               placeHolder="＊＊＊＊＊＊＊＊"
               type="password"
-              label="パスワードの確認（必須）"
+              label="Confirm Password (Required)"
               isCustom
             />
           </div>
@@ -165,9 +165,9 @@ export default function RegisterAccount() {
       <div className="registration-mail-layout">
         <div className="registration-mail-content">
           <div className="registration-mail-message">
-            <span>お客様の情報</span>
+            <span>Customer Information</span>
             <br />
-            <span>メールアドレス（ログインID）</span>
+            <span>Email Address (Login ID)</span>
             <br />
             <span>{emailValue}</span>
           </div>
@@ -177,8 +177,8 @@ export default function RegisterAccount() {
               name="firstName"
               register={register}
               errors={errors}
-              placeHolder="無印"
-              label="氏名（必須）"
+              placeHolder="John"
+              label="First Name (Required)"
               isCustom
             />
           </div>
@@ -188,7 +188,7 @@ export default function RegisterAccount() {
               name="lastName"
               register={register}
               errors={errors}
-              placeHolder="太郎"
+              placeHolder="Smith"
               isCustom
             />
           </div>
@@ -198,8 +198,8 @@ export default function RegisterAccount() {
               name="kataFirstName"
               register={register}
               errors={errors}
-              label="フリガナ（必須）"
-              placeHolder="ムジルシ"
+              label="Furigana (First Name) (Required)"
+              placeHolder="John"
               isCustom
             />
           </div>
@@ -209,7 +209,8 @@ export default function RegisterAccount() {
               name="kataLastName"
               register={register}
               errors={errors}
-              placeHolder="タロウ"
+              label="Furigana (Last Name) (Required)"
+              placeHolder="Smith"
               isCustom
             />
           </div>
@@ -222,17 +223,17 @@ export default function RegisterAccount() {
               name="postalCode"
               register={register}
               errors={errors}
-              label="郵便番号（必須）"
+              label="Postal Code (Required)"
               placeHolder="112-0004"
               isCustom
               isCustomLabel
               // maxLength={8}
             />
-            <Button className="zipcode-button" onClick={handleGetAddressByPostalCode} type="button">住所自動入力</Button>
+            <Button className="zipcode-button" onClick={handleGetAddressByPostalCode} type="button">Auto-fill Address</Button>
           </div>
           <div className="registration-account__text">
             <span>
-              ※郵便番号を入力して「住所自動入力」ボタンを押すと、県・市区町村名が入力されます。
+              ※Enter your postal code and click the "Auto-fill Address" button to automatically fill in the prefecture and city/town name.
             </span>
           </div>
           <div className="registration-mail-input__wrapper registration-account">
@@ -241,8 +242,8 @@ export default function RegisterAccount() {
               name="address1"
               register={register}
               errors={errors}
-              label="住所（必須）"
-              placeHolder="東京都文京区"
+              label="Address (Required)"
+              placeHolder="Tokyo, Bunkyo-ku"
               isCustom
             />
           </div>
@@ -252,14 +253,14 @@ export default function RegisterAccount() {
               name="address2"
               register={register}
               errors={errors}
-              label="以降の住所（必須）"
-              placeHolder="後楽"
+              label="Address Line 2 (Required)"
+              placeHolder="Koraku"
               isCustom
             />
           </div>
           <div className="registration-account__text">
             <span>
-              ※誤配送が多く発生しています。お届け先に誤りがないか、今一度ご確認ください。
+              ※Many delivery errors occur. Please double-check that your delivery address is correct.
             </span>
           </div>
           <div className="registration-mail-input__wrapper registration-account">
@@ -268,13 +269,13 @@ export default function RegisterAccount() {
               name="address3"
               register={register}
               errors={errors}
-              label="丁目・番地（必須）"
-              placeHolder="2丁目5番1号"
+              label="Street Number (Required)"
+              placeHolder="2-5-1"
               isCustom
             />
           </div>
           <div className="registration-account__text">
-            <span>※番地がない場合は「番地なし」とご入力ください。</span>
+            <span>※If there is no street number, please enter "No street number".</span>
           </div>
           <div className="registration-mail-input__wrapper registration-account">
             <InputField
@@ -282,13 +283,13 @@ export default function RegisterAccount() {
               name="address4"
               register={register}
               errors={errors}
-              label="ビル・マンション・部屋番号"
-              placeHolder="○○マンション１２３号室"
+              label="Building/Apartment/Room Number"
+              placeHolder="○○ Apartment Room 123"
               isCustom
             />
           </div>
           <div className="registration-account__text">
-            <span>※部屋番号まで必ずご入力ください。</span>
+            <span>※Please be sure to enter the room number.</span>
           </div>
           <div className="registration-mail-input__wrapper registration-account">
             <InputField
@@ -296,16 +297,16 @@ export default function RegisterAccount() {
               name="phone"
               register={register}
               errors={errors}
-              label="お届け時に連絡可能な電話番号（必須）"
+              label="Phone Number for Delivery Contact (Required)"
               placeHolder="0000000000"
               isCustom
             />
           </div>
           <div className="registration-account__text">
-            <span>※ハイフンなしの電話番号をご入力ください。</span>
+            <span>※Please enter your phone number without hyphens.</span>
           </div>
           <div className="registration-account--birthday__title">
-            <span>生年月日</span>
+            <span>Date of Birth</span>
           </div>
           <div className="registration-mail-input__wrapper registration-account--birthday">
             <div>
@@ -318,7 +319,7 @@ export default function RegisterAccount() {
               />
             </div>
             <div className="registration-account--birthday__text">
-              <span>年</span>
+              <span>Year</span>
             </div>
             <div className="registration-account--birthday__month">
               <InputField
@@ -330,7 +331,7 @@ export default function RegisterAccount() {
               />
             </div>
             <div className="registration-account--birthday__text">
-              <span>月</span>
+              <span>Month</span>
             </div>
             <div className="registration-account--birthday__day">
               <InputField
@@ -342,15 +343,15 @@ export default function RegisterAccount() {
               />
             </div>
             <div className="registration-account--birthday__text">
-              <span>日</span>
+              <span>Day</span>
             </div>
           </div>
           <div className="registration-account__text">
             <span>
-              ※誕生日をご登録いただくと、誕生月中のお買い物で、誕生日特典の対象となります。
+              ※By registering your birthday, you will be eligible for birthday benefits when shopping during your birth month.
               <span>
                 <a href="#" className="registration-account__text__link">
-                  詳細を見る
+                  View Details
                 </a>
               </span>
             </span>
@@ -366,7 +367,7 @@ export default function RegisterAccount() {
                 isCustom
               />
               <div className="registration-account-gender__input-group__text">
-                <span>男性</span>
+                <span>Male</span>
               </div>
             </div>
             <div className="registration-account-gender__input-group">
@@ -379,7 +380,7 @@ export default function RegisterAccount() {
                 isCustom
               />
               <div className="registration-account-gender__input-group__text">
-                <span>女性</span>
+                <span>Female</span>
               </div>
             </div>
             <div className="registration-account-gender__input-group">
@@ -392,7 +393,7 @@ export default function RegisterAccount() {
                 isCustom
               />
               <div className="registration-account-gender__input-group__text">
-                <span>選択しない</span>
+                <span>Prefer not to say</span>
               </div>
             </div>
           </div>
@@ -403,7 +404,7 @@ export default function RegisterAccount() {
           className="login-button mt-20 registration-button"
           isLoading={isLoading}
         >
-          {!isLoading && "規約に同意して登録する"}
+          {!isLoading && "Agree to Terms and Register"}
         </Button>
       </div>
     </form>
