@@ -449,7 +449,7 @@ const ProductDetail: React.FC = () => {
                   {convertToNumberFormat(convertJPYToUSD(product?.minPrice))}
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-unit">
-                  USD
+                  $
                 </span>
               </div>
               <div className="product-detail__description__info__price-group__box">
@@ -460,7 +460,7 @@ const ProductDetail: React.FC = () => {
                   {convertToNumberFormat(convertJPYToUSD(product?.minPrice))}
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-unit">
-                  USD
+                  $
                 </span>
               </div>
             </div>

@@ -6,8 +6,7 @@ import Image from "next/image";
 import { Product } from "@/base/types/Product";
 import { searchProductsApi } from "@/base/utils/api/product";
 import { getImageUrl } from "@/base/utils/imageUrl";
-import { convertToNumberFormat } from "@/base/utils";
-import NavbarSearch from "@/app/components/NavbarSearch/NavbarSearch";
+import { convertToNumberFormat, convertJPYToUSD } from "@/base/utils";
 import { fetchAllMainCategoryApi } from "@/base/utils/api/category";
 import { Category } from "@/base/types/category";
 import "./page.scss";
@@ -44,50 +43,126 @@ const SearchResultsPage: React.FC = () => {
     const category = searchParams.get("category") || "";
     setSearchQuery(query);
     setSelectedCategory(category);
+    setPage(1); // Reset page when search changes
+    setProducts([]); // Clear previous results
     if (query) {
       fetchSearchResults(query, 1, category);
+    } else {
+      setProducts([]);
+      setTotalResults(0);
+      setLoading(false);
     }
   }, [searchParams]);
 
   const fetchSearchResults = async (query: string, pageNum: number, categoryId?: string) => {
-    if (!query.trim()) return;
+    if (!query.trim()) {
+      setProducts([]);
+      setTotalResults(0);
+      return;
+    }
 
     setLoading(true);
     try {
-      // If category is selected, filter products by category
-      let response;
-      if (categoryId && categoryId !== "all") {
-        // For now, we'll search all products and filter client-side
-        // In production, you'd want to add category filter to the API
-        response = await searchProductsApi(query, pageNum, 20);
-        if (response && response.result) {
-          const allProducts = Array.isArray(response.result) ? response.result : [];
-          const filteredProducts = allProducts.filter(
-            (product: Product) => product.category?.id?.toString() === categoryId
-          );
-          if (pageNum === 1) {
-            setProducts(filteredProducts);
-          } else {
-            setProducts((prev) => [...prev, ...filteredProducts]);
+      console.log("Fetching search results for:", query, "page:", pageNum);
+      const response = await searchProductsApi(query, pageNum, 20);
+      
+      console.log("=== Search API Response Debug ===");
+      console.log("Full response:", JSON.stringify(response, null, 2));
+      console.log("Response type:", typeof response);
+      console.log("Response.result:", response?.result);
+      console.log("Response.result type:", typeof response?.result);
+      console.log("Is result array?", Array.isArray(response?.result));
+      console.log("Response.meta:", response?.meta);
+      
+      if (response) {
+        let productsToShow: Product[] = [];
+        
+        // Handle different response structures
+        // First check if result is directly an array
+        if (Array.isArray(response.result)) {
+          productsToShow = response.result;
+          console.log("✓ Found products array directly in response.result");
+        } 
+        // Check if response has data wrapper
+        else if ((response as any).data) {
+          const data = (response as any).data;
+          if (Array.isArray(data.result)) {
+            productsToShow = data.result;
+            console.log("✓ Found products array in response.data.result");
+          } else if (Array.isArray(data)) {
+            productsToShow = data;
+            console.log("✓ Found products array in response.data");
           }
-          setTotalResults(filteredProducts.length);
-          setHasMore(false); // Simplified for now
+        }
+        // Check if result is an object with nested result
+        else if (response.result && typeof response.result === 'object' && !Array.isArray(response.result)) {
+          const resultObj = response.result as any;
+          if (Array.isArray(resultObj.result)) {
+            productsToShow = resultObj.result;
+            console.log("✓ Found products array in response.result.result");
+          } else if (Array.isArray(resultObj.data)) {
+            productsToShow = resultObj.data;
+            console.log("✓ Found products array in response.result.data");
+          } else {
+            // Try to find any array property
+            const keys = Object.keys(resultObj);
+            for (const key of keys) {
+              if (Array.isArray(resultObj[key])) {
+                productsToShow = resultObj[key];
+                console.log(`✓ Found products array in response.result.${key}`);
+                break;
+              }
+            }
+          }
+        }
+        // Last resort: check if response itself is an array
+        else if (Array.isArray(response)) {
+          productsToShow = response;
+          console.log("✓ Response itself is an array");
+        }
+        
+        console.log("=== Products Extraction Result ===");
+        console.log("Products to show:", productsToShow);
+        console.log("Products count:", productsToShow.length);
+        console.log("First product sample:", productsToShow[0]);
+        
+        // Filter by category if needed (if Product has category property)
+        // Note: Product interface may not have category, so this is optional
+        if (categoryId && categoryId !== "all" && productsToShow.length > 0) {
+          const beforeFilter = productsToShow.length;
+          productsToShow = productsToShow.filter(
+            (product: any) => (product as any).category?.id?.toString() === categoryId
+          );
+          console.log(`Filtered by category ${categoryId}: ${beforeFilter} -> ${productsToShow.length}`);
+        }
+        
+        if (pageNum === 1) {
+          setProducts(productsToShow);
+        } else {
+          setProducts((prev) => [...prev, ...productsToShow]);
+        }
+        
+        // Set total results
+        if (response.meta) {
+          setTotalResults(response.meta.total || productsToShow.length);
+          setHasMore(pageNum < (response.meta.pages || 1));
+          console.log("Meta info - total:", response.meta.total, "pages:", response.meta.pages, "hasMore:", pageNum < (response.meta.pages || 1));
+        } else {
+          setTotalResults(productsToShow.length);
+          setHasMore(productsToShow.length >= 20);
+          console.log("No meta info, using products length:", productsToShow.length);
         }
       } else {
-        response = await searchProductsApi(query, pageNum, 20);
-        if (response && response.result) {
-          const newProducts = Array.isArray(response.result) ? response.result : [];
-          if (pageNum === 1) {
-            setProducts(newProducts);
-          } else {
-            setProducts((prev) => [...prev, ...newProducts]);
-          }
-          setTotalResults(response.meta?.total || 0);
-          setHasMore(pageNum < (response.meta?.pages || 0));
-        }
+        console.warn("No response from search API");
+        setProducts([]);
+        setTotalResults(0);
+        setHasMore(false);
       }
     } catch (error) {
       console.error("Search error:", error);
+      setProducts([]);
+      setTotalResults(0);
+      setHasMore(false);
     } finally {
       setLoading(false);
     }
@@ -130,9 +205,6 @@ const SearchResultsPage: React.FC = () => {
       <div className="search-results-page__container">
         <div className="search-results-page__header">
           <h1 className="search-results-page__title">Search Results</h1>
-          <div className="search-results-page__search-bar">
-            <NavbarSearch categories={categories} />
-          </div>
         </div>
 
         {searchQuery && (
@@ -162,41 +234,72 @@ const SearchResultsPage: React.FC = () => {
             ) : products.length > 0 ? (
               <>
                 <div className="search-results-page__grid">
-                  {products.map((product) => (
-                    <div
-                      key={product.id}
-                      className="search-results-page__item"
-                      onClick={() => handleProductClick(product.id)}
-                    >
-                      <div className="search-results-page__item__image-wrapper">
-                        <Image
-                          src={getImageUrl(product.imageUrl)}
-                          alt={product.name}
-                          width={300}
-                          height={300}
-                          className="search-results-page__item__image image-fade-in"
-                        />
-                      </div>
-                      <div className="search-results-page__item__info">
-                        <h3 className="search-results-page__item__name">{product.name}</h3>
-                        <div className="search-results-page__item__price">
-                          <span className="search-results-page__item__price__value">
-                            {convertToNumberFormat(product.minPrice)}
-                          </span>
-                          <span className="search-results-page__item__price__unit">¥</span>
-                          {product.maxPrice && product.maxPrice !== product.minPrice && (
-                            <>
-                              <span className="search-results-page__item__price__separator">-</span>
-                              <span className="search-results-page__item__price__value">
-                                {convertToNumberFormat(product.maxPrice)}
-                              </span>
-                              <span className="search-results-page__item__price__unit">¥</span>
-                            </>
+                  {products.map((product) => {
+                    const imageUrl = getImageUrl(product.imageUrl);
+                    // Debug: log imageUrl to check if it's correct
+                    console.log(`Product ${product.id} (${product.name}):`, {
+                      originalImageUrl: product.imageUrl,
+                      resolvedImageUrl: imageUrl,
+                      hasImageUrl: !!imageUrl && imageUrl !== ''
+                    });
+                    
+                    return (
+                      <div
+                        key={product.id}
+                        className="search-results-page__item"
+                        onClick={() => handleProductClick(product.id)}
+                      >
+                        <div className="search-results-page__item__image-wrapper">
+                          {imageUrl ? (
+                            <Image
+                              src={imageUrl}
+                              alt={product.name || "Product"}
+                              width={300}
+                              height={300}
+                              className="search-results-page__item__image"
+                              unoptimized
+                            />
+                          ) : (
+                            <div className="search-results-page__item__image-placeholder">
+                              <span>No Image</span>
+                            </div>
                           )}
                         </div>
+                        <div className="search-results-page__item__info">
+                          <div className="search-results-page__item__name">
+                            <p>{product.name || "Unnamed Product"}</p>
+                          </div>
+                          <div className="search-results-page__item__price__wrapper">
+                            <div className="search-results-page__item__price">
+                              <span className="search-results-page__item__price__value">
+                                <span className="search-results-page__item__price__value__number">
+                                  {convertToNumberFormat(convertJPYToUSD(product.minPrice || 0))}
+                                </span>
+                                <span className="search-results-page__item__price__value__unit">
+                                  $
+                                </span>
+                              </span>
+                              {product.maxPrice && product.maxPrice !== product.minPrice && (
+                                <>
+                                  <span className="search-results-page__item__price__tilde">
+                                    〜
+                                  </span>
+                                  <span className="search-results-page__item__price__value">
+                                    <span className="search-results-page__item__price__value__number">
+                                      {convertToNumberFormat(convertJPYToUSD(product.maxPrice))}
+                                    </span>
+                                    <span className="search-results-page__item__price__value__unit">
+                                      $
+                                    </span>
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 {loading && products.length > 0 && (
                   <div className="search-results-page__loading-more">

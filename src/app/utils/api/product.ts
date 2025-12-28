@@ -127,19 +127,46 @@ export const searchProductsApi = async (
 ): Promise<ProductsResponse> => {
   try {
     // Use springfilter format: filter[name][$like]=%query%
-    const response = await axiosInstance.get<ProductsResponse>("/products", {
-      params: {
-        page,
-        size,
-        "filter[name][$like]": `%${searchQuery}%`,
-      },
-    });
-
-    if (response.status === 200) {
-      return response.data;
+    // Build query string manually to properly encode % characters
+    const params = new URLSearchParams();
+    params.append("page", page.toString());
+    params.append("size", size.toString());
+    
+    // Only add filter if searchQuery is not empty
+    if (searchQuery && searchQuery.trim()) {
+      // Spring Filter format: Try using filter parameter without brackets
+      // Format: filter=name~'*query*' (contains) or filter=name:'query' (equals)
+      const trimmedQuery = searchQuery.trim();
+      const params = new URLSearchParams();
+      params.append("page", page.toString());
+      params.append("size", size.toString());
+      // Try format without brackets: filter=name~'*query*'
+      // The ~ operator means "contains" in Spring Filter
+      params.append("filter", `name~'*${trimmedQuery}*'`);
+      
+      const url = `/products?${params.toString()}`;
+      console.log("Search API URL with filter:", url);
+      
+      const response = await axiosInstance.get<ProductsResponse>(url);
+      
+      if (response.status === 200) {
+        return response.data;
+      }
+      
+      throw new Error("Search products failed");
+    } else {
+      console.warn("Empty search query, returning all products");
+      // If no search query, return all products
+      const response = await axiosInstance.get<ProductsResponse>("/products", {
+        params: { page, size },
+      });
+      
+      if (response.status === 200) {
+        return response.data;
+      }
+      
+      throw new Error("Fetch products failed");
     }
-
-    throw new Error("Search products failed");
   } catch (error) {
     console.error("Search products API error:", error);
     throw error;

@@ -411,7 +411,7 @@ const ProductList: React.FC<ProductListProps> = ({
                               {convertToNumberFormat(convertJPYToUSD(product.minPrice))}
                             </span>
                             <span className="product__list__item__desc__price__value__unit">
-                              USD
+                              $
                             </span>
                           </span>
                           {product.maxPrice && (
@@ -426,7 +426,7 @@ const ProductList: React.FC<ProductListProps> = ({
                                   {convertToNumberFormat(convertJPYToUSD(product.maxPrice))}
                                 </span>
                                 <span className="product__list__item__desc__price__value__unit">
-                                  USD
+                                  $
                                 </span>
                               </>
                             )}
