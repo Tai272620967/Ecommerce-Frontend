@@ -52,10 +52,7 @@ export default function OrderCheckout() {
       .string()
       .required("Phone number is required")
       .matches(/^[0-9-]+$/, "Phone number format is incorrect"),
-    shippingPostalCode: yup
-      .string()
-      .required("Postal code is required")
-      .matches(/^\d{3}-?\d{4}$/, "Postal code format is incorrect"),
+    shippingPostalCode: yup.string(),
     shippingPrefecture: yup.string().required("Prefecture is required"),
     shippingCity: yup.string().required("City is required"),
     shippingArea: yup.string().required("Area is required"),
