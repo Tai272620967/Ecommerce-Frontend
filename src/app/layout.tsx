@@ -26,7 +26,7 @@ export default function RootLayout({
   if (isAdmin) {
     return (
       <html lang="en">
-        <body>
+        <body suppressHydrationWarning>
           <Providers>
             <div className="dashboard-layout">
               <SideBar />
@@ -43,7 +43,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning>
         <Providers>
           <div className="header-container">
             <span className="header-text__left">Online Store Exclusive</span>

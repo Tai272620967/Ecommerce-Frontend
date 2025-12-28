@@ -53,7 +53,6 @@ const SideBar: React.FC = () => {
       case "Orders":
         return [
           { id: 1, text: "List Orders", path: "/dashboard/order" },
-          { id: 2, text: "Create Order", path: "/dashboard/order/create" },
         ];
       default:
         return [];
@@ -79,6 +78,7 @@ const SideBar: React.FC = () => {
             const accordionItems = getAccordionItems(item.text);
             return (
               <AccordionCustom
+                key={item.id}
                 header={item.text}
                 items={accordionItems}
                 icon={item.icon}

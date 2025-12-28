@@ -1,4 +1,4 @@
-import { OrderDTO, OrderResponse, OrdersResponse } from "@/base/types/order";
+import { OrderDTO, OrderResponse, OrdersResponse, OrdersPaginationResponse } from "@/base/types/order";
 import axiosInstance from "../axiosConfig";
 
 export const createOrderApi = async (data: OrderDTO) => {
@@ -27,6 +27,21 @@ export const getOrderByIdApi = async (id: number) => {
     return response.data;
   } catch (error) {
     console.error("Get order by id API error:", error);
+    throw error;
+  }
+};
+
+export const fetchAllOrdersApi = async (
+  page: number = 1,
+  size: number = 20
+): Promise<OrdersPaginationResponse> => {
+  try {
+    const response = await axiosInstance.get<OrdersPaginationResponse>("/orders", {
+      params: { page, size },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Fetch all orders API error:", error);
     throw error;
   }
 };

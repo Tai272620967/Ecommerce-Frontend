@@ -38,9 +38,9 @@ const AccordionCustom: React.FC<AccordionCusProps> = ({
         </Accordion.Header>
         <Accordion.Body>
           <ul className="accordion-items__wrapper">
-            {items.map((item, index) => (
+            {items.map((item) => (
               <li
-                key={index}
+                key={item.id}
                 className={`accordion-item__row ${
                   selectedIndex == item.id ? "selected" : ""
                 }`}

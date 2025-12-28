@@ -66,3 +66,13 @@ export interface OrdersResponse {
   data: Order[];
 }
 
+export interface OrdersPaginationResponse {
+  meta: {
+    page: number;
+    pageSize: number;
+    pages: number;
+    total: number;
+  };
+  result: Order[];
+}
+
