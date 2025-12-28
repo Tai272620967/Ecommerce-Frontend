@@ -8,6 +8,11 @@
   background-color: #fff;
   animation: slideUp 0.5s ease-out;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+
+  // Mobile - adjust top position
+  @media (max-width: 768px) {
+    top: 0; // Will stack below TopNavbar naturally on mobile
+  }
 }
 
 .navbar-container {
@@ -17,6 +22,27 @@
     margin: auto;
     padding: 15px;
     cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    // iPad - adjust logo padding
+    @media (max-width: 1024px) and (min-width: 769px) {
+      padding: 12px;
+    }
+
+    // Mobile - adjust logo size
+    @media (max-width: 768px) {
+      padding: 10px;
+      order: 1;
+      
+      svg {
+        width: 100px;
+        height: auto;
+      }
+    }
   }
   width: 90%;
   height: 80px;
@@ -27,11 +53,23 @@
   //   border-bottom: 1px solid #e5e5e5;
   margin: 0 auto;
 
+  // iPad
+  @media (max-width: 1024px) and (min-width: 769px) {
+    width: 92%;
+    height: 70px;
+  }
+
   .navbar-center {
     width: 45%;
     display: flex;
     // justify-content: center;
     align-items: center;
+
+    // iPad
+    @media (max-width: 1024px) and (min-width: 769px) {
+      width: 40%;
+    }
+
     ul {
       width: 100%;
       display: flex;
@@ -41,6 +79,12 @@
       padding-left: 0px;
       margin-left: 50px;
       height: 100%;
+
+      // iPad
+      @media (max-width: 1024px) and (min-width: 769px) {
+        margin-left: 20px;
+      }
+
       li {
         list-style-type: none;
         font-weight: 500;
@@ -52,6 +96,13 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         padding: 0 8px;
+        font-size: 14px;
+
+        // iPad
+        @media (max-width: 1024px) and (min-width: 769px) {
+          font-size: 13px;
+          padding: 0 6px;
+        }
 
         &::after {
           content: '';
@@ -93,38 +144,22 @@
     align-items: center;
     justify-content: center;
     padding: 0 20px;
-  }
-}
 
-// Responsive
-@media (max-width: 1024px) {
-  .navbar-container {
-    .navbar-center {
-      width: 40%;
-      
-      ul {
-        margin-left: 20px;
-      }
-    }
-
-    .navbar-search-wrapper {
+    // iPad
+    @media (max-width: 1024px) and (min-width: 769px) {
       width: 50%;
       padding: 0 10px;
     }
   }
 }
 
+// Responsive - Mobile
 @media (max-width: 768px) {
-  .navbar-wrapper {
-    // On mobile, TopNavbar height is dynamic (wraps), so we'll calculate it
-    // For now, use a reasonable estimate or let it stack naturally
-    top: 0; // Will stack below TopNavbar naturally on mobile
-  }
-
   .navbar-container {
     flex-wrap: wrap;
     height: auto;
     padding: 10px 0;
+    width: 100%;
 
     .navbar-center {
       width: 100%;
@@ -135,14 +170,32 @@
       
       ul {
         margin-left: 0;
-        padding: 0 20px;
+        padding: 0 16px;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: #d8d8d9 transparent;
+        
+        // Hide scrollbar for webkit browsers
+        &::-webkit-scrollbar {
+          height: 4px;
+        }
+        
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+          background-color: #d8d8d9;
+          border-radius: 2px;
+        }
         
         li {
           white-space: nowrap;
           padding: 0 12px;
-          font-size: 14px;
+          font-size: 13px;
+          min-width: fit-content;
+          flex-shrink: 0;
         }
       }
     }
@@ -150,7 +203,7 @@
     .navbar-search-wrapper {
       width: 100%;
       order: 2;
-      padding: 10px 20px;
+      padding: 10px 16px;
       margin-top: 10px;
     }
   }

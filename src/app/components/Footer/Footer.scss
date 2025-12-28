@@ -6,13 +6,51 @@
   color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
 
+  // iPad
+  @media (max-width: 1024px) and (min-width: 769px) {
+    padding: 40px 40px 20px;
+  }
+
+  // Mobile
+  @media (max-width: 768px) {
+    padding: 32px 20px 20px;
+    font-size: 13px;
+  }
+
   .footer {
     &__site-map {
       display: flex;
       justify-content: space-between;
 
+      // Mobile - stack vertically
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 32px;
+      }
+
       &__logo-box {
         width: 30%;
+
+        // iPad
+        @media (max-width: 1024px) and (min-width: 769px) {
+          width: 28%;
+        }
+
+        // Mobile
+        @media (max-width: 768px) {
+          width: 100%;
+        }
+
+        // Logo styling
+        .navbar-logo {
+          // Mobile - adjust logo size
+          @media (max-width: 768px) {
+            svg {
+              width: 120px;
+              height: auto;
+            }
+          }
+        }
 
         &__socials {
           width: 55%;
@@ -22,19 +60,75 @@
           margin-top: 125px;
           justify-content: space-between;
           align-items: center;
+
+          // iPad
+          @media (max-width: 1024px) and (min-width: 769px) {
+            width: 60%;
+            margin-top: 100px;
+          }
+
+          // Mobile
+          @media (max-width: 768px) {
+            width: 100%;
+            margin-top: 24px;
+            justify-content: flex-start;
+            gap: 12px;
+            flex-wrap: wrap;
+          }
+
+          li {
+            // Mobile - adjust social icon size
+            @media (max-width: 768px) {
+              img {
+                width: 24px;
+                height: 24px;
+              }
+            }
+          }
         }
       }
 
       &__list-wrapper {
         width: 20%;
+
+        // iPad
+        @media (max-width: 1024px) and (min-width: 769px) {
+          width: 18%;
+        }
+
+        // Mobile
+        @media (max-width: 768px) {
+          width: 100%;
+        }
       }
 
       &__list {
         list-style: none;
+        padding: 0;
+
+        // Mobile
+        @media (max-width: 768px) {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 8px;
+        }
+
         &__item {
           color: rgb(88, 88, 88);
           margin-bottom: 12px;
           font-size: 12px;
+          cursor: pointer;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: #3c3c43;
+          }
+
+          // Mobile
+          @media (max-width: 768px) {
+            margin-bottom: 8px;
+            font-size: 11px;
+          }
         }
       }
     }
@@ -45,17 +139,55 @@
         align-items: center;
         margin-top: 30px;
 
+        // Mobile - stack vertically
+        @media (max-width: 768px) {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+          margin-top: 24px;
+        }
+
         &__navi-link {
             width: 32%;
+
+            // iPad
+            @media (max-width: 1024px) and (min-width: 769px) {
+              width: 40%;
+            }
+
+            // Mobile
+            @media (max-width: 768px) {
+              width: 100%;
+            }
+
             &__list {
                 list-style: none;
                 display: flex;
                 justify-content: space-between;
                 padding: 0;
 
+                // Mobile - wrap items
+                @media (max-width: 768px) {
+                  flex-wrap: wrap;
+                  gap: 12px;
+                  justify-content: flex-start;
+                }
+
                 &__item {
                     font-size: 12px;
                     color: rgb(88, 88, 88);
+                    cursor: pointer;
+                    transition: color 0.2s ease;
+                    white-space: nowrap;
+
+                    &:hover {
+                      color: #3c3c43;
+                    }
+
+                    // Mobile
+                    @media (max-width: 768px) {
+                      font-size: 11px;
+                    }
                 }
             }
         }
@@ -63,6 +195,13 @@
         &__copy-right {
             font-size: 12px;
             color: rgb(88, 88, 88);
+
+            // Mobile
+            @media (max-width: 768px) {
+              font-size: 11px;
+              text-align: left;
+              width: 100%;
+            }
         }
     }
   }

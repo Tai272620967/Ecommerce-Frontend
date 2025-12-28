@@ -4,6 +4,17 @@
   padding: 10px 64px;
   // height: 100vh;
 
+  // iPad
+  @media (max-width: 1024px) and (min-width: 769px) {
+    padding: 10px 40px;
+  }
+
+  // Mobile
+  @media (max-width: 768px) {
+    padding: 10px 16px;
+    width: 100%;
+  }
+
   .product {
     &__bread-crumbs {
       &__list {
@@ -13,6 +24,12 @@
         // width: 20%;
         align-items: center;
         padding: 0;
+        flex-wrap: wrap;
+
+        // Mobile
+        @media (max-width: 768px) {
+          font-size: 11px;
+        }
 
         &__item {
           display: flex;
@@ -22,10 +39,22 @@
             color: #3c3c43;
             font-size: 12px;
             text-decoration: none;
+
+            // Mobile
+            @media (max-width: 768px) {
+              font-size: 11px;
+            }
           }
 
           &__icon {
             margin: 0 4px;
+
+            // Mobile
+            @media (max-width: 768px) {
+              width: 12px;
+              height: 12px;
+              margin: 0 2px;
+            }
           }
         }
       }
@@ -34,15 +63,40 @@
     &__title {
       font-size: 38px;
       font-weight: 700;
+
+      // iPad
+      @media (max-width: 1024px) and (min-width: 769px) {
+        font-size: 32px;
+      }
+
+      // Mobile
+      @media (max-width: 768px) {
+        font-size: 24px;
+      }
     }
 
     &__sub-title__wrapper {
       margin-top: 48px;
+
+      // Mobile
+      @media (max-width: 768px) {
+        margin-top: 32px;
+      }
     }
 
     &__sub-title {
       font-size: 32px;
       font-weight: 700;
+
+      // iPad
+      @media (max-width: 1024px) and (min-width: 769px) {
+        font-size: 28px;
+      }
+
+      // Mobile
+      @media (max-width: 768px) {
+        font-size: 20px;
+      }
     }
 
     &__pickup-item__wrapper {
@@ -50,12 +104,37 @@
       justify-content: space-between;
       width: 72%;
       margin-top: 20px;
+      gap: 20px;
+
+      // iPad
+      @media (max-width: 1024px) and (min-width: 769px) {
+        width: 85%;
+        gap: 16px;
+      }
+
+      // Mobile
+      @media (max-width: 768px) {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 16px;
+        gap: 12px;
+      }
     }
 
     &__pickup-item {
       &__title {
         font-size: 18px;
         font-weight: 700;
+
+        // iPad
+        @media (max-width: 1024px) and (min-width: 769px) {
+          font-size: 16px;
+        }
+
+        // Mobile
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
       }
     }
 
@@ -66,6 +145,18 @@
     &__filter-button-wrapper {
       width: 60%;
       margin: 30px 0px 40px 0px;
+
+      // iPad
+      @media (max-width: 1024px) and (min-width: 769px) {
+        width: 70%;
+        margin: 24px 0px 32px 0px;
+      }
+
+      // Mobile
+      @media (max-width: 768px) {
+        width: 100%;
+        margin: 20px 0px 24px 0px;
+      }
     }
 
     &__filter-button {
@@ -79,6 +170,11 @@
       font-size: 14px;
       font-weight: 700;
 
+      // Mobile
+      @media (max-width: 768px) {
+        padding: 6px 12px;
+        font-size: 13px;
+      }
     }
 
     &__list__wrapper {
@@ -90,8 +186,27 @@
       gap: 24px;
       grid-template-columns: repeat(4, 1fr);
 
+      // iPad (tablet)
+      @media (max-width: 1024px) and (min-width: 769px) {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      // Mobile
+      @media (max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
       &__inner-wrapper {
         position: relative;
+
+        // Hide separator on mobile
+        @media (max-width: 768px) {
+          &::after {
+            display: none;
+          }
+        }
       }
 
       &__inner-wrapper::after {
@@ -115,6 +230,13 @@
           transform: translateY(-4px);
         }
 
+        // Mobile hover effect
+        @media (max-width: 768px) {
+          &:hover {
+            transform: translateY(-2px);
+          }
+        }
+
         &__image {
           width: 100%;
           height: 320px;
@@ -124,6 +246,16 @@
           perspective: 1000px;
           transform-style: preserve-3d;
           transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+          // iPad
+          @media (max-width: 1024px) and (min-width: 769px) {
+            height: 280px;
+          }
+
+          // Mobile
+          @media (max-width: 768px) {
+            height: 200px;
+          }
 
           img {
             width: 100%;
@@ -145,6 +277,12 @@
         &__desc__name {
           font-size: 14px;
           padding: 0 15px;
+
+          // Mobile
+          @media (max-width: 768px) {
+            font-size: 12px;
+            padding: 0 10px;
+          }
         }
 
         &__desc__price__wrapper {
@@ -152,6 +290,13 @@
           justify-content: space-between;
           align-items: baseline;
           margin-top: 10px;
+          padding: 0 15px;
+
+          // Mobile
+          @media (max-width: 768px) {
+            padding: 0 10px;
+            margin-top: 8px;
+          }
         }
 
         &__desc__price {
@@ -166,21 +311,48 @@
             &__number {
               font-size: 20px;
               font-weight: 700;
+
+              // iPad
+              @media (max-width: 1024px) and (min-width: 769px) {
+                font-size: 18px;
+              }
+
+              // Mobile
+              @media (max-width: 768px) {
+                font-size: 16px;
+              }
             }
 
             &__unit {
               font-size: 12px;
+
+              // Mobile
+              @media (max-width: 768px) {
+                font-size: 10px;
+              }
             }
           }
           &__tilde {
             margin-left: 8px;
             margin-right: 2px;
             font-size: 12px;
+
+            // Mobile
+            @media (max-width: 768px) {
+              margin-left: 4px;
+              margin-right: 1px;
+              font-size: 10px;
+            }
           }
         }
 
         &__desc__heart-button {
           background-color: #fff;
+
+          // Mobile - hide heart button
+          @media (max-width: 768px) {
+            display: none;
+          }
         }
 
         &__desc__heart-button-image {
@@ -193,6 +365,12 @@
           cursor: pointer;
           display: flex;
           justify-content: center;
+
+          // Mobile
+          @media (max-width: 768px) {
+            height: 32px;
+            width: 32px;
+          }
         }
       }
 

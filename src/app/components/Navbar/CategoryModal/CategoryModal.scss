@@ -8,6 +8,13 @@
     z-index: 120;
     margin: 0 auto;
     animation: modalSlideIn 0.3s ease-in-out forwards;
+
+    // Mobile
+    @media (max-width: 768px) {
+      top: 0;
+      height: 100vh;
+      position: fixed;
+    }
   }
 
   &__container {
@@ -18,14 +25,50 @@
     padding: 50px;
     max-height: 86vh;
     overflow-y: scroll;
+
+    // iPad
+    @media (max-width: 1024px) and (min-width: 769px) {
+      width: 92%;
+      padding: 40px 30px;
+    }
+
+    // Mobile
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 20px 16px;
+      flex-direction: column;
+      max-height: 100vh;
+      overflow-y: auto;
+    }
   }
 
   &__left {
     width: 70%;
     display: flex;
     justify-content: space-between;
+
+    // iPad
+    @media (max-width: 1024px) and (min-width: 769px) {
+      width: 65%;
+    }
+
+    // Mobile
+    @media (max-width: 768px) {
+      width: 100%;
+      flex-direction: column;
+      margin-bottom: 24px;
+    }
+
     ul {
       list-style: none;
+      padding: 0;
+
+      // Mobile
+      @media (max-width: 768px) {
+        width: 100%;
+        margin-bottom: 16px;
+      }
+
       li {
         cursor: pointer;
         color: rgb(60, 60, 67);
@@ -34,6 +77,17 @@
         margin-bottom: 11px;
         padding: 5px;
         transition: background-color 0.3s ease;
+
+        // Mobile
+        @media (max-width: 768px) {
+          font-size: 13px;
+          padding: 8px;
+          margin-bottom: 8px;
+        }
+
+        &:hover {
+          background-color: #f5f5f5;
+        }
       }
     }
   }
@@ -46,11 +100,38 @@
     padding-left: 30px;
     height: 85vh;
 
+    // iPad
+    @media (max-width: 1024px) and (min-width: 769px) {
+      padding-left: 20px;
+      height: auto;
+    }
+
+    // Mobile
+    @media (max-width: 768px) {
+      width: 100%;
+      border-left: none;
+      border-top: 1px solid #e2e2e2;
+      padding-left: 0;
+      padding-top: 20px;
+      height: auto;
+    }
+
     &__box {
       margin-bottom: 20px;
+
+      // Mobile
+      @media (max-width: 768px) {
+        margin-bottom: 16px;
+      }
+
       &__menu-title {
         font-size: 15px;
         font-weight: bold;
+
+        // Mobile
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
       }
       ul {
         list-style: none;
@@ -63,6 +144,13 @@
           line-height: 1.5;
           margin-bottom: 11px;
           padding: 5px;
+
+          // Mobile
+          @media (max-width: 768px) {
+            font-size: 13px;
+            padding: 8px;
+            margin-bottom: 8px;
+          }
         }
       }
     }
@@ -70,6 +158,16 @@
 
   &__close-modal-button {
     margin-top: -30px;
+
+    // Mobile
+    @media (max-width: 768px) {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      margin-top: 0;
+      z-index: 121;
+    }
+
     .navbar-icon {
       cursor: pointer;
     }
