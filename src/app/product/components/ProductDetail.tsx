@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Product } from "@/base/types/Product";
 import { fetchProductByIdApi } from "@/base/utils/api/product";
-import { convertToNumberFormat } from "@/base/utils";
+import { convertToNumberFormat, convertJPYToUSD } from "@/base/utils";
 import { getImageUrl } from "@/base/utils/imageUrl";
 import { useForm } from "react-hook-form";
 import InputField from "@/base/components/Input/Input";
@@ -446,10 +446,10 @@ const ProductDetail: React.FC = () => {
                   Including tax
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-value">
-                  {convertToNumberFormat(product?.minPrice)}
+                  {convertToNumberFormat(convertJPYToUSD(product?.minPrice))}
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-unit">
-                  JPY
+                  USD
                 </span>
               </div>
               <div className="product-detail__description__info__price-group__box">
@@ -457,10 +457,10 @@ const ProductDetail: React.FC = () => {
                   Total Price: Including tax
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-value">
-                  {convertToNumberFormat(product?.minPrice)}
+                  {convertToNumberFormat(convertJPYToUSD(product?.minPrice))}
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-unit">
-                  JPY
+                  USD
                 </span>
               </div>
             </div>

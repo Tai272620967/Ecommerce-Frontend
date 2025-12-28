@@ -15,7 +15,7 @@ import {
 } from "@/base/utils/api/category";
 import { useRouter } from "next/navigation";
 import CategorySelectionModal from "./CategorySelectionModal";
-import { convertToNumberFormat } from "@/base/utils";
+import { convertToNumberFormat, convertJPYToUSD } from "@/base/utils";
 import { getImageUrl } from "@/base/utils/imageUrl";
 
 interface ProductListProps {
@@ -408,10 +408,10 @@ const ProductList: React.FC<ProductListProps> = ({
                         <div className="product__list__item__desc__price">
                           <span className="product__list__item__desc__price__value">
                             <span className="product__list__item__desc__price__value__number">
-                              {convertToNumberFormat(product.minPrice)}
+                              {convertToNumberFormat(convertJPYToUSD(product.minPrice))}
                             </span>
                             <span className="product__list__item__desc__price__value__unit">
-                              JPY
+                              USD
                             </span>
                           </span>
                           {product.maxPrice && (
@@ -423,10 +423,10 @@ const ProductList: React.FC<ProductListProps> = ({
                             {product.maxPrice && (
                               <>
                                 <span className="product__list__item__desc__price__value__number">
-                                  {convertToNumberFormat(product.maxPrice)}
+                                  {convertToNumberFormat(convertJPYToUSD(product.maxPrice))}
                                 </span>
                                 <span className="product__list__item__desc__price__value__unit">
-                                  円
+                                  USD
                                 </span>
                               </>
                             )}

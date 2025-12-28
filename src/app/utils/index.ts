@@ -11,3 +11,12 @@ export function convertToNumberFormat(value: number | undefined): string {
     useGrouping: true,
   }).format(value);
 }
+
+// Convert JPY to USD (approximate exchange rate: 1 USD = 150 JPY)
+export function convertJPYToUSD(jpyValue: number | undefined): number {
+  if (jpyValue === undefined || isNaN(jpyValue)) {
+    return 0;
+  }
+  const exchangeRate = 150; // 1 USD = 150 JPY
+  return jpyValue / exchangeRate;
+}

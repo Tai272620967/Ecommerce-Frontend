@@ -50,7 +50,7 @@ const CategorySelectionModal: React.FC<CategorySelectionModalProps> = ({
   return (
     <div className="product__filter-button-wrapper">
       <button className="product__filter-button" onClick={showDrawer}>
-        <span>カテゴリから商品を絞り込む</span>
+        <span>Filter products by category</span>
         <span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
