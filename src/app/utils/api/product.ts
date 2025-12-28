@@ -119,3 +119,29 @@ export const deleteProductApi = async (productId: number) => {
     throw error;
   }
 };
+
+export const searchProductsApi = async (
+  searchQuery: string,
+  page: number = 1,
+  size: number = 20
+): Promise<ProductsResponse> => {
+  try {
+    // Use springfilter format: filter[name][$like]=%query%
+    const response = await axiosInstance.get<ProductsResponse>("/products", {
+      params: {
+        page,
+        size,
+        "filter[name][$like]": `%${searchQuery}%`,
+      },
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    }
+
+    throw new Error("Search products failed");
+  } catch (error) {
+    console.error("Search products API error:", error);
+    throw error;
+  }
+};

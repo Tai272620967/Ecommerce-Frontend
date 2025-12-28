@@ -1,0 +1,223 @@
+.search-bar {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 12px 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    &:focus-within {
+      border-color: #3c3c43;
+      box-shadow: 0 2px 8px rgba(60, 60, 67, 0.1);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__icon {
+    margin-right: 12px;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+  }
+
+  &__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #3c3c43;
+    background: transparent;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+
+    &::placeholder {
+      color: #9d9da3;
+    }
+  }
+
+  &__clear {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #9d9da3;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    line-height: 1;
+
+    &:hover {
+      color: #3c3c43;
+    }
+  }
+
+  &__results {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    max-height: 500px;
+    overflow-y: auto;
+    z-index: 1000;
+    animation: slideUp 0.3s ease-out;
+    margin-top: 4px;
+  }
+
+  &__loading {
+    padding: 20px;
+  }
+
+  &__results-header {
+    padding: 12px 16px;
+    font-size: 12px;
+    color: #6d6d72;
+    border-bottom: 1px solid #f5f5f5;
+    font-weight: 400;
+  }
+
+  &__results-list {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  &__result-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f5f5f5;
+    animation: fadeIn 0.3s ease-out;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #fafafa;
+    }
+
+    &__image {
+      width: 60px;
+      height: 60px;
+      margin-right: 12px;
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #f5f5f5;
+      flex-shrink: 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &__info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &__name {
+      font-size: 14px;
+      font-weight: 400;
+      color: #3c3c43;
+      margin: 0 0 4px 0;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    &__price {
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+      font-size: 16px;
+      color: #3c3c43;
+
+      &-value {
+        font-weight: 500;
+      }
+
+      &-unit {
+        font-size: 14px;
+        font-weight: 300;
+      }
+    }
+  }
+
+  &__results-footer {
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 13px;
+    color: #3c3c43;
+    cursor: pointer;
+    border-top: 1px solid #f5f5f5;
+    transition: background-color 0.2s ease;
+    font-weight: 500;
+
+    &:hover {
+      background-color: #fafafa;
+    }
+  }
+
+  &__no-results,
+  &__hint {
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #6d6d72;
+  }
+
+  &__no-results {
+    font-style: italic;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .search-bar {
+    max-width: 100%;
+
+    &__results {
+      max-height: 400px;
+    }
+
+    &__result-item {
+      padding: 10px 12px;
+
+      &__image {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+      }
+
+      &__name {
+        font-size: 13px;
+      }
+
+      &__price {
+        font-size: 14px;
+      }
+    }
+  }
+}
+

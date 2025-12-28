@@ -3,7 +3,7 @@
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #e5e5e5;
   position: sticky;
-  top: 0;
+  top: 50px; // Height of TopNavbar
   z-index: 1000;
   background-color: #fff;
   animation: slideUp 0.5s ease-out;
@@ -28,12 +28,12 @@
   margin: 0 auto;
 
   .navbar-center {
-    width: 70%;
+    width: 45%;
     display: flex;
     // justify-content: center;
     align-items: center;
     ul {
-      width: 60%;
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -59,8 +59,8 @@
           bottom: 0;
           left: 50%;
           width: 0;
-          height: 3px;
-          background-color: #3c3c43;
+          height: 1px;
+          background-color: #6d6d72;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           transform: translateX(-50%);
         }
@@ -74,49 +74,84 @@
         }
 
         &.selected-category {
-          font-weight: bold;
-          border-bottom: 3px solid #3c3c43;
+          font-weight: 500;
+          border-bottom: 1px solid #6d6d72;
           
           &::after {
             width: 100%;
+            height: 1px;
+            background-color: #6d6d72;
           }
         }
       }
     }
   }
 
-  .navbar-right {
-    width: 20%;
+  .navbar-search-wrapper {
+    width: 45%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    .navbar-icon {
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    justify-content: center;
+    padding: 0 20px;
+  }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .navbar-container {
+    .navbar-center {
+      width: 40%;
       
-      &:hover {
-        transform: scale(1.1);
+      ul {
+        margin-left: 20px;
       }
     }
 
-    .cartIcon-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      margin-top: 4px;
-      cursor: pointer;
+    .navbar-search-wrapper {
+      width: 50%;
+      padding: 0 10px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-wrapper {
+    // On mobile, TopNavbar height is dynamic (wraps), so we'll calculate it
+    // For now, use a reasonable estimate or let it stack naturally
+    top: 0; // Will stack below TopNavbar naturally on mobile
+  }
+
+  .navbar-container {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 0;
+
+    .navbar-center {
+      width: 100%;
+      order: 3;
+      margin-top: 10px;
+      padding: 10px 0;
+      border-top: 1px solid #e5e5e5;
+      
+      ul {
+        margin-left: 0;
+        padding: 0 20px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        
+        li {
+          white-space: nowrap;
+          padding: 0 12px;
+          font-size: 14px;
+        }
+      }
     }
 
-    .cartIcon-itemCount {
-      font-size: 10px;
-      font-weight: 700;
-      position: absolute;
-      top: -6px;
-      left: 1px;
-      text-align: center;
-      width: 20px;
+    .navbar-search-wrapper {
+      width: 100%;
+      order: 2;
+      padding: 10px 20px;
+      margin-top: 10px;
     }
   }
 }

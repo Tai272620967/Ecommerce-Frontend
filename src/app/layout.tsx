@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.scss";
 import { Providers } from "./provider";
+import TopNavbar from "./components/TopNavbar/TopNavbar";
 import NavbarCommon from "./components/Navbar/Navbar";
 // import { fetchSubCategoriesApi } from "./utils/api/category";
 import Footer from "./components/Footer/Footer";
@@ -45,15 +46,7 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning>
         <Providers>
-          <div className="header-container">
-            <span className="header-text__left">Online Store Exclusive</span>
-            <span className="header-text__center">
-              Apparel, Daily Goods, etc. Tax included
-              <span className="header-text__text-large">5,000</span>
-              ¥ or more purchase
-            </span>
-            <span className="header-text__right">Free Shipping</span>
-          </div>
+          <TopNavbar />
           <NavbarCommon />
           <main>{children}</main>
           <Footer />
