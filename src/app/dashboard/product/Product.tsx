@@ -3,29 +3,78 @@
 import DataTable from "@/base/components/DataTable/DataTable";
 import "./Product.scss";
 import { Column, Row } from "react-table";
-import { fetchAllProductApi } from "@/base/utils/api/product";
+import { fetchAllProductApi, deleteProductApi } from "@/base/utils/api/product";
 import { useEffect, useState } from "react";
 import { Product } from "@/base/types/Product";
 import { useRouter } from "next/navigation";
+import { getImageUrl } from "@/base/utils/imageUrl";
+import { Modal, message } from "antd";
 
 export const ProductDashboard: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
-  useEffect(() => {
-    const fetchAllProducts = async () => {
-      try {
-        const response = await fetchAllProductApi(1, 20);
-        if (response) {
-          setProducts(response.data.result);
-        }
-        console.log("products", response);
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
+  const fetchAllProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await fetchAllProductApi(1, 20);
+      console.log("API Response:", response);
+      console.log("Response type:", typeof response);
+      console.log("Response.result:", response?.result);
+      console.log("Is array:", Array.isArray(response?.result));
+      
+      // Handle different possible response structures
+      let productsData: Product[] = [];
+      
+      if (response) {
+        // Check if result is directly in response (expected structure)
+        if (Array.isArray(response.result)) {
+          productsData = response.result;
+        } 
+        // Check if result is nested in data (fallback for different API structure)
+        else if ((response as any).data && Array.isArray((response as any).data.result)) {
+          productsData = (response as any).data.result;
+        }
+        // Check if response itself is an array (fallback)
+        else if (Array.isArray(response)) {
+          productsData = response;
+        }
+      }
+      
+      console.log("Final products data:", productsData);
+      setProducts(productsData);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchAllProducts();
   }, []);
+
+  const handleDeleteProduct = (product: Product) => {
+    Modal.confirm({
+      title: "Delete Product",
+      content: `Are you sure you want to delete "${product.name}"? This action cannot be undone.`,
+      okText: "Delete",
+      okType: "danger",
+      cancelText: "Cancel",
+      onOk: async () => {
+        try {
+          await deleteProductApi(product.id);
+          message.success("Product deleted successfully");
+          // Reload products list
+          await fetchAllProducts();
+        } catch (error) {
+          console.error("Error deleting product:", error);
+          message.error("Failed to delete product");
+        }
+      },
+    });
+  };
 
   // Cấu hình cột
   const columns: Column<Product>[] = [
@@ -44,8 +93,14 @@ export const ProductDashboard: React.FC = () => {
       accessor: "imageUrl",
       Cell: ({ value }: { value: string | undefined }) =>
         value ? (
-          <img src={process.env.NEXT_PUBLIC_API_BASE_URI + value} alt="Thumbnail" style={{ width: 50 }} />
-        ) : null,
+          <img 
+            src={getImageUrl(value)} 
+            alt="Product thumbnail" 
+            style={{ width: 50, height: 50, objectFit: "cover" }} 
+          />
+        ) : (
+          <span>No image</span>
+        ),
     },
     {
       Header: "Price",
@@ -64,7 +119,7 @@ export const ProductDashboard: React.FC = () => {
         id: "actions",
         Header: "",
         width: 150,
-        Cell: ({ }: { row: Row<any> }) => (
+        Cell: ({ row }: { row: Row<any> }) => (
           <div style={{ display: "flex", gap: "10px" }}>
             <button
             //   onClick={() => handleView(row.original)}
@@ -92,7 +147,7 @@ export const ProductDashboard: React.FC = () => {
               Update
             </button>
             <button
-            //   onClick={() => handleDelete(row.original)}
+              onClick={() => handleDeleteProduct(row.original)}
               style={{
                 backgroundColor: "#d26d69",
                 color: "white",
@@ -108,13 +163,31 @@ export const ProductDashboard: React.FC = () => {
       },
   ];
 
+  console.log("Current products state:", products);
+  console.log("Products length:", products.length);
+
+  if (loading) {
+    return (
+      <div className="product-dashboard__wrapper">
+        <div className="product-dashboard__title">
+          <h1>Products</h1>
+        </div>
+        <div>Loading products...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="product-dashboard__wrapper">
       <div className="product-dashboard__title">
         <h1>Products</h1>
       </div>
       <div className="product-dashboard__table">
-        <DataTable columns={columns} data={products} className="products-table"/>
+        {products.length > 0 ? (
+          <DataTable columns={columns} data={products} className="products-table"/>
+        ) : (
+          <div>No products found. Products count: {products.length}</div>
+        )}
       </div>
     </div>
   );

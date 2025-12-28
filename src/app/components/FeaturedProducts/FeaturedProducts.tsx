@@ -20,8 +20,8 @@ const FeaturedProducts: React.FC = () => {
       try {
         setLoading(true);
         const response = await fetchAllProductApi(1, 8);
-        if (response) {
-          setProducts(response.data.result);
+        if (response && response.result) {
+          setProducts(response.result);
         }
       } catch (error) {
         console.error("Failed to fetch featured products:", error);

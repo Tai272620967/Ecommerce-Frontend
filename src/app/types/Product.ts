@@ -9,9 +9,13 @@ export interface Product {
 }
 
 export interface ProductsResponse {
-  data: {
-    result: Product[];
+  meta: {
+    page: number;
+    pageSize: number;
+    pages: number;
+    total: number;
   };
+  result: Product[];
 }
 
 export interface ProductResponse {

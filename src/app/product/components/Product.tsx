@@ -74,9 +74,9 @@ const ProductList: React.FC<ProductListProps> = ({
             page,
             size
           ); // Lấy 4 sản phẩm mỗi lần
-          if (response) {
+          if (response && response.result) {
             // Thêm các sản phẩm mới vào danh sách cũ
-            setProducts((prev) => [...prev, ...response.data.result]);
+            setProducts((prev) => [...prev, ...response.result]);
           }
         }
 
@@ -86,9 +86,9 @@ const ProductList: React.FC<ProductListProps> = ({
             page,
             size
           );
-          if (response) {
+          if (response && response.result) {
             // Thêm các sản phẩm mới vào danh sách cũ
-            setProducts((prev) => [...prev, ...response.data.result]);
+            setProducts((prev) => [...prev, ...response.result]);
           }
         }
       } catch (err) {

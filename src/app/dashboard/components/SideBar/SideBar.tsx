@@ -19,24 +19,18 @@ const SideBar: React.FC = () => {
     },
     {
       id: 2,
-      text: "Categories",
-      icon: "/images/box-open.svg",
-      path: "/dashboard/category",
-    },
-    {
-      id: 3,
       text: "Products",
       icon: "/images/box-open.svg",
       path: "/dashboard/product",
     },
     {
-      id: 4,
+      id: 3,
       text: "Orders",
       icon: "/images/rectangle-list.svg",
       path: "/dashboard/order",
     },
     {
-      id: 5,
+      id: 4,
       text: "Chart",
       icon: "/images/chart-simple.svg",
       path: "/dashboard/chart",
@@ -50,11 +44,6 @@ const SideBar: React.FC = () => {
         return [
           { id: 1, text: "List User", path: "/dashboard/user" },
           { id: 2, text: "Create User", path: "/dashboard/user/create" },
-        ];
-      case "Categories":
-        return [
-          { id: 1, text: "List Category", path: "/dashboard/category" },
-          { id: 2, text: "Create Category", path: "/dashboard/category/create" },
         ];
       case "Products":
         return [
@@ -85,7 +74,7 @@ const SideBar: React.FC = () => {
         {items.map((item) => {
           // Render AccordionCustom for Users, Products, Orders
           if (
-            ["Users", "Products", "Orders", "Categories"].includes(item.text)
+            ["Users", "Products", "Orders"].includes(item.text)
           ) {
             const accordionItems = getAccordionItems(item.text);
             return (

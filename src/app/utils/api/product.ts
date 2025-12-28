@@ -109,3 +109,13 @@ export const createProductApi = async (formData: FormData) => {
     throw error;
   }
 };
+
+export const deleteProductApi = async (productId: number) => {
+  try {
+    const response = await axiosInstance.delete(`/products/${productId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Delete product API error:", error);
+    throw error;
+  }
+};
