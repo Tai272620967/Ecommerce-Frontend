@@ -1,5 +1,6 @@
 @import "bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "../assets/scss/animations.scss";
 
 * {
   margin: 0;
@@ -7,6 +8,10 @@
   border: 0;
   font-size: 100%;
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -27,7 +32,15 @@ body {
   margin-top: 20px;
   padding: 12px;
   box-sizing: border-box;
-  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeIn 0.5s ease-out;
+  
+  &:focus {
+    outline: none;
+    border-color: #7f0019;
+    box-shadow: 0 2px 8px rgba(127, 0, 25, 0.15);
+    transform: translateY(-1px);
+  }
 }
 
 .input-wrap {
@@ -49,6 +62,19 @@ body {
   text-align: center;
   width: 100%;
   padding: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  animation: gentleScale 0.5s ease-out;
+  
+  &:hover {
+    background: #6b0015;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(127, 0, 25, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 .header-container {
@@ -382,6 +408,18 @@ body {
   border-style: solid;
   border-width: 1px;
   border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  
+  &:hover {
+    background-color: rgb(45, 45, 50);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(60, 60, 67, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 .registration-mail-input__wrapper.registration-account--birthday {

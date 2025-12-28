@@ -4,9 +4,17 @@
         justify-content: space-between;
         gap: 9px;
         cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 8px;
+        border-radius: 4px;
+        
+        &:hover {
+            background-color: #f8f8f8;
+        }
     }
     &__title {
         font-size: 14px;
+        transition: color 0.3s ease;
     }
 }
 
@@ -23,12 +31,27 @@
         cursor: pointer;
         margin-bottom: 10px;
         padding: 5px 5px 5px 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-left: 3px solid transparent;
+        animation: slideInLeft 0.4s ease-out backwards;
+
+        &:hover {
+            background-color: #f8f8f8;
+            padding-left: 15px;
+        }
 
         &.selected {
             background-color: #edfcf5;
             border-left: 3px solid #11a362;
             color: #15a362;
             font-weight: 500;
+            padding-left: 12px;
+        }
+
+        @for $i from 1 through 10 {
+            &:nth-child(#{$i}) {
+                animation-delay: #{$i * 0.05}s;
+            }
         }
     }
 }

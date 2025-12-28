@@ -3,12 +3,13 @@
         width: 250px;
         height: 100vh;
         z-index: 10;
-        box-shadow: rgba(0, 0, 0, .05) 0px 8px 15px;
+        box-shadow: rgba(0, 0, .05) 0px 8px 15px;
         border-right: 1px solid #e0e3e7;
         position: fixed;
         top: 0;
         background-color: #fff;
         z-index: 100;
+        animation: slideInLeft 0.5s ease-out;
     }
 
     &__title {
@@ -39,16 +40,39 @@
             padding: 14px 16px 14px 20px;
             cursor: pointer;
             width: 250px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+
+            &::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 0;
+                background-color: #edfcf5;
+                transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            &:hover {
+                background-color: #f8f8f8;
+                transform: translateX(2px);
+            }
 
             &.selected {
                 background-color: #edfcf5;
                 border-left: 3px solid #11a362;
                 color: #15a362;
                 font-weight: 500;
+                
+                &::before {
+                    width: 3px;
+                }
             }
 
             &-text {
                 font-size: 14px;
+                transition: color 0.3s ease;
             }
         }
     }

@@ -1,33 +1,33 @@
 export const AUTH_MESSAGES = {
   INVALID_EMAIL_OR_PASSWORD:
-    "入力されたメールアドレスまたはパスワードが間違っています。もう一度お試しください。",
-  LOGIN_FAILED: "ログインに失敗しました。再度お試しください。",
+    "The email address or password you entered is incorrect. Please try again.",
+  LOGIN_FAILED: "Login failed. Please try again.",
   ACCOUNT_LOCKED:
-    "アカウントがロックされています。30分後に再度お試しください。",
-  UNAUTHORIZED_ACCESS: "認証されていないアクセスです。",
+    "Your account has been locked. Please try again after 30 minutes.",
+  UNAUTHORIZED_ACCESS: "Unauthorized access.",
 };
 
 export const SUCCESS_MESSAGES = {
-  LOGIN_SUCCESS: "ログインに成功しました！",
-  REGISTER_SUCCESS: "新規メンバー登録が成功しました。",
-  PASSWORD_RESET_SUCCESS: "パスワードのリセットに成功しました。",
-  EMAIL_SENT: "確認メールが送信されました。",
+  LOGIN_SUCCESS: "Login successful!",
+  REGISTER_SUCCESS: "New member registration completed successfully.",
+  PASSWORD_RESET_SUCCESS: "Password reset successful.",
+  EMAIL_SENT: "Verification email has been sent.",
 };
 
 export const ERROR_MESSAGES = {
-  SERVER_ERROR: "サーバーエラーが発生しました。後でもう一度お試しください。",
-  NOT_FOUND: "リクエストされたリソースが見つかりません。",
-  VALIDATION_ERROR: "入力情報に誤りがあります。ご確認ください。",
-  REGISTER_ERROR: "新規メンバー登録が失敗しました。",
+  SERVER_ERROR: "A server error occurred. Please try again later.",
+  NOT_FOUND: "The requested resource was not found.",
+  VALIDATION_ERROR: "There is an error in the input information. Please check.",
+  REGISTER_ERROR: "New member registration failed.",
 };
 
 export const VALIDATE_MESSAGES = {
-  VALID_EMAIL: "有効なメールアドレスを入力してください。",
-  EMAIL_REQUIRED: "メールアドレスを入力してください。",
-  PASSWORD_REQUIRED: "パスワードを入力して下さい。",
-  FIELD_REQUIRED: "必須です。",
-  POSTAL_CODE_REQUIRED: "郵便番号を入力してください",
-  CONFIRM_PASSWORD_IS_NOT_MATCHED: "パスワードが一致しません",
+  VALID_EMAIL: "Please enter a valid email address.",
+  EMAIL_REQUIRED: "Please enter your email address.",
+  PASSWORD_REQUIRED: "Please enter your password.",
+  FIELD_REQUIRED: "This field is required.",
+  POSTAL_CODE_REQUIRED: "Please enter your postal code",
+  CONFIRM_PASSWORD_IS_NOT_MATCHED: "Passwords do not match",
 }
 
 export const COOKIE_KEY = {

@@ -9,6 +9,7 @@ import ImageGallery from "./components/ImageGallery/ImageGallery";
 import { fetchSubCategoriesApi } from "./utils/api/category";
 import FeaturedProducts from "./components/FeaturedProducts/FeaturedProducts";
 import LifestyleSection from "./components/LifestyleSection/LifestyleSection";
+import SnowAnimation from "./components/SnowAnimation/SnowAnimation";
 
 export default function Home() {
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
@@ -41,6 +42,9 @@ export default function Home() {
 
   return (
     <div className="home-page">
+      {/* Snow animation for Christmas atmosphere */}
+      <SnowAnimation />
+      
       {/* Notification banner */}
       <div className="article-contents">
         <ul>

@@ -283,7 +283,7 @@ export default function OrderCheckout() {
                   register={register}
                   errors={errors}
                   label="Last Name (Kana)"
-                  placeHolder="スミス"
+                  placeHolder="Smith"
                 />
               </div>
               <div className="order-checkout__form-group">
@@ -293,7 +293,7 @@ export default function OrderCheckout() {
                   register={register}
                   errors={errors}
                   label="First Name (Kana)"
-                  placeHolder="ジョン"
+                  placeHolder="John"
                 />
               </div>
             </div>

@@ -13,6 +13,7 @@
   &__header {
     text-align: center;
     margin-bottom: 60px;
+    animation: slideUp 0.6s ease-out;
   }
 
   &__title {
@@ -21,6 +22,7 @@
     color: #3c3c43;
     margin-bottom: 16px;
     letter-spacing: 0.5px;
+    animation: gentleScale 0.8s ease-out;
   }
 
   &__subtitle {
@@ -28,16 +30,22 @@
     color: #6d6d72;
     line-height: 1.6;
     font-weight: 300;
+    animation: fadeIn 1s ease-out;
   }
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    animation: fadeIn 0.6s ease-out;
+
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
-      gap: 30px;
+      gap: 24px;
     }
   }
 
@@ -45,8 +53,16 @@
     background-color: #fafafa;
     border-radius: 4px;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    animation: slideUp 0.5s ease-out backwards;
+
+    @for $i from 1 through 8 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.08}s;
+      }
+    }
 
     &:hover {
       transform: translateY(-4px);

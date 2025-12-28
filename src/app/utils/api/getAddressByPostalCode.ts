@@ -15,7 +15,7 @@ export const getAddressByPostalCode = async (postalCode: string): Promise<Addres
             street: address.street,
           });
         } else {
-          message.error("住所が見つかりませんでした")
+          message.error("Address not found")
           resolve(null); // Return null if address is not found
         }
       });

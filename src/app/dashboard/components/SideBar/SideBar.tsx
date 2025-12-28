@@ -43,7 +43,6 @@ const SideBar: React.FC = () => {
       case "Users":
         return [
           { id: 1, text: "List User", path: "/dashboard/user" },
-          { id: 2, text: "Create User", path: "/dashboard/user/create" },
         ];
       case "Products":
         return [

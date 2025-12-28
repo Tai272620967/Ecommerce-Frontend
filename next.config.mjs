@@ -15,9 +15,14 @@ const nextConfig = {
         hostname: 'localhost',
         pathname: '/uploads/images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
     ],
     // Fallback for older Next.js versions
-    domains: ['localhost'],
+    domains: ['localhost', 'images.unsplash.com'],
     // Enable unoptimized images to avoid Next.js image optimization issues with external images
     unoptimized: true,
   },

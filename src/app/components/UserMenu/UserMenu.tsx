@@ -105,13 +105,13 @@ const UserMenu: React.FC = () => {
   const guestItems: MenuProps["items"] = [
     {
       key: "1",
-      label: "新規会員登録",
+      label: "New Member Registration",
       icon: <UserOutlined />,
       onClick: () => router.push("/auth/registration/mailaddress"),
     },
     {
       key: "2",
-      label: "ログイン",
+      label: "Login",
       icon: <LoginOutlined />,
       onClick: () => router.push("/auth/login"),
     },

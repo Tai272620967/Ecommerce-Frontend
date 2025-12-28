@@ -66,7 +66,7 @@ const CategorySelectionModal: React.FC<CategorySelectionModalProps> = ({
         </span>
       </button>
       <Drawer
-        title="家具"
+        title="Furniture"
         placement={placement}
         closable={false}
         onClose={onClose}
@@ -96,7 +96,7 @@ const CategorySelectionModal: React.FC<CategorySelectionModalProps> = ({
         }
       >
         <div className="category-selection__row">
-          <p className="category-selection__row__text">すべての家具</p>
+          <p className="category-selection__row__text">All Furniture</p>
           <span className="category-selection__row__next-icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
