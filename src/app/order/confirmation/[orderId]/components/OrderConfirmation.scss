@@ -1,0 +1,160 @@
+.order-confirmation {
+  width: 85%;
+  margin: 0 auto;
+  padding-bottom: 60px;
+
+  &__header {
+    margin-top: 45px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(60, 60, 67);
+    line-height: 1.5;
+    margin: 0 0 15px 0;
+  }
+
+  &__subtitle {
+    font-size: 16px;
+    color: rgb(109, 109, 114);
+    margin: 0;
+  }
+
+  &__content {
+    margin-top: 30px;
+  }
+
+  &__section {
+    background-color: rgb(245, 245, 245);
+    padding: 30px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+
+    &-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: rgb(60, 60, 67);
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgb(219, 219, 219);
+    }
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid rgb(235, 235, 235);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__item-name {
+    font-size: 16px;
+    color: rgb(60, 60, 67);
+    font-weight: 500;
+  }
+
+  &__item-quantity {
+    font-size: 14px;
+    color: rgb(109, 109, 114);
+  }
+
+  &__item-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(60, 60, 67);
+  }
+
+  &__address {
+    font-size: 16px;
+    color: rgb(60, 60, 67);
+    line-height: 1.8;
+
+    p {
+      margin: 0 0 8px 0;
+    }
+  }
+
+  &__payment {
+    font-size: 16px;
+    color: rgb(60, 60, 67);
+    line-height: 1.8;
+
+    p {
+      margin: 0 0 12px 0;
+    }
+  }
+
+  &__totals {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &__total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    color: rgb(60, 60, 67);
+
+    &--total {
+      font-size: 24px;
+      font-weight: bold;
+      padding-top: 15px;
+      border-top: 2px solid rgb(219, 219, 219);
+      margin-top: 5px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  &__button {
+    display: inline-block;
+    padding: 16px 60px;
+    font-size: 18px;
+    line-height: 1.5;
+    background-color: rgb(60, 60, 67);
+    transition: opacity 0.3s, color 0.3s, background-color 0.3s;
+    color: rgb(255, 255, 255);
+    border-radius: 4px;
+    text-decoration: none;
+    text-align: center;
+    min-width: 300px;
+
+    &:hover {
+      background-color: #000;
+    }
+  }
+
+  &__loading,
+  &__error {
+    text-align: center;
+    font-size: 18px;
+    color: rgb(60, 60, 67);
+    padding: 60px 0;
+  }
+}
+

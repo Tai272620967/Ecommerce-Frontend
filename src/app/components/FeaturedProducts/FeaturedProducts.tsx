@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Product } from "@/base/types/Product";
 import { fetchAllProductApi } from "@/base/utils/api/product";
 import { convertToNumberFormat } from "@/base/utils";
+import { getImageUrl } from "@/base/utils/imageUrl";
 import "./FeaturedProducts.scss";
 import { useRouter } from "next/navigation";
 
@@ -60,7 +61,7 @@ const FeaturedProducts: React.FC = () => {
             >
               <div className="featured-products__item__image-wrapper">
                 <Image
-                  src={product.imageUrl}
+                  src={getImageUrl(product.imageUrl)}
                   alt={product.name}
                   width={300}
                   height={300}

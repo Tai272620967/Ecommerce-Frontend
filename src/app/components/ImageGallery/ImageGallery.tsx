@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import styles from "./ImageGallery.module.css";
 import { SubCategory } from "@/base/types/category";
+import { getImageUrl } from "@/base/utils/imageUrl";
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
@@ -50,7 +51,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ subCategories }) => {
         <SwiperSlide key={index}>
           <Link href={`/product/subCategory/${subCategory.id}`} className={styles.imageWrapper}>
             <Image
-              src={subCategory?.imageUrl}
+              src={getImageUrl(subCategory?.imageUrl)}
               alt={subCategory.name}
               width={250}
               height={250}

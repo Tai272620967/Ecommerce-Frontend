@@ -8,12 +8,15 @@ import { useEffect, useState } from "react";
 import { Product } from "@/base/types/Product";
 import { fetchProductByIdApi } from "@/base/utils/api/product";
 import { convertToNumberFormat } from "@/base/utils";
+import { getImageUrl } from "@/base/utils/imageUrl";
 import { useForm } from "react-hook-form";
 import InputField from "@/base/components/Input/Input";
 import { useAppDispatch, useAppSelector } from "@/base/redux/hook";
 import { addToCartApi } from "@/base/utils/api/cart";
 import { message } from "antd";
 import { setTotalQuantity } from "@/base/redux/features/cartSlice";
+import authStorage from "@/base/storage/auth";
+import { useRouter } from "next/navigation";
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -27,6 +30,7 @@ const ProductDetail: React.FC = () => {
   // const cart = useAppSelector((state) => state.cart);
 
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const defaultValues = {
     userId: null,
@@ -80,6 +84,13 @@ const ProductDetail: React.FC = () => {
   };
 
   const handleAddToCart = async (data: Record<string, any>) => {
+    // Check if user is logged in
+    if (!authStorage.getAccessToken() || !user?.id) {
+      message.warning("Please login to add items to cart");
+      router.push("/auth/login");
+      return;
+    }
+
     setIsLoading(true);
     data.userId = user?.id;
 
@@ -149,67 +160,70 @@ const ProductDetail: React.FC = () => {
       <div className="product-detail">
         <div className="product-detail__image">
           <div className="product-detail__image__thumbnail-list">
-            <div className="product-detail__image__thumbnail-list__item">
-              <Image
-                className="navbar-icon"
-                src="/images/products/furniture/F-1.avif"
-                alt="Heart icon"
-                width={48}
-                height={48}
-              />
-            </div>
-            <div className="product-detail__image__thumbnail-list__item">
-              <Image
-                className="navbar-icon"
-                src="/images/products/furniture/F-1.avif"
-                alt="Heart icon"
-                width={48}
-                height={48}
-              />
-            </div>
-            <div className="product-detail__image__thumbnail-list__item">
-              <Image
-                className="navbar-icon"
-                src="/images/products/furniture/F-1.avif"
-                alt="Heart icon"
-                width={48}
-                height={48}
-              />
-            </div>
-            <div className="product-detail__image__thumbnail-list__item">
-              <Image
-                className="navbar-icon"
-                src="/images/products/furniture/F-1.avif"
-                alt="Heart icon"
-                width={48}
-                height={48}
-              />
-            </div>
-            <div className="product-detail__image__thumbnail-list__item">
-              <Image
-                className="navbar-icon"
-                src="/images/products/furniture/F-1.avif"
-                alt="Heart icon"
-                width={48}
-                height={48}
-              />
-            </div>
-            <div className="product-detail__image__thumbnail-list__item">
-              <Image
-                className="navbar-icon"
-                src="/images/products/furniture/F-1.avif"
-                alt="Heart icon"
-                width={48}
-                height={48}
-              />
-            </div>
+            {product?.imageUrl && (
+              <>
+                <div className="product-detail__image__thumbnail-list__item">
+                  <Image
+                    className="navbar-icon"
+                    src={getImageUrl(product.imageUrl)}
+                    alt="Product thumbnail"
+                    width={48}
+                    height={48}
+                  />
+                </div>
+                <div className="product-detail__image__thumbnail-list__item">
+                  <Image
+                    className="navbar-icon"
+                    src={getImageUrl(product.imageUrl)}
+                    alt="Product thumbnail"
+                    width={48}
+                    height={48}
+                  />
+                </div>
+                <div className="product-detail__image__thumbnail-list__item">
+                  <Image
+                    className="navbar-icon"
+                    src={getImageUrl(product.imageUrl)}
+                    alt="Product thumbnail"
+                    width={48}
+                    height={48}
+                  />
+                </div>
+                <div className="product-detail__image__thumbnail-list__item">
+                  <Image
+                    className="navbar-icon"
+                    src={getImageUrl(product.imageUrl)}
+                    alt="Product thumbnail"
+                    width={48}
+                    height={48}
+                  />
+                </div>
+                <div className="product-detail__image__thumbnail-list__item">
+                  <Image
+                    className="navbar-icon"
+                    src={getImageUrl(product.imageUrl)}
+                    alt="Product thumbnail"
+                    width={48}
+                    height={48}
+                  />
+                </div>
+                <div className="product-detail__image__thumbnail-list__item">
+                  <Image
+                    className="navbar-icon"
+                    src={getImageUrl(product.imageUrl)}
+                    alt="Product thumbnail"
+                    width={48}
+                    height={48}
+                  />
+                </div>
+              </>
+            )}
           </div>
           <div className="product-detail__image__main-photo">
             <div className="product-detail__image__thumbnail-list__item">
               {product?.imageUrl && (
                 <Image
-                  // src={process.env.NEXT_PUBLIC_API_BASE_URI + product?.imageUrl as string}
-                  src={product?.imageUrl as string}
+                  src={getImageUrl(product?.imageUrl)}
                   alt="Main image"
                   width={734}
                   height={734}

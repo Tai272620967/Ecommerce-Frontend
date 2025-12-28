@@ -14,6 +14,7 @@ import {
 } from "@/base/utils/api/cart";
 import { CartItem } from "@/base/types/cart";
 import { convertToNumberFormat } from "@/base/utils";
+import { getImageUrl } from "@/base/utils/imageUrl";
 import { useDispatch } from "react-redux";
 import { setTotalQuantity } from "@/base/redux/features/cartSlice";
 import { message } from "antd";
@@ -128,30 +129,29 @@ const Cart: React.FC = () => {
         </div>
       )}
       <div className="cart__header">
-        <h1 className="cart__title">ショッピングカート</h1>
+        <h1 className="cart__title">Shopping Cart</h1>
       </div>
       {cartItems.length > 0 ? (
         <div className="cart__items-wrapper">
           <div className="cart__item">
             <div className="cart__item-status">
               <span className="cart__item-status-message">
-                商品の在庫はまだ確保されていません。
+                Product inventory has not been reserved yet.
               </span>
               <span className="cart__item-status-message">
-                次の画面に進むと30分在庫が確保されます。
+                Proceeding to the next screen will reserve inventory for 30 minutes.
               </span>
             </div>
             <h1 className="cart__item-header">
-              <span className="cart__item-header-label">アイテム数</span>
-              <span className="cart__item-header-count">2</span>
+              <span className="cart__item-header-label">Number of Items</span>
+              <span className="cart__item-header-count">{totalItem}</span>
             </h1>
             <div className="cart__item-details">
               {cartItems?.map((cartItem) => (
                 <div className="cart__item-row" key={cartItem.id}>
                   <div className="cart__item-thumbnail">
                     <Image
-                      // src={process.env.NEXT_PUBLIC_API_BASE_URI + cartItem.product.imageUrl}
-                      src={cartItem.product.imageUrl}
+                      src={getImageUrl(cartItem.product.imageUrl)}
                       alt="Sofa thumbnail"
                       width={150}
                       height={150}
@@ -162,16 +162,15 @@ const Cart: React.FC = () => {
                       <Link href={"/"} className="cart__item-name">
                         {cartItem.product.name}
                       </Link>
-                      <p className="cart__item-standard">４本組・ナチュラル</p>
                       <p className="cart__item-price">
                         <span className="cart__item-price-value">
                           {convertToNumberFormat(cartItem.product.minPrice)}
                         </span>
-                        <span className="cart__item-price-unit">円 / 点</span>
+                        <span className="cart__item-price-unit">¥ / item</span>
                       </p>
                       <p className="cart__item-code">
                         <span className="cart__item-code-value">
-                          商品番号: 02528355
+                          Product Code: {cartItem.product.id}
                         </span>
                       </p>
                     </div>
@@ -235,7 +234,7 @@ const Cart: React.FC = () => {
                         <div className="cart__item-info-price-wrapper">
                           <p className="cart__item-info-price">
                             <span className="cart__item-info-price-label">
-                              小計（消費税込）
+                              Subtotal (Tax Included)
                             </span>
                             <span className="cart__item-info-price-value">
                               {convertToNumberFormat(
@@ -243,7 +242,7 @@ const Cart: React.FC = () => {
                               )}
                             </span>
                             <span className="cart__item-info-price-unit">
-                              円
+                              ¥
                             </span>
                           </p>
                         </div>
@@ -254,7 +253,7 @@ const Cart: React.FC = () => {
                               handleDeleteCartItem(cartItem.id.toString())
                             }
                           >
-                            削除
+                            Delete
                           </Button>
                         </div>
                       </div>
@@ -266,48 +265,50 @@ const Cart: React.FC = () => {
           </div>
           <div className="cart__price-summary">
             <div className="cart__price-summary__total">
-              <h2 className="cart__price-summary__total-label">お支払い金額</h2>
+              <h2 className="cart__price-summary__total-label">Payment Amount</h2>
               <ul className="cart__price-summary__total__content">
                 <li className="cart__price-summary__total-content__item">
                   <div className="cart__price-summary__total-content__item-text">
-                    <span>商品小計 {totalItem}点</span>
+                    <span>Subtotal {totalItem} items</span>
                   </div>
                   <div className="cart__price-summary__total-content__item-price">
                     <span className="cart__price-summary__total-content__item-price-value">
                       {convertToNumberFormat(totalAmount)}
                     </span>
                     <span className="cart__price-summary__total-content__item-price-unit">
-                      円
+                      ¥
                     </span>
                   </div>
                 </li>
               </ul>
               <div className="cart__price-summary__total__tip-message">
-                <span>※</span>
+                <span>*</span>
                 <span>
-                  未ログイン状態では配送料、付帯サービス料が表示されません。
+                  Shipping fees and additional service charges are not displayed when not logged in.
                 </span>
               </div>
             </div>
             <div className="cart__price-summary__button-wrapper">
-              <Button className="cart__price-summary__button">次に進む</Button>
+              <Link href="/order/checkout">
+                <Button className="cart__price-summary__button">Proceed to Checkout</Button>
+              </Link>
             </div>
             <div className="cart__price-summary-text-wrapper">
               <p className="cart__price-summary-tip-text">
-                次に進むと、30分間在庫が確保されます。
+                Proceeding will reserve inventory for 30 minutes.
               </p>
               <Link
                 href={"/"}
                 className="cart__price-summary-continue-shop-link"
               >
-                ショッピングを続ける
+                Continue Shopping
               </Link>
             </div>
           </div>
         </div>
       ) : (
         <div className="cart__item__empty-cart">
-          ショッピングカートの中に商品がございません。
+          Your shopping cart is empty.
         </div>
       )}
     </div>

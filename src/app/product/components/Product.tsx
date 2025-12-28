@@ -16,6 +16,7 @@ import {
 import { useRouter } from "next/navigation";
 import CategorySelectionModal from "./CategorySelectionModal";
 import { convertToNumberFormat } from "@/base/utils";
+import { getImageUrl } from "@/base/utils/imageUrl";
 
 interface ProductListProps {
   isRenderedByCategory?: boolean;
@@ -249,8 +250,7 @@ const ProductList: React.FC<ProductListProps> = ({
                   <div className="product__list__item">
                     <div className="product__list__item__image">
                       <Image
-                        // src={process.env.NEXT_PUBLIC_API_BASE_URI + product.imageUrl}
-                        src={product.imageUrl}
+                        src={getImageUrl(product.imageUrl)}
                         alt="Search icon"
                         width={320}
                         height={320}

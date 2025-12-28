@@ -2,7 +2,24 @@
 const nextConfig = {
   reactStrictMode: false, // Tắt Strict Mode để kiểm tra lỗi gọi API 2 lần
   images: {
-    domains: ['localhost'], // Thêm domain của server backend
+    // Allow images from localhost with any port
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8080',
+        pathname: '/uploads/images/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        pathname: '/uploads/images/**',
+      },
+    ],
+    // Fallback for older Next.js versions
+    domains: ['localhost'],
+    // Enable unoptimized images to avoid Next.js image optimization issues with external images
+    unoptimized: true,
   },
   webpack(config) {
     config.module.rules.push({
