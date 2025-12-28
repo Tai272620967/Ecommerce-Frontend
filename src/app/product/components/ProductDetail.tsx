@@ -117,7 +117,7 @@ const ProductDetail: React.FC = () => {
       <div className="product-detail__bread-crumbs">
         <ul className="product-detail__bread-crumbs__list">
           <li className="product-detail__bread-crumbs__list__item">
-            <a href="">無印良品</a>
+            <a href="">MUJI</a>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -130,7 +130,7 @@ const ProductDetail: React.FC = () => {
             </svg>
           </li>
           <li className="product-detail__bread-crumbs__list__item">
-            <a href="">家具・収納・家電</a>
+            <a href="">Furniture, Storage, Appliances</a>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -143,7 +143,7 @@ const ProductDetail: React.FC = () => {
             </svg>
           </li>
           <li className="product-detail__bread-crumbs__list__item">
-            <a href="">家具</a>
+            <a href="">Furniture</a>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -242,11 +242,11 @@ const ProductDetail: React.FC = () => {
             <div className="product-detail__description__info__content">
               <div className="product-detail__description__info__main">
                 <p className="product-detail__description__info__main__text">
-                  シングル
+                  Single
                 </p>
                 <p className="product-detail__description__info__main__product-number">
                   <span className="product-detail__description__info__main__product-number__title">
-                    商品番号
+                    Product Number
                   </span>
                   <span className="product-detail__description__info__main__product-number__value">
                     12851660
@@ -391,7 +391,7 @@ const ProductDetail: React.FC = () => {
                     href="#productReviews"
                     className="product-detail__description__info__rating__inner__score__amount"
                   >
-                    (188件)
+                    (188 reviews)
                   </a>
                 </div>
               </div>
@@ -399,7 +399,7 @@ const ProductDetail: React.FC = () => {
             <div className="product-detail__description__info__choice-group">
               <div className="product-detail__description__info__choice-group__heading">
                 <p className="product-detail__description__info__choice-group__heading__text">
-                  サイズ
+                  Size
                 </p>
               </div>
               <ul className="product-detail__description__info__choice-group__button__wrapper">
@@ -408,7 +408,7 @@ const ProductDetail: React.FC = () => {
                     className="product-detail__description__info__choice-group__button"
                     type="button"
                   >
-                    <span>スモール</span>
+                    <span>Small</span>
                   </button>
                 </li>
                 <li className="product-detail__description__info__choice-group__button__item">
@@ -416,7 +416,7 @@ const ProductDetail: React.FC = () => {
                     className="product-detail__description__info__choice-group__button"
                     type="button"
                   >
-                    <span>シングル</span>
+                    <span>Single</span>
                   </button>
                 </li>
                 <li className="product-detail__description__info__choice-group__button__item">
@@ -424,7 +424,7 @@ const ProductDetail: React.FC = () => {
                     className="product-detail__description__info__choice-group__button"
                     type="button"
                   >
-                    <span>セミダブル</span>
+                    <span>Semi-Double</span>
                   </button>
                 </li>
                 <li className="product-detail__description__info__choice-group__button__item">
@@ -432,7 +432,7 @@ const ProductDetail: React.FC = () => {
                     className="product-detail__description__info__choice-group__button"
                     type="button"
                   >
-                    <span>ダブル</span>
+                    <span>Double</span>
                   </button>
                 </li>
               </ul>
@@ -440,27 +440,27 @@ const ProductDetail: React.FC = () => {
             <div className="product-detail__description__info__price-group">
               <div className="product-detail__description__info__price-group__box">
                 <span className="product-detail__description__info__price-group__box__text">
-                  本体価格：
+                  Base Price:
                 </span>
                 <span className="product-detail__description__info__price-group__box__text">
-                  消費税込みで
+                  Including tax
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-value">
                   {convertToNumberFormat(product?.minPrice)}
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-unit">
-                  円
+                  JPY
                 </span>
               </div>
               <div className="product-detail__description__info__price-group__box">
                 <span className="product-detail__description__info__price-group__box__text">
-                  合計価格：消費税込みで
+                  Total Price: Including tax
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-value">
                   {convertToNumberFormat(product?.minPrice)}
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-unit">
-                  円
+                  JPY
                 </span>
               </div>
             </div>
@@ -538,7 +538,7 @@ const ProductDetail: React.FC = () => {
                     </g>
                   </svg>
                 </span>
-                <span>カートに入れる</span>
+                <span>Add to Cart</span>
               </Button>
             </div>
           </div>

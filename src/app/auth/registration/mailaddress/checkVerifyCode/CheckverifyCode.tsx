@@ -68,7 +68,7 @@ export default function CheckVerifyCode() {
       if (emailValue) {
         const responseData = await checkRegistMailAddressApi({
           to: emailValue,
-          subject: "［無印良品ネットストア］認証コード発行",
+          subject: "[MUJI Online Store] Verification Code Issued",
         });
 
         if (responseData.data.verifyEmail) {

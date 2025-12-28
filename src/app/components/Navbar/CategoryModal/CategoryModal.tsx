@@ -43,43 +43,43 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
       </div>
       <div className="category-modal__right">
         <div className="category-modal__right__box">
-          <p className="category-modal__right__box__menu-title">おすすめ情報</p>
+          <p className="category-modal__right__box__menu-title">Featured</p>
           <ul>
-            <li>特集</li>
-            <li>新商品</li>
-            <li>読みもの</li>
-            <li>イベント</li>
-            <li>インテリアの相談予約</li>
+            <li>Special Features</li>
+            <li>New Products</li>
+            <li>Articles</li>
+            <li>Events</li>
+            <li>Interior Consultation Booking</li>
           </ul>
         </div>
         <div className="category-modal__right__box">
-          <p className="category-modal__right__box__menu-title">お買い得</p>
+          <p className="category-modal__right__box__menu-title">Great Deals</p>
           <ul>
-            <li>まとめ買い</li>
+            <li>Bulk Purchase</li>
             <li>SALE</li>
-            <li>もったいない市</li>
+            <li>Reuse Market</li>
           </ul>
         </div>
         <div className="category-modal__right__box">
           <p className="category-modal__right__box__menu-title">
-            月額定額サービス
+            Monthly Subscription Service
           </p>
           <ul>
-            <li>月額定額サービストップ</li>
+            <li>Monthly Subscription Service Top</li>
           </ul>
         </div>
         <div className="category-modal__right__box">
-          <p className="category-modal__right__box__menu-title">カタログ</p>
+          <p className="category-modal__right__box__menu-title">Catalog</p>
           <ul>
-            <li>収納・家具・家電・ファブリック</li>
+            <li>Storage, Furniture, Appliances, Fabric</li>
           </ul>
         </div>
         <div className="category-modal__right__box">
           <ul>
-            <li>店舗を探す</li>
-            <li>ネットストアの便利なサービス</li>
-            <li>良品計画について</li>
-            <li>無印良品の募金券</li>
+            <li>Find Stores</li>
+            <li>Online Store Convenient Services</li>
+            <li>About Ryohin Keikaku</li>
+            <li>MUJI Donation Vouchers</li>
           </ul>
         </div>
       </div>

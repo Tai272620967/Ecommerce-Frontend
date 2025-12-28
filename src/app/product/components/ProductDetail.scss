@@ -29,6 +29,17 @@
     &__image {
       width: 60%;
       display: flex;
+      gap: 20px;
+
+      &__thumbnail-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      &__main-photo {
+        flex: 1;
+      }
     }
 
     &__description {
@@ -93,9 +104,6 @@
         &__rating {
           &__inner {
             display: flex;
-
-            &__star__wrapper {
-            }
 
             &__score {
               &__number {

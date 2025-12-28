@@ -21,7 +21,7 @@ export default function RegistrationMailAddress() {
 
   const defaultValues = {
     to: "",
-    subject: "［無印良品ネットストア］認証コード発行",
+    subject: "[MUJI Online Store] Verification Code Issued",
   };
 
   const {

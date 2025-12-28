@@ -139,7 +139,7 @@ const ProductList: React.FC<ProductListProps> = ({
       <div className="product__bread-crumbs">
         <ul className="product__bread-crumbs__list">
           <li className="product__bread-crumbs__list__item">
-            <a href="/">無印良品</a>
+            <a href="/">MUJI</a>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -210,23 +210,23 @@ const ProductList: React.FC<ProductListProps> = ({
       </div>
       <div className="product__pickup-item__wrapper">
         <div className="product__pickup-item">
-          <Image
+          {/* <Image
             src="/images/products/furniture/sofa.avif"
             alt="Search icon"
             width={435}
             height={272}
-          />
+          /> */}
           <div className="product__pickup-item__title">
             <span>ゆったり座ってくつろぐ ソファの選び方</span>
           </div>
         </div>
         <div className="product__pickup-item">
-          <Image
+          {/* <Image
             src="/images/products/furniture/hannyu.avif"
             alt="Search icon"
             width={435}
             height={272}
-          />
+          /> */}
           <div className="product__pickup-item__title">
             <span>搬入スペースシミュレーター</span>
           </div>

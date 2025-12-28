@@ -30,6 +30,7 @@ const CreateProduct: React.FC = () => {
   >(undefined);
   const [isCreating, setIsCreating] = useState<boolean>(false);
   const [imageFile, setImageFile] = useState<File | null>(null); // State to store the uploaded image
+  const [uploadKey, setUploadKey] = useState<number>(0); // Key to force re-render Upload component
   const [mainCategories, setMainCategories] = useState<any[]>([]);
   const [subCategories, setSubCategories] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
@@ -46,19 +47,18 @@ const CreateProduct: React.FC = () => {
   };
 
   const yupSchema = yup.object().shape({
-    name: yup.string().required(""),
-    categoryId: yup.string().required(""),
+    name: yup.string().required("Product name is required"),
+    categoryId: yup.string().required("Category is required"),
     imageFile: yup
       .mixed()
-      .nullable() // Cho phép giá trị null
-      .required() // Thêm thông báo yêu cầu
+      .nullable()
+      .required("Product image is required")
       .test(
         "fileType",
-        "Invalid file, only image formats (jpg, jpeg, png, gif) are accepted.",
+        "Invalid file format. Only image formats (jpg, jpeg, png, avif, webp) are accepted.",
         (value) => {
-          if (!value) return true; // Cho phép giá trị null
+          if (!value) return false;
           if (value instanceof File) {
-            // Kiểm tra MIME type của file
             return [
               "image/jpeg",
               "image/png",
@@ -70,11 +70,36 @@ const CreateProduct: React.FC = () => {
           return false;
         }
       ),
-
-    description: yup.string().required(""),
-    minPrice: yup.string().required(""),
-    maxPrice: yup.string(),
-    stockQuantity: yup.string().required(""),
+    description: yup.string().required("Description is required"),
+    minPrice: yup
+      .string()
+      .required("Minimum price is required")
+      .test("is-number", "Minimum price must be a valid number", (value) => {
+        if (!value) return false;
+        const num = parseFloat(value);
+        return !isNaN(num) && num > 0;
+      }),
+    maxPrice: yup
+      .string()
+      .test("is-number", "Maximum price must be a valid number", (value) => {
+        if (!value || value.trim() === "") return true; // Optional field
+        const num = parseFloat(value);
+        return !isNaN(num) && num > 0;
+      })
+      .test("greater-than-min", "Maximum price must be greater than minimum price", function(value) {
+        const minPrice = parseFloat(this.parent.minPrice);
+        if (!value || value.trim() === "" || isNaN(minPrice)) return true;
+        const maxPrice = parseFloat(value);
+        return maxPrice >= minPrice;
+      }),
+    stockQuantity: yup
+      .string()
+      .required("Stock quantity is required")
+      .test("is-integer", "Stock quantity must be a valid positive integer", (value) => {
+        if (!value) return false;
+        const num = parseInt(value);
+        return !isNaN(num) && num >= 0;
+      }),
   });
 
   const defaultValues = {
@@ -111,12 +136,24 @@ const CreateProduct: React.FC = () => {
     try {
       const response = await fetchSubCategoriesByMainCategoryIdApi(id);
       if (response) {
-        setSubCategories(
-          response.data.map((optionSubCategory) => ({
-            label: optionSubCategory.name,
-            value: optionSubCategory.id,
-          }))
-        );
+        const newSubCategories = response.data.map((optionSubCategory) => ({
+          label: optionSubCategory.name,
+          value: optionSubCategory.id,
+        }));
+        setSubCategories(newSubCategories);
+        
+        // Preserve selected sub category if it still exists in the new list
+        if (selectedSubCategoryOption) {
+          const stillExists = newSubCategories.find(
+            (cat) => cat.value === selectedSubCategoryOption.value
+          );
+          if (stillExists) {
+            // Keep the selection, but update with new data
+            setSelectedSubCategoryOption(stillExists);
+            // Reload categories for the selected sub category
+            fetchCategories(selectedSubCategoryOption.value.toString());
+          }
+        }
       }
     } catch (error) {
       console.error(error);
@@ -127,12 +164,23 @@ const CreateProduct: React.FC = () => {
     try {
       const response = await fetchCategoriesBySubCategoryIdApi(id);
       if (response) {
-        setCategories(
-          response.map((optionCategory) => ({
-            label: optionCategory.name,
-            value: optionCategory.id,
-          }))
-        );
+        const newCategories = response.map((optionCategory) => ({
+          label: optionCategory.name,
+          value: optionCategory.id,
+        }));
+        setCategories(newCategories);
+        
+        // Preserve selected category if it still exists in the new list
+        if (selectedOption) {
+          const stillExists = newCategories.find(
+            (cat) => cat.value === selectedOption.value
+          );
+          if (stillExists) {
+            // Keep the selection, but update with new data
+            setSelectedOption(stillExists);
+            setValue("categoryId", stillExists.value.toString());
+          }
+        }
       }
     } catch (error) {
       console.error(error);
@@ -156,72 +204,97 @@ const CreateProduct: React.FC = () => {
     try {
       const formData = new FormData();
 
-      // Thêm các trường dữ liệu từ `data` vào FormData
-      Object.entries(data).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          formData.append(key, value.toString());
-        }
-      });
+      // Add form fields to FormData with correct parameter names
+      formData.append("name", data.name);
+      formData.append("minPrice", data.minPrice);
+      if (data.maxPrice && data.maxPrice.trim() !== "") {
+        formData.append("maxPrice", data.maxPrice);
+      }
+      formData.append("description", data.description || "");
+      formData.append("stockQuantity", data.stockQuantity);
+      formData.append("categoryId", data.categoryId);
 
-      // Thêm file ảnh nếu có
+      // Add image file
       if (imageFile) {
         formData.append("imageFile", imageFile);
+      } else {
+        message.error("Product image is required");
+        setIsCreating(false);
+        return;
       }
 
-      // Gửi API
+      // Send API request
       const response = await createProductApi(formData);
 
       if (response) {
-        // Xử lý logic nếu thành công
+        message.success("Product created successfully!");
+        
+        // Reset form fields but keep category selections
         setTimeout(() => {
-          message.success("Create Product successfully!");
           setIsCreating(false);
           setValue("name", "");
           setValue("categoryId", "");
           setValue("imageFile", null);
           setImageFile(null);
-          setCategories([]);
-          setSubCategories([]);
-          setMainCategories([]);
-          setSelectedOption({ label: "Choose an option", value: 0 });
-          setSelectedSubCategoryOption({ label: "Choose an option", value: 0 });
-          setSelectedMainCategoryOption({
-            label: "Choose an option",
-            value: 0,
-          });
+          // Force re-render Upload component to clear the image preview
+          setUploadKey((prev) => prev + 1);
+          // Keep categories data - don't reset them
+          // setCategories([]);
+          // setSubCategories([]);
+          // setMainCategories([]);
+          // Keep selected options - don't reset them
+          // setSelectedOption(undefined);
+          // setSelectedSubCategoryOption(undefined);
+          // setSelectedMainCategoryOption(undefined);
           setValue("minPrice", "");
           setValue("maxPrice", "");
           setValue("stockQuantity", "");
           setValue("description", "");
-        }, 1500);
-      } else {
-        console.log("Tạo sản phẩm không thành công.");
-        setIsCreating(false);
+          
+          // Reload categories after successful product creation to get latest data
+          fetchMainCategories();
+        }, 1000);
       }
-    } catch (error) {
-      // Xử lý lỗi
-      console.error("Lỗi khi tạo sản phẩm:", error);
+    } catch (error: any) {
+      console.error("Error creating product:", error);
+      if (error.response?.data?.error) {
+        message.error(error.response.data.error);
+      } else {
+        message.error("Failed to create product. Please try again.");
+      }
       setIsCreating(false);
     }
   };
 
-  useEffect(() => {
-    const fetchMainCategories = async () => {
-      try {
-        const response = await fetchAllMainCategoryApi();
-        if (response) {
-          setMainCategories(
-            response.data.result.map((optionMainCategory) => ({
-              label: optionMainCategory.name,
-              value: optionMainCategory.id,
-            }))
+  const fetchMainCategories = async () => {
+    try {
+      const response = await fetchAllMainCategoryApi();
+      if (response) {
+        const newMainCategories = response.data.result.map((optionMainCategory) => ({
+          label: optionMainCategory.name,
+          value: optionMainCategory.id,
+        }));
+        setMainCategories(newMainCategories);
+        
+        // Preserve selected main category if it still exists in the new list
+        if (selectedMainCategoryOption) {
+          const stillExists = newMainCategories.find(
+            (cat) => cat.value === selectedMainCategoryOption.value
           );
+          if (stillExists) {
+            // Keep the selection, but update with new data
+            setSelectedMainCategoryOption(stillExists);
+            // Reload sub categories for the selected main category
+            fetchSubCategories(selectedMainCategoryOption.value.toString());
+          }
         }
-      } catch (error) {
-        console.error(error);
       }
-    };
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
     fetchMainCategories();
   }, []);
 
@@ -250,7 +323,7 @@ const CreateProduct: React.FC = () => {
           handleChangeMainCategory(selected);
         }}
         placeholder="Choose an option"
-        label="Product Main Category"
+        label="Product Category"
         className="custom-select__wrapper"
         labelClassName="custom-label"
         selectClassName="custom-select"
@@ -261,8 +334,8 @@ const CreateProduct: React.FC = () => {
         onChange={(selected) => {
           handleChangeSubCategory(selected); // Update local state
         }}
-        placeholder="Choose an option"
-        label="Product Sub Category"
+        placeholder="Choose a sub category"
+        label="Product Main Category"
         className="custom-select__wrapper"
         labelClassName="custom-label"
         selectClassName="custom-select"
@@ -295,6 +368,7 @@ const CreateProduct: React.FC = () => {
         </label>
         {/* Truyền setFile vào UploadCustom */}
         <UploadCustom
+          key={uploadKey}
           setFile={(file: File | null) => {
             setImageFile(file); // Cập nhật file vào state
             setValue("imageFile", file, { shouldValidate: true }); // Lưu file và kích hoạt validate

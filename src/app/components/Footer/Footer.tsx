@@ -76,19 +76,19 @@ const Footer: React.FC = () => {
         </div>
         <div className="footer__site-map__list-wrapper">
           <ul className="footer__site-map__list">
-            <li className="footer__site-map__list__item">店舗情報</li>
-            <li className="footer__site-map__list__item">イベント</li>
-            <li className="footer__site-map__list__item">ローカルニッポン</li>
+            <li className="footer__site-map__list__item">Store Information</li>
+            <li className="footer__site-map__list__item">Events</li>
+            <li className="footer__site-map__list__item">Local Japan</li>
             <li className="footer__site-map__list__item">MUJI SUPPORT</li>
-            <li className="footer__site-map__list__item">空間設計</li>
-            <li className="footer__site-map__list__item">お問い合わせ</li>
+            <li className="footer__site-map__list__item">Space Design</li>
+            <li className="footer__site-map__list__item">Contact Us</li>
           </ul>
         </div>
         <div className="footer__site-map__list-wrapper">
           <ul className="footer__site-map__list">
-            <li className="footer__site-map__list__item">無印良品の家</li>
+            <li className="footer__site-map__list__item">MUJI House</li>
             <li className="footer__site-map__list__item">Café&Meal MUJI</li>
-            <li className="footer__site-map__list__item">キャンプ場</li>
+            <li className="footer__site-map__list__item">Campground</li>
             <li className="footer__site-map__list__item">Found MUJI</li>
             <li className="footer__site-map__list__item">MUJI BOOKS</li>
             <li className="footer__site-map__list__item">MUJI HOTEL</li>
@@ -97,31 +97,31 @@ const Footer: React.FC = () => {
         <div className="footer__site-map__list-wrapper">
           <ul className="footer__site-map__list">
             <li className="footer__site-map__list__item">MUJI passport</li>
-            <li className="footer__site-map__list__item">カタログ</li>
+            <li className="footer__site-map__list__item">Catalog</li>
             <li className="footer__site-map__list__item">MUJI Card</li>
             <li className="footer__site-map__list__item">MUJI GIFT CARD</li>
-            <li className="footer__site-map__list__item">法人のお客様へ</li>
+            <li className="footer__site-map__list__item">For Corporate Customers</li>
             <li className="footer__site-map__list__item">Tax-free Services</li>
           </ul>
         </div>
         <div className="footer__site-map__list-wrapper">
           <ul className="footer__site-map__list">
-            <li className="footer__site-map__list__item">ニュースリリース</li>
-            <li className="footer__site-map__list__item">採用情報</li>
-            <li className="footer__site-map__list__item">無印良品メッセージ</li>
-            <li className="footer__site-map__list__item">無印良品について</li>
-            <li className="footer__site-map__list__item">株式会社　良品計画</li>
+            <li className="footer__site-map__list__item">News Release</li>
+            <li className="footer__site-map__list__item">Careers</li>
+            <li className="footer__site-map__list__item">MUJI Message</li>
+            <li className="footer__site-map__list__item">About MUJI</li>
+            <li className="footer__site-map__list__item">Ryohin Keikaku Co., Ltd.</li>
           </ul>
         </div>
       </div>
       <div className="footer__navigation">
         <div className="footer__navigation__navi-link">
             <ul className="footer__navigation__navi-link__list">
-                <li className="footer__navigation__navi-link__list__item">日本</li>
-                <li className="footer__navigation__navi-link__list__item">プライバシーポリシー</li>
-                <li className="footer__navigation__navi-link__list__item">外部送信ポリシー</li>
-                <li className="footer__navigation__navi-link__list__item">特定商取引法</li>
-                <li className="footer__navigation__navi-link__list__item">サイトマップ</li>
+                <li className="footer__navigation__navi-link__list__item">Japan</li>
+                <li className="footer__navigation__navi-link__list__item">Privacy Policy</li>
+                <li className="footer__navigation__navi-link__list__item">External Transmission Policy</li>
+                <li className="footer__navigation__navi-link__list__item">Specified Commercial Transactions Act</li>
+                <li className="footer__navigation__navi-link__list__item">Sitemap</li>
             </ul>
         </div>
         <div className="footer__navigation__copy-right__wrapper">
