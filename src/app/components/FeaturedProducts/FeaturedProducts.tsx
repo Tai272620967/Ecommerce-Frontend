@@ -99,7 +99,7 @@ const FeaturedProducts: React.FC = () => {
           </div>
         )}
         <div className="featured-products__footer">
-          <Link href="/product/category/1" className="featured-products__link ripple-effect">
+          <Link href="/products" className="featured-products__link ripple-effect">
             View All Products →
           </Link>
         </div>

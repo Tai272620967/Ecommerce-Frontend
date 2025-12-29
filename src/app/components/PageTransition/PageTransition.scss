@@ -1,0 +1,32 @@
+.page-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  z-index: 10000; // Higher than dashboard sidebar (z-index: 100) and header
+  background-color: transparent;
+  overflow: hidden;
+  pointer-events: none;
+
+  &__progress-bar {
+    height: 100%;
+    background-color: #3c3c43;
+    transition: width 0.2s ease;
+    box-shadow: 0 0 10px rgba(60, 60, 67, 0.3);
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+

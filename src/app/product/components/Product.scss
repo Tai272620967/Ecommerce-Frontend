@@ -200,34 +200,21 @@
 
       &__inner-wrapper {
         position: relative;
-
-        // Hide separator on mobile
-        @media (max-width: 768px) {
-          &::after {
-            display: none;
-          }
-        }
-      }
-
-      &__inner-wrapper::after {
-        background-color: #f5f5f5;
-        content: "";
-        height: calc(100% + 14px);
-        position: absolute;
-        right: -14px;
-        top: -10px;
-        width: 4px;
-        z-index: 1;
       }
 
       &__item {
+        padding: 0;
         padding-bottom: 20px;
-        // border: 1px solid black;
+        border: 1px solid #e8e8e8;
+        border-radius: 4px;
         cursor: pointer;
-        transition: transform 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: #ffffff;
+        overflow: hidden;
 
         &:hover {
           transform: translateY(-4px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         // Mobile hover effect
@@ -271,6 +258,15 @@
           
           img {
             transform: scale(1.1) rotateY(-5deg);
+          }
+        }
+
+        &__desc {
+          padding: 16px 0;
+
+          // Mobile
+          @media (max-width: 768px) {
+            padding: 12px 0;
           }
         }
 
@@ -377,16 +373,6 @@
       &__table {
         // position: absolute;
         position: relative;
-      }
-
-      &__table::before {
-        background-color: #f5f5f5;
-        block-size: 4px;
-        bottom: -4px;
-        content: "";
-        inline-size: 100%;
-        position: absolute;
-        z-index: 1;
       }
     }
   }
