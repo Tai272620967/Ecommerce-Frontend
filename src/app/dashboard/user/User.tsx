@@ -3,11 +3,13 @@
 import DataTable from "@/base/components/DataTable/DataTable";
 import "./User.scss";
 import { Column, Row } from "react-table";
-import { fetchAllUsersApi, deleteUserApi } from "@/base/utils/api/user";
+import { fetchAllUsersApi } from "@/base/utils/api/user";
 import { useEffect, useState } from "react";
 import { User } from "@/base/types/user";
-import { Modal, message } from "antd";
+import { message } from "antd";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { getImageUrl } from "@/base/utils/imageUrl";
 
 export const UserDashboard: React.FC = () => {
   const router = useRouter();
@@ -49,25 +51,6 @@ export const UserDashboard: React.FC = () => {
     fetchAllUsers();
   }, []);
 
-  const handleDeleteUser = (user: User) => {
-    Modal.confirm({
-      title: "Delete User",
-      content: `Are you sure you want to delete user: ${user.firstName} ${user.lastName} (${user.email})? This action cannot be undone.`,
-      okText: "Delete",
-      okType: "danger",
-      cancelText: "Cancel",
-      onOk: async () => {
-        try {
-          await deleteUserApi(user.id);
-          message.success("User deleted successfully");
-          // Reload users list
-          await fetchAllUsers();
-        } catch (error) {
-          message.error("Failed to delete user");
-        }
-      },
-    });
-  };
 
   // Format date
   const formatDate = (dateString: string | undefined) => {
@@ -80,12 +63,57 @@ export const UserDashboard: React.FC = () => {
     });
   };
 
+  // Get default avatar URL
+  const getDefaultAvatar = () => {
+    return "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face&auto=format";
+  };
+
   // Configure columns
   const columns: Column<User>[] = [
     {
       Header: "ID",
       accessor: "id",
       width: 80,
+    },
+    {
+      Header: "Avatar",
+      width: 80,
+      Cell: ({ row }: { row: Row<User> }) => {
+        const avatarUrl = row.original.avatarUrl;
+        const imageSrc = avatarUrl ? getImageUrl(avatarUrl) : getDefaultAvatar();
+        
+        return (
+          <div style={{ 
+            width: "50px", 
+            height: "50px", 
+            borderRadius: "50%", 
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#f5f5f5"
+          }}>
+            <Image
+              src={imageSrc}
+              alt={`${row.original.firstName} ${row.original.lastName}`}
+              width={50}
+              height={50}
+              style={{
+                objectFit: "cover",
+                width: "100%",
+                height: "100%",
+              }}
+              unoptimized
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                if (target.src !== getDefaultAvatar()) {
+                  target.src = getDefaultAvatar();
+                }
+              }}
+            />
+          </div>
+        );
+      },
     },
     {
       Header: "Name",
@@ -130,30 +158,18 @@ export const UserDashboard: React.FC = () => {
     {
       id: "actions",
       Header: "",
-      width: 150,
+      width: 100,
       Cell: ({ row }: { row: Row<User> }) => (
-        <div style={{ display: "flex", gap: "8px" }}>
-          <button
-            className="muji-button"
-            style={{
-              padding: "8px 16px",
-              fontSize: "13px",
-            }}
-            onClick={() => router.push(`/dashboard/user/${row.original.id}`)}
-          >
-            View
-          </button>
-          <button
-            onClick={() => handleDeleteUser(row.original)}
-            className="muji-button muji-button--danger"
-            style={{
-              padding: "8px 16px",
-              fontSize: "13px",
-            }}
-          >
-            Delete
-          </button>
-        </div>
+        <button
+          className="muji-button"
+          style={{
+            padding: "8px 16px",
+            fontSize: "13px",
+          }}
+          onClick={() => router.push(`/dashboard/user/${row.original.id}`)}
+        >
+          View
+        </button>
       ),
     },
   ];
