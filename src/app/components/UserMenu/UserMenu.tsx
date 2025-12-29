@@ -79,11 +79,13 @@ const UserMenu: React.FC = () => {
       key: "2",
       label: "Profile",
       icon: <UserOutlined />,
+      onClick: () => router.push("/profile"),
     },
     {
       key: "3",
       label: "Billing",
       icon: <UserOutlined />,
+      onClick: () => router.push("/billing"),
     },
     {
       key: "4",

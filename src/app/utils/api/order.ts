@@ -13,7 +13,8 @@ export const createOrderApi = async (data: OrderDTO) => {
 
 export const getOrdersApi = async () => {
   try {
-    const response = await axiosInstance.get<OrdersResponse>("/orders");
+    // API returns List<ResOrderDTO> directly, not wrapped in OrdersResponse
+    const response = await axiosInstance.get<Order[]>("/orders");
     return response.data;
   } catch (error) {
     console.error("Get orders API error:", error);
@@ -36,7 +37,8 @@ export const fetchAllOrdersApi = async (
   size: number = 20
 ): Promise<OrdersPaginationResponse> => {
   try {
-    const response = await axiosInstance.get<OrdersPaginationResponse>("/orders", {
+    // Use admin endpoint which has role check
+    const response = await axiosInstance.get<OrdersPaginationResponse>("/admin/orders", {
       params: { page, size },
     });
     return response.data;

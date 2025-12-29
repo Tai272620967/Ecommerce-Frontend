@@ -7,8 +7,10 @@ import { fetchAllUsersApi, deleteUserApi } from "@/base/utils/api/user";
 import { useEffect, useState } from "react";
 import { User } from "@/base/types/user";
 import { Modal, message } from "antd";
+import { useRouter } from "next/navigation";
 
 export const UserDashboard: React.FC = () => {
+  const router = useRouter();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -137,8 +139,9 @@ export const UserDashboard: React.FC = () => {
               padding: "8px 16px",
               fontSize: "13px",
             }}
+            onClick={() => router.push(`/dashboard/user/${row.original.id}`)}
           >
-            Update
+            View
           </button>
           <button
             onClick={() => handleDeleteUser(row.original)}

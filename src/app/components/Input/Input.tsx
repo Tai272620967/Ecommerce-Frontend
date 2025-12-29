@@ -14,6 +14,7 @@ interface InputFieldProps {
   type?: string;
   value?: any;
   onChange?: any;
+  disabled?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -28,6 +29,7 @@ const InputField: React.FC<InputFieldProps> = ({
   // maxLength,
   type,
   value,
+  disabled,
 }) => {
   return (
     <div className={`input-field ${isCustom ? "input-field--custom": ""}`}>
@@ -40,6 +42,7 @@ const InputField: React.FC<InputFieldProps> = ({
         // maxlength={maxLength}
         type={type}
         value={value}
+        disabled={disabled}
       />
         {errors?.[name] && (
           <p

@@ -397,72 +397,39 @@ const ProductDetail: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="product-detail__description__info__choice-group">
-              <div className="product-detail__description__info__choice-group__heading">
-                <p className="product-detail__description__info__choice-group__heading__text">
-                  Size
-                </p>
-              </div>
-              <ul className="product-detail__description__info__choice-group__button__wrapper">
-                <li className="product-detail__description__info__choice-group__button__item">
-                  <button
-                    className="product-detail__description__info__choice-group__button"
-                    type="button"
-                  >
-                    <span>Small</span>
-                  </button>
-                </li>
-                <li className="product-detail__description__info__choice-group__button__item">
-                  <button
-                    className="product-detail__description__info__choice-group__button"
-                    type="button"
-                  >
-                    <span>Single</span>
-                  </button>
-                </li>
-                <li className="product-detail__description__info__choice-group__button__item">
-                  <button
-                    className="product-detail__description__info__choice-group__button"
-                    type="button"
-                  >
-                    <span>Semi-Double</span>
-                  </button>
-                </li>
-                <li className="product-detail__description__info__choice-group__button__item">
-                  <button
-                    className="product-detail__description__info__choice-group__button"
-                    type="button"
-                  >
-                    <span>Double</span>
-                  </button>
-                </li>
-              </ul>
-            </div>
             <div className="product-detail__description__info__price-group">
               <div className="product-detail__description__info__price-group__box">
-                <span className="product-detail__description__info__price-group__box__text">
-                  Base Price:
-                </span>
-                <span className="product-detail__description__info__price-group__box__text">
-                  Including tax
-                </span>
-                <span className="product-detail__description__info__price-group__box__price-value">
-                  {convertToNumberFormat(product?.minPrice)}
-                </span>
-                <span className="product-detail__description__info__price-group__box__price-unit">
-                  $
-                </span>
+                <div className="product-detail__description__info__price-group__box__label">
+                  <span className="product-detail__description__info__price-group__box__text">
+                    Base Price:
+                  </span>
+                  <span className="product-detail__description__info__price-group__box__text">
+                    Including tax
+                  </span>
+                </div>
+                <div className="product-detail__description__info__price-group__box__price">
+                  <span className="product-detail__description__info__price-group__box__price-value">
+                    {convertToNumberFormat(product?.minPrice)}
+                  </span>
+                  <span className="product-detail__description__info__price-group__box__price-unit">
+                    $
+                  </span>
+                </div>
               </div>
               <div className="product-detail__description__info__price-group__box">
-                <span className="product-detail__description__info__price-group__box__text">
-                  Total Price: Including tax
-                </span>
-                <span className="product-detail__description__info__price-group__box__price-value">
-                  {convertToNumberFormat(product?.minPrice)}
-                </span>
-                <span className="product-detail__description__info__price-group__box__price-unit">
-                  $
-                </span>
+                <div className="product-detail__description__info__price-group__box__label">
+                  <span className="product-detail__description__info__price-group__box__text">
+                    Total Price: Including tax
+                  </span>
+                </div>
+                <div className="product-detail__description__info__price-group__box__price">
+                  <span className="product-detail__description__info__price-group__box__price-value">
+                    {convertToNumberFormat(product?.minPrice)}
+                  </span>
+                  <span className="product-detail__description__info__price-group__box__price-unit">
+                    $
+                  </span>
+                </div>
               </div>
             </div>
             <div className="product-detail__description__info__counter-group">

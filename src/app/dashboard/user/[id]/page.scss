@@ -1,0 +1,15 @@
+.user-detail-page {
+  &__wrapper {
+    @extend .dashboard-page;
+    min-height: calc(100vh - 60px);
+  }
+
+  &__title {
+    @extend .dashboard-page__title;
+  }
+
+  &__content {
+    @extend .dashboard-page__content;
+  }
+}
+

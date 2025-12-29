@@ -13,6 +13,7 @@ export interface User {
   email: string;
   gender?: string;
   role?: string;
+  avatarUrl?: string;
   createdAt?: string;
   updatedAt?: string;
 }
