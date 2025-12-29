@@ -1,16 +1,16 @@
 .create-product {
   &__title {
     font-size: 28px;
-    font-weight: 400;
-    color: rgb(60, 60, 67);
+    font-weight: 300;
+    color: #3c3c43;
     margin-bottom: 40px;
     letter-spacing: 0.5px;
   }
   &__wrapper {
     max-width: 800px;
-    padding: 40px 30px;
+    padding: 40px 50px;
     margin: 40px auto;
-    border: none;
+    border: 1px solid #e8e8e8;
     border-radius: 0;
     background-color: #ffffff;
 
@@ -18,40 +18,44 @@
       &__product-name {
         outline: none;
         border: none;
-        border-bottom: 1px solid rgb(200, 200, 200);
+        border-bottom: 1px solid #e8e8e8;
         border-radius: 0;
         padding: 8px 0;
         width: 100%;
         background-color: transparent;
         font-size: 15px;
+        font-weight: 300;
         transition: border-color 0.3s ease;
+        color: #3c3c43;
 
         &:focus {
-          border-bottom-color: rgb(60, 60, 67);
+          border-bottom-color: #3c3c43;
         }
 
         &:hover {
-          border-bottom-color: rgb(150, 150, 150);
+          border-bottom-color: #6d6d72;
         }
       }
 
       &__product-price {
         outline: none;
         border: none;
-        border-bottom: 1px solid rgb(200, 200, 200);
+        border-bottom: 1px solid #e8e8e8;
         border-radius: 0;
         padding: 8px 0;
         width: 100%;
         background-color: transparent;
         font-size: 15px;
+        font-weight: 300;
         transition: border-color 0.3s ease;
+        color: #3c3c43;
 
         &:focus {
-          border-bottom-color: rgb(60, 60, 67);
+          border-bottom-color: #3c3c43;
         }
 
         &:hover {
-          border-bottom-color: rgb(150, 150, 150);
+          border-bottom-color: #6d6d72;
         }
 
         &__wrapper {
@@ -62,20 +66,22 @@
       &__product-stock {
         outline: none;
         border: none;
-        border-bottom: 1px solid rgb(200, 200, 200);
+        border-bottom: 1px solid #e8e8e8;
         border-radius: 0;
         padding: 8px 0;
         width: 100%;
         background-color: transparent;
         font-size: 15px;
+        font-weight: 300;
         transition: border-color 0.3s ease;
+        color: #3c3c43;
 
         &:focus {
-          border-bottom-color: rgb(60, 60, 67);
+          border-bottom-color: #3c3c43;
         }
 
         &:hover {
-          border-bottom-color: rgb(150, 150, 150);
+          border-bottom-color: #6d6d72;
         }
 
         &__wrapper {
@@ -95,8 +101,8 @@
 
     .custom-label {
       font-size: 13px;
-      color: rgb(100, 100, 100);
-      font-weight: 400;
+      color: #6d6d72;
+      font-weight: 300;
       margin-bottom: 8px;
       letter-spacing: 0.2px;
       text-align: left;
@@ -111,8 +117,8 @@
     .textarea-label {
       &.custom {
         font-size: 13px;
-        color: rgb(100, 100, 100);
-        font-weight: 400;
+        color: #6d6d72;
+        font-weight: 300;
         margin-bottom: 8px;
         letter-spacing: 0.2px;
         text-align: left;
@@ -125,8 +131,8 @@
 
     &-label {
       font-size: 13px;
-      color: rgb(100, 100, 100);
-      font-weight: 400;
+      color: #6d6d72;
+      font-weight: 300;
       margin-bottom: 8px;
       letter-spacing: 0.2px;
       text-align: left;
@@ -135,24 +141,24 @@
   }
 
   &__button {
-    padding: 16px 80px;
-    font-size: 16px;
+    padding: 14px 60px;
+    font-size: 14px;
     line-height: 1.6;
-    background-color: rgb(60, 60, 67);
-    transition: opacity 0.3s ease, background-color 0.3s ease;
-    color: rgb(255, 255, 255);
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+    color: #3c3c43;
     width: auto;
     min-width: 280px;
     height: auto;
     border-radius: 0;
-    border: 1px solid rgb(60, 60, 67);
+    border: 1px solid #3c3c43;
     cursor: pointer;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     font-weight: 400;
 
     &:hover:not(:disabled) {
-      background-color: #000;
-      border-color: #000;
+      background-color: #3c3c43;
+      color: #ffffff;
     }
 
     &:disabled {

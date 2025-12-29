@@ -9,6 +9,7 @@ import { Product } from "@/base/types/Product";
 import { useRouter } from "next/navigation";
 import { getImageUrl } from "@/base/utils/imageUrl";
 import { Modal, message } from "antd";
+import { convertToNumberFormat } from "@/base/utils";
 
 export const ProductDashboard: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -19,10 +20,6 @@ export const ProductDashboard: React.FC = () => {
     try {
       setLoading(true);
       const response = await fetchAllProductApi(1, 20);
-      console.log("API Response:", response);
-      console.log("Response type:", typeof response);
-      console.log("Response.result:", response?.result);
-      console.log("Is array:", Array.isArray(response?.result));
       
       // Handle different possible response structures
       let productsData: Product[] = [];
@@ -42,10 +39,9 @@ export const ProductDashboard: React.FC = () => {
         }
       }
       
-      console.log("Final products data:", productsData);
       setProducts(productsData);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      // Error fetching products
     } finally {
       setLoading(false);
     }
@@ -69,7 +65,6 @@ export const ProductDashboard: React.FC = () => {
           // Reload products list
           await fetchAllProducts();
         } catch (error) {
-          console.error("Error deleting product:", error);
           message.error("Failed to delete product");
         }
       },
@@ -105,6 +100,16 @@ export const ProductDashboard: React.FC = () => {
     {
       Header: "Price",
       accessor: "minPrice",
+      Cell: ({ value, row }: { value: number | undefined; row: Row<Product> }) => {
+        if (!value) return "-";
+        const minPrice = value;
+        const maxPrice = row.original.maxPrice;
+        
+        if (maxPrice && maxPrice !== minPrice) {
+          return `USD ${convertToNumberFormat(minPrice)} 〜 USD ${convertToNumberFormat(maxPrice)}`;
+        }
+        return `USD ${convertToNumberFormat(minPrice)}`;
+      },
     },
     {
       Header: "Description",
@@ -120,40 +125,32 @@ export const ProductDashboard: React.FC = () => {
         Header: "",
         width: 150,
         Cell: ({ row }: { row: Row<any> }) => (
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", gap: "8px" }}>
             <button
-            //   onClick={() => handleView(row.original)}
+              className="muji-button"
               style={{
-                backgroundColor: "#5cb377",
-                color: "white",
-                border: "none",
-                padding: "5px 10px",
-                cursor: "pointer",
+                padding: "8px 16px",
+                fontSize: "13px",
               }}
               onClick={() => router.push("/dashboard/product/create")}
             >
               View
             </button>
             <button
-            //   onClick={() => handleView(row.original)}
+              className="muji-button"
               style={{
-                backgroundColor: "#66a0fd",
-                color: "white",
-                border: "none",
-                padding: "5px 10px",
-                cursor: "pointer",
+                padding: "8px 16px",
+                fontSize: "13px",
               }}
             >
               Update
             </button>
             <button
               onClick={() => handleDeleteProduct(row.original)}
+              className="muji-button muji-button--danger"
               style={{
-                backgroundColor: "#d26d69",
-                color: "white",
-                border: "none",
-                padding: "5px 10px",
-                cursor: "pointer",
+                padding: "8px 16px",
+                fontSize: "13px",
               }}
             >
               Delete
@@ -162,9 +159,6 @@ export const ProductDashboard: React.FC = () => {
         ),
       },
   ];
-
-  console.log("Current products state:", products);
-  console.log("Products length:", products.length);
 
   if (loading) {
     return (

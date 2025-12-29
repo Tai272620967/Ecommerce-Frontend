@@ -11,6 +11,16 @@
         &:hover {
             background-color: #f8f8f8;
         }
+
+        &.active {
+            background-color: #edfcf5;
+            color: #15a362;
+            
+            .accordion-header__title {
+                color: #15a362;
+                font-weight: 500;
+            }
+        }
     }
     &__title {
         font-size: 14px;

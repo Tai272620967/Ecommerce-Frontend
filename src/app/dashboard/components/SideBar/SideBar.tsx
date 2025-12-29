@@ -1,13 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./SideBar.scss";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import AccordionCustom from "@/base/components/Accordion/Accordion";
 
 const SideBar: React.FC = () => {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   const items = [
     { id: 0, text: "Overview", icon: "/images/home.svg", path: "/dashboard" },
@@ -58,15 +58,33 @@ const SideBar: React.FC = () => {
     }
   };
 
-  const handleSelect = (id: number, path: string) => {
-    setSelectedIndex(id);
+  const handleSelect = (path: string) => {
     router.push(path);
+  };
+
+  // Check if current pathname matches item path
+  const isItemActive = (itemPath: string) => {
+    if (pathname === itemPath) {
+      return true;
+    }
+    // For nested routes, check if pathname starts with item path
+    // e.g., /dashboard/product/create should highlight Products
+    if (pathname?.startsWith(itemPath + "/")) {
+      return true;
+    }
+    return false;
   };
 
   return (
     <div className="sidebar__wrapper">
       <div className="sidebar__title">
-        <Image src="/images/logo-muji.svg" width={150} height={30} alt="Logo" />
+        <Image 
+          src="/images/logo-muji.svg" 
+          width={120} 
+          height={24} 
+          alt="Logo" 
+          style={{ objectFit: "contain" }}
+        />
       </div>
       <ul className="sidebar__list">
         {items.map((item) => {
@@ -75,24 +93,27 @@ const SideBar: React.FC = () => {
             ["Users", "Products", "Orders"].includes(item.text)
           ) {
             const accordionItems = getAccordionItems(item.text);
+            const isActive = isItemActive(item.path);
             return (
               <AccordionCustom
                 key={item.id}
                 header={item.text}
                 items={accordionItems}
                 icon={item.icon}
+                isActive={isActive}
               />
             );
           }
 
           // Render regular <li> for Overview and Chart
+          const isActive = isItemActive(item.path);
           return (
             <li
               key={item.id}
               className={`sidebar__list__item ${
-                selectedIndex === item.id ? "selected" : ""
+                isActive ? "selected" : ""
               }`}
-              onClick={() => handleSelect(item.id, item.path)}
+              onClick={() => handleSelect(item.path)}
             >
               <Image
                 src={item.icon}

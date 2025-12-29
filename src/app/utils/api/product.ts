@@ -145,7 +145,6 @@ export const searchProductsApi = async (
       params.append("filter", `name~'*${trimmedQuery}*'`);
       
       const url = `/products?${params.toString()}`;
-      console.log("Search API URL with filter:", url);
       
       const response = await axiosInstance.get<ProductsResponse>(url);
       
@@ -155,7 +154,6 @@ export const searchProductsApi = async (
       
       throw new Error("Search products failed");
     } else {
-      console.warn("Empty search query, returning all products");
       // If no search query, return all products
       const response = await axiosInstance.get<ProductsResponse>("/products", {
         params: { page, size },
@@ -168,7 +166,6 @@ export const searchProductsApi = async (
       throw new Error("Fetch products failed");
     }
   } catch (error) {
-    console.error("Search products API error:", error);
     throw error;
   }
 };

@@ -1,6 +1,7 @@
 @import "bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "../assets/scss/animations.scss";
+@import "./dashboard/dashboard-global.scss";
 
 * {
   margin: 0;
@@ -505,14 +506,7 @@ body {
   color: #fff !important;
 }
 
-.dashboard-layout {
-  display: flex;
-
-  &__main {
-    width: calc(100% - 250px);
-    margin-left: 250px;
-  }
-}
+// Dashboard layout styles moved to dashboard-global.scss
 
 .error-message {
   &__upload-image {

@@ -16,7 +16,6 @@ export const UserDashboard: React.FC = () => {
     try {
       setLoading(true);
       const response = await fetchAllUsersApi(1, 20);
-      console.log("Users API Response:", response);
       
       // Handle response structure
       let usersData: User[] = [];
@@ -36,10 +35,9 @@ export const UserDashboard: React.FC = () => {
         }
       }
       
-      console.log("Final users data:", usersData);
       setUsers(usersData);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      // Error fetching users
     } finally {
       setLoading(false);
     }
@@ -63,7 +61,6 @@ export const UserDashboard: React.FC = () => {
           // Reload users list
           await fetchAllUsers();
         } catch (error) {
-          console.error("Error deleting user:", error);
           message.error("Failed to delete user");
         }
       },
@@ -133,26 +130,22 @@ export const UserDashboard: React.FC = () => {
       Header: "",
       width: 150,
       Cell: ({ row }: { row: Row<User> }) => (
-        <div style={{ display: "flex", gap: "10px" }}>
+        <div style={{ display: "flex", gap: "8px" }}>
           <button
+            className="muji-button"
             style={{
-              backgroundColor: "#66a0fd",
-              color: "white",
-              border: "none",
-              padding: "5px 10px",
-              cursor: "pointer",
+              padding: "8px 16px",
+              fontSize: "13px",
             }}
           >
             Update
           </button>
           <button
             onClick={() => handleDeleteUser(row.original)}
+            className="muji-button muji-button--danger"
             style={{
-              backgroundColor: "#d26d69",
-              color: "white",
-              border: "none",
-              padding: "5px 10px",
-              cursor: "pointer",
+              padding: "8px 16px",
+              fontSize: "13px",
             }}
           >
             Delete

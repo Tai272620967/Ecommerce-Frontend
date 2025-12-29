@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import "./globals.scss";
 import { Providers } from "./provider";
-import TopNavbar from "./components/TopNavbar/TopNavbar";
-import NavbarCommon from "./components/Navbar/Navbar";
-// import { fetchSubCategoriesApi } from "./utils/api/category";
-import Footer from "./components/Footer/Footer";
-import SideBar from "./dashboard/components/SideBar/SideBar";
-import HeaderDashboard from "./dashboard/components/Header/Header";
+import LayoutClient from "./LayoutClient";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,37 +13,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const subCategories = await fetchSubCategoriesApi();
-  // Lấy header để kiểm tra trang admin
-  const isAdmin = headers().get("x-is-admin") === "true";
-  console.log("isAdmin", isAdmin);
-
-  if (isAdmin) {
-    return (
-      <html lang="en">
-        <body suppressHydrationWarning>
-          <Providers>
-            <div className="dashboard-layout">
-              <SideBar />
-              <main className="dashboard-layout__main">
-                <HeaderDashboard />
-                {children}
-              </main>
-            </div>
-          </Providers>
-        </body>
-      </html>
-    );
-  }
-
   return (
     <html lang="en">
       <body suppressHydrationWarning>
         <Providers>
-          <TopNavbar />
-          <NavbarCommon />
-          <main>{children}</main>
-          <Footer />
+          <LayoutClient>{children}</LayoutClient>
         </Providers>
       </body>
     </html>

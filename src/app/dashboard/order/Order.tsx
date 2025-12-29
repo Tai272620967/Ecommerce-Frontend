@@ -6,7 +6,7 @@ import { Column, Row } from "react-table";
 import { fetchAllOrdersApi } from "@/base/utils/api/order";
 import { useEffect, useState } from "react";
 import { Order } from "@/base/types/order";
-import { convertToNumberFormat, convertJPYToUSD } from "@/base/utils";
+import { convertToNumberFormat } from "@/base/utils";
 
 export const OrderDashboard: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -16,7 +16,6 @@ export const OrderDashboard: React.FC = () => {
     try {
       setLoading(true);
       const response = await fetchAllOrdersApi(1, 20);
-      console.log("Orders API Response:", response);
       
       // Handle response structure
       let ordersData: Order[] = [];
@@ -36,10 +35,9 @@ export const OrderDashboard: React.FC = () => {
         }
       }
       
-      console.log("Final orders data:", ordersData);
       setOrders(ordersData);
     } catch (error) {
-      console.error("Error fetching orders:", error);
+      // Error fetching orders
     } finally {
       setLoading(false);
     }
@@ -62,26 +60,29 @@ export const OrderDashboard: React.FC = () => {
     });
   };
 
-  // Format status badge
+  // Format status badge (Muji style)
   const getStatusBadge = (status: string) => {
-    const statusColors: { [key: string]: string } = {
-      pending: "#f0ad4e",
-      processing: "#5bc0de",
-      shipped: "#5cb85c",
-      delivered: "#5cb85c",
-      cancelled: "#d9534f",
+    const statusStyles: { [key: string]: { bg: string; text: string; border: string } } = {
+      pending: { bg: "#ffffff", text: "#6d6d72", border: "#e8e8e8" },
+      processing: { bg: "#ffffff", text: "#3c3c43", border: "#3c3c43" },
+      shipped: { bg: "#ffffff", text: "#3c3c43", border: "#3c3c43" },
+      delivered: { bg: "#ffffff", text: "#3c3c43", border: "#3c3c43" },
+      cancelled: { bg: "#ffffff", text: "#d26d69", border: "#d26d69" },
     };
     
-    const color = statusColors[status] || "#777";
+    const style = statusStyles[status] || { bg: "#ffffff", text: "#6d6d72", border: "#e8e8e8" };
     
     return (
       <span
         style={{
-          backgroundColor: color,
-          color: "white",
-          padding: "4px 8px",
-          borderRadius: "4px",
+          backgroundColor: style.bg,
+          color: style.text,
+          border: `1px solid ${style.border}`,
+          padding: "6px 12px",
+          borderRadius: "0",
           fontSize: "12px",
+          fontWeight: 300,
+          letterSpacing: "0.3px",
         }}
       >
         {status.toUpperCase()}
@@ -89,24 +90,27 @@ export const OrderDashboard: React.FC = () => {
     );
   };
 
-  // Format payment status badge
+  // Format payment status badge (Muji style)
   const getPaymentStatusBadge = (paymentStatus: string) => {
-    const statusColors: { [key: string]: string } = {
-      pending: "#f0ad4e",
-      paid: "#5cb85c",
-      failed: "#d9534f",
+    const statusStyles: { [key: string]: { bg: string; text: string; border: string } } = {
+      pending: { bg: "#ffffff", text: "#6d6d72", border: "#e8e8e8" },
+      paid: { bg: "#ffffff", text: "#3c3c43", border: "#3c3c43" },
+      failed: { bg: "#ffffff", text: "#d26d69", border: "#d26d69" },
     };
     
-    const color = statusColors[paymentStatus] || "#777";
+    const style = statusStyles[paymentStatus] || { bg: "#ffffff", text: "#6d6d72", border: "#e8e8e8" };
     
     return (
       <span
         style={{
-          backgroundColor: color,
-          color: "white",
-          padding: "4px 8px",
-          borderRadius: "4px",
+          backgroundColor: style.bg,
+          color: style.text,
+          border: `1px solid ${style.border}`,
+          padding: "6px 12px",
+          borderRadius: "0",
           fontSize: "12px",
+          fontWeight: 300,
+          letterSpacing: "0.3px",
         }}
       >
         {paymentStatus.toUpperCase()}
@@ -167,7 +171,7 @@ export const OrderDashboard: React.FC = () => {
       Header: "Total",
       accessor: "total",
       Cell: ({ value }: { value: number }) => (
-        <span>${convertToNumberFormat(convertJPYToUSD(value))}</span>
+        <span>${convertToNumberFormat(value)}</span>
       ),
     },
     {

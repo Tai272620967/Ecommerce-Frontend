@@ -17,6 +17,7 @@ import { AUTH_MESSAGES, SUCCESS_MESSAGES,VALIDATE_MESSAGES } from "@/base/utils/
 import authStorage from "@/base/storage/auth";
 import { cartTotalQuantityApi } from "@/base/utils/api/cart";
 import { setTotalQuantity } from "@/base/redux/features/cartSlice";
+import { getRoleFromToken } from "@/base/utils/jwt";
 
 export default function LoginForm() {
   const dispatch = useAppDispatch();
@@ -48,13 +49,12 @@ export default function LoginForm() {
   const fetchCartTotalQuantity = async () => {
     try {
       const cartTotalQuantityRes = await cartTotalQuantityApi();
-      console.log("cartTotalQuantityRes", cartTotalQuantityRes.data.totalQuantity);
       if (cartTotalQuantityRes) {
         // setCartTotalQuantity(cartTotalQuantityRes.data.totalQuantity);
         dispatch(setTotalQuantity({ totalQuantity: cartTotalQuantityRes.data.totalQuantity }));
       }
     } catch (error) {
-      console.error(error);
+      // Error fetching cart total quantity
     }
   };
 
@@ -69,18 +69,37 @@ export default function LoginForm() {
         fetchCartTotalQuantity();
       }
 
+      // Get role from JWT token if not in response
+      const accessToken = responseData.data.access_token;
+      let userRole = responseData.data.user?.role;
+      
+      // If role not in response, try to get from JWT token
+      if (!userRole && accessToken) {
+        userRole = getRoleFromToken(accessToken) || "USER";
+      }
+
+      // Ensure role is included in user object
+      const userWithRole = {
+        ...responseData.data.user,
+        role: userRole || "USER",
+      };
+
       dispatch(
         login({
-          user: responseData.data.user,
-          accessToken: responseData.data.access_token,
+          user: userWithRole,
+          accessToken: accessToken,
         })
       );
 
-      authStorage.setAccessToken(responseData.data.access_token);
+      authStorage.setAccessToken(accessToken);
 
-      router.push("/");
+      // Redirect to dashboard if admin, otherwise to home
+      if (userRole === "ADMIN") {
+        router.push("/dashboard");
+      } else {
+        router.push("/");
+      }
     } catch (error) {
-      console.error("Login Error: ", error);
       message.error(AUTH_MESSAGES.INVALID_EMAIL_OR_PASSWORD);
     } finally {
       setIsLoading(false);

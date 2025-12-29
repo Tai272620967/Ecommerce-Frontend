@@ -23,6 +23,15 @@ export const HeaderDashboard: React.FC = () => {
 
   return (
     <div className="header__wrapper">
+      <div className="header__logo">
+        <Image
+          src="/images/logo-muji.svg"
+          alt="MUJI Logo"
+          width={120}
+          height={24}
+        />
+        <span className="header__logo__text">無印良品</span>
+      </div>
       <form className="header__search-form">
         <InputField
           name="search"
@@ -35,8 +44,8 @@ export const HeaderDashboard: React.FC = () => {
           <Image
             src="/images/search.svg"
             alt="Search icon"
-            width={14}
-            height={14}
+            width={16}
+            height={16}
           />
         </Button>
       </form>

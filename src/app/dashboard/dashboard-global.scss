@@ -1,0 +1,99 @@
+// Muji-style global dashboard styles
+// Colors inspired by Muji's minimalist aesthetic
+$muji-beige: #f5f5f0;
+$muji-gray-light: #e8e8e8;
+$muji-gray: #6d6d72;
+$muji-gray-dark: #3c3c43;
+$muji-black: #1a1a1a;
+$muji-white: #ffffff;
+$muji-border: #d4d4d4;
+
+// Dashboard layout
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: $muji-beige;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+
+  &__main {
+    flex: 1;
+    margin-left: 250px;
+    padding-top: 60px;
+    min-height: 100vh;
+    background-color: $muji-beige;
+    overflow-x: hidden;
+  }
+}
+
+// Common dashboard page styles
+.dashboard-page {
+  padding: 40px 50px;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  &__title {
+    font-size: 28px;
+    font-weight: 300;
+    color: $muji-gray-dark;
+    margin-bottom: 40px;
+    letter-spacing: 0.5px;
+  }
+
+  &__content {
+    background-color: $muji-white;
+    padding: 30px;
+    border: 1px solid $muji-gray-light;
+  }
+}
+
+// Common table wrapper
+.dashboard-table-wrapper {
+  background-color: $muji-white;
+  border: 1px solid $muji-gray-light;
+  padding: 0;
+  overflow: hidden;
+}
+
+// Common button styles (Muji style)
+.muji-button {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  border: 1px solid $muji-gray-dark;
+  background-color: $muji-white;
+  color: $muji-gray-dark;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0;
+
+  &:hover:not(:disabled) {
+    background-color: $muji-gray-dark;
+    color: $muji-white;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    background-color: $muji-gray-dark;
+    color: $muji-white;
+
+    &:hover:not(:disabled) {
+      background-color: $muji-black;
+    }
+  }
+
+  &--danger {
+    border-color: #d26d69;
+    color: #d26d69;
+
+    &:hover:not(:disabled) {
+      background-color: #d26d69;
+      color: $muji-white;
+    }
+  }
+}
+

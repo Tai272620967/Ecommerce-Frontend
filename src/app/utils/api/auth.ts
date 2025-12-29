@@ -11,7 +11,6 @@ export const loginApi = async (data: Record<string, any>) => {
 
     throw new Error("Login failed");
   } catch (error) {
-    console.error("Login API error:", error);
     throw error;
   }
 };
@@ -26,7 +25,7 @@ export const logoutApi = async () => {
 
     throw new Error("Logout failed");
   } catch (error) {
-    console.error("Logout API error:", error);
+    // Logout error
   }
 };
 
@@ -40,7 +39,7 @@ export const registerAccountApi = async (data: Record<string, any>) => {
 
     throw new Error("Register account fail");
   } catch (error) {
-    console.log("Register Account Api fail:", error);
+    // Register account error
   }
 };
 
@@ -54,6 +53,6 @@ export const getLoggedAccountApi = async () => {
 
     throw new Error("Get logged account fail");
   } catch (error) {
-    console.log("Get Logged Account Api fail:", error);
+    throw error;
   }
 }

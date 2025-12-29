@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Product } from "@/base/types/Product";
 import { searchProductsApi } from "@/base/utils/api/product";
 import { getImageUrl } from "@/base/utils/imageUrl";
-import { convertToNumberFormat, convertJPYToUSD } from "@/base/utils";
+import { convertToNumberFormat } from "@/base/utils";
 import { fetchAllMainCategoryApi } from "@/base/utils/api/category";
 import { Category } from "@/base/types/category";
 import "./page.scss";
@@ -273,7 +273,7 @@ const SearchResultsPage: React.FC = () => {
                             <div className="search-results-page__item__price">
                               <span className="search-results-page__item__price__value">
                                 <span className="search-results-page__item__price__value__number">
-                                  {convertToNumberFormat(convertJPYToUSD(product.minPrice || 0))}
+                                  {convertToNumberFormat(product.minPrice || 0)}
                                 </span>
                                 <span className="search-results-page__item__price__value__unit">
                                   $
@@ -286,7 +286,7 @@ const SearchResultsPage: React.FC = () => {
                                   </span>
                                   <span className="search-results-page__item__price__value">
                                     <span className="search-results-page__item__price__value__number">
-                                      {convertToNumberFormat(convertJPYToUSD(product.maxPrice))}
+                                      {convertToNumberFormat(product.maxPrice)}
                                     </span>
                                     <span className="search-results-page__item__price__value__unit">
                                       $

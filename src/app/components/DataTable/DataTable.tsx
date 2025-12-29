@@ -68,12 +68,13 @@ const DataTable = <T extends object>({
                       key={columnKey}
                       {...columnProps}
                       style={{
-                        // border: "1px solid black",
-                        padding: "8px",
-                        // background: "#f4f4f4",
-                        borderBottom: "1px solid #e7e9ed",
-                        // width: column.width,
+                        padding: "16px 12px",
+                        borderBottom: "1px solid #e8e8e8",
                         cursor: "pointer",
+                        fontSize: "13px",
+                        fontWeight: 400,
+                        color: "#3c3c43",
+                        letterSpacing: "0.2px",
                       }}
                     >
                       {column.render("Header")}
@@ -96,7 +97,14 @@ const DataTable = <T extends object>({
                     <td
                       key={cellKey}
                       {...cellProps}
-                      style={{ borderBottom: "1px solid #e7e9ed", padding: "8px" }}
+                      style={{ 
+                        borderBottom: "1px solid #e8e8e8", 
+                        padding: "16px 12px",
+                        fontSize: "14px",
+                        fontWeight: 300,
+                        color: "#3c3c43",
+                        letterSpacing: "0.1px",
+                      }}
                     >
                       {cell.render("Cell")}
                     </td>

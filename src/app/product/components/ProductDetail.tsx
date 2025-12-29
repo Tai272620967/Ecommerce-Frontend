@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Product } from "@/base/types/Product";
 import { fetchProductByIdApi } from "@/base/utils/api/product";
-import { convertToNumberFormat, convertJPYToUSD } from "@/base/utils";
+import { convertToNumberFormat } from "@/base/utils";
 import { getImageUrl } from "@/base/utils/imageUrl";
 import { useForm } from "react-hook-form";
 import InputField from "@/base/components/Input/Input";
@@ -225,8 +225,9 @@ const ProductDetail: React.FC = () => {
                 <Image
                   src={getImageUrl(product?.imageUrl)}
                   alt="Main image"
-                  width={734}
-                  height={734}
+                  width={550}
+                  height={550}
+                  style={{ objectFit: "contain" }}
                 />
               )}
             </div>
@@ -446,7 +447,7 @@ const ProductDetail: React.FC = () => {
                   Including tax
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-value">
-                  {convertToNumberFormat(convertJPYToUSD(product?.minPrice))}
+                  {convertToNumberFormat(product?.minPrice)}
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-unit">
                   $
@@ -457,7 +458,7 @@ const ProductDetail: React.FC = () => {
                   Total Price: Including tax
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-value">
-                  {convertToNumberFormat(convertJPYToUSD(product?.minPrice))}
+                  {convertToNumberFormat(product?.minPrice)}
                 </span>
                 <span className="product-detail__description__info__price-group__box__price-unit">
                   $
