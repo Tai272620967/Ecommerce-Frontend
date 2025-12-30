@@ -18,6 +18,7 @@ import CategorySelectionModal from "./CategorySelectionModal";
 import { convertToNumberFormat } from "@/base/utils";
 import { getImageUrl } from "@/base/utils/imageUrl";
 import { ProductGridSkeleton } from "../../components/Skeleton/ProductSkeleton";
+import WishlistButton from "../../components/WishlistButton/WishlistButton";
 
 interface ProductListProps {
   isRenderedByCategory?: boolean;
@@ -473,25 +474,9 @@ const ProductList: React.FC<ProductListProps> = ({
                             )}
                           </span>
                         </div>
-                        <div className="product__list__item__desc__heart-button__wrapper">
-                          <button
-                            type="button"
-                            className="product__list__item__desc__heart-button"
-                          >
-                            <span className="product__list__item__desc__heart-button-image">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                fill="#FFFFFF"
-                                stroke="#E0CEAA"
-                                color="#FFFFFF"
-                              >
-                                <path d="M14.63 2.047c-3.47-.433-4.498 2.226-4.68 2.846 0 .035-.057.035-.068 0-.194-.621-1.21-3.28-4.681-2.846-4.407.551-5.251 6.185-2.98 8.844 1.541 1.792 5.913 6.325 7.295 7.766a.534.534 0 0 0 .776 0l7.306-7.766c2.226-2.507 1.427-8.293-2.968-8.832v-.012z"></path>
-                              </svg>
-                            </span>
-                          </button>
-                        </div>
+                              <div className="product__list__item__desc__heart-button__wrapper">
+                                <WishlistButton productId={product.id} />
+                              </div>
                       </div>
                     </div>
                   </div>

@@ -107,6 +107,27 @@
   &__cart-icon {
     margin-top: 2px;
   }
+
+  &__wishlist-button {
+    position: relative;
+  }
+
+  &__wishlist-count {
+    position: absolute;
+    top: 2px;
+    left: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #3c3c43;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5e5e5;
+  }
 }
 
 // Responsive

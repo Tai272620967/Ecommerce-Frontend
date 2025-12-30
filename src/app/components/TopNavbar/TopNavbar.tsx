@@ -10,6 +10,7 @@ import "./TopNavbar.scss";
 const TopNavbar: React.FC = () => {
   const router = useRouter();
   const cart = useAppSelector((state) => state.cart);
+  const wishlist = useAppSelector((state) => state.wishlist);
 
   return (
     <div className="top-navbar">
@@ -30,10 +31,13 @@ const TopNavbar: React.FC = () => {
         <div className="top-navbar__right">
           <UserMenu />
           <button
-            className="top-navbar__icon-button"
+            className="top-navbar__icon-button top-navbar__wishlist-button"
             onClick={() => router.push("/wishlist")}
             aria-label="Wishlist"
           >
+            {wishlist?.totalCount > 0 && (
+              <span className="top-navbar__wishlist-count">{wishlist.totalCount}</span>
+            )}
             <Image
               className="top-navbar__icon"
               src="/images/heart.png"

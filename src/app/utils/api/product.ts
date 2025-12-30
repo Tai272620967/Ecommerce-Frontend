@@ -9,11 +9,45 @@ import axios from "axios";
 
 export const fetchAllProductApi = async (
   page: number = 1,
-  size: number = 10
+  size: number = 10,
+  sort?: string
 ) => {
   try {
+    const params: any = { page, size };
+    if (sort && sort !== "default") {
+      // Convert frontend sort format to Spring Data format
+      // price-asc -> minPrice,asc
+      // price-desc -> maxPrice,desc
+      // name-asc -> name,asc
+      // name-desc -> name,desc
+      // newest -> id,desc
+      let sortParam = "";
+      switch (sort) {
+        case "price-asc":
+          sortParam = "minPrice,asc";
+          break;
+        case "price-desc":
+          sortParam = "maxPrice,desc";
+          break;
+        case "name-asc":
+          sortParam = "name,asc";
+          break;
+        case "name-desc":
+          sortParam = "name,desc";
+          break;
+        case "newest":
+          sortParam = "id,desc";
+          break;
+        default:
+          break;
+      }
+      if (sortParam) {
+        params.sort = sortParam;
+      }
+    }
+    
     const response = await axiosInstance.get<ProductsResponse>("/products", {
-      params: { page, size },
+      params,
     });
 
     if (response.status === 200) {
@@ -30,13 +64,41 @@ export const fetchAllProductApi = async (
 export const fetchProductsBySubCategoryId = async (
   categoryId: string,
   page: number = 1,
-  size: number = 4
+  size: number = 4,
+  sort?: string
 ): Promise<ProductsResponse> => {
   try {
+    const params: any = { page, size };
+    if (sort && sort !== "default") {
+      let sortParam = "";
+      switch (sort) {
+        case "price-asc":
+          sortParam = "minPrice,asc";
+          break;
+        case "price-desc":
+          sortParam = "maxPrice,desc";
+          break;
+        case "name-asc":
+          sortParam = "name,asc";
+          break;
+        case "name-desc":
+          sortParam = "name,desc";
+          break;
+        case "newest":
+          sortParam = "id,desc";
+          break;
+        default:
+          break;
+      }
+      if (sortParam) {
+        params.sort = sortParam;
+      }
+    }
+    
     const response = await axiosInstance.get<ProductsResponse>(
       `/products/sub-category/${categoryId}`,
       {
-        params: { page, size }, // Đảm bảo rằng params chứa đúng `page` và `size`
+        params,
       }
     );
     return response.data;
@@ -56,13 +118,41 @@ export const fetchProductsBySubCategoryId = async (
 export const fetchProductsByCategoryId = async (
   categoryId: string,
   page: number = 1,
-  size: number = 4
+  size: number = 4,
+  sort?: string
 ): Promise<ProductsResponse> => {
   try {
+    const params: any = { page, size };
+    if (sort && sort !== "default") {
+      let sortParam = "";
+      switch (sort) {
+        case "price-asc":
+          sortParam = "minPrice,asc";
+          break;
+        case "price-desc":
+          sortParam = "maxPrice,desc";
+          break;
+        case "name-asc":
+          sortParam = "name,asc";
+          break;
+        case "name-desc":
+          sortParam = "name,desc";
+          break;
+        case "newest":
+          sortParam = "id,desc";
+          break;
+        default:
+          break;
+      }
+      if (sortParam) {
+        params.sort = sortParam;
+      }
+    }
+    
     const response = await axiosInstance.get<ProductsResponse>(
       `/products/category/${categoryId}`,
       {
-        params: { page, size }, // Đảm bảo rằng params chứa đúng `page` và `size`
+        params,
       }
     );
     return response.data;
@@ -137,48 +227,54 @@ export const deleteProductApi = async (productId: number) => {
 export const searchProductsApi = async (
   searchQuery: string,
   page: number = 1,
-  size: number = 20
+  size: number = 20,
+  sort?: string
 ): Promise<ProductsResponse> => {
   try {
-    // Use springfilter format: filter[name][$like]=%query%
-    // Build query string manually to properly encode % characters
-    const params = new URLSearchParams();
-    params.append("page", page.toString());
-    params.append("size", size.toString());
+    const params: any = { page, size };
+    
+    if (sort && sort !== "default") {
+      let sortParam = "";
+      switch (sort) {
+        case "price-asc":
+          sortParam = "minPrice,asc";
+          break;
+        case "price-desc":
+          sortParam = "maxPrice,desc";
+          break;
+        case "name-asc":
+          sortParam = "name,asc";
+          break;
+        case "name-desc":
+          sortParam = "name,desc";
+          break;
+        case "newest":
+          sortParam = "id,desc";
+          break;
+        default:
+          break;
+      }
+      if (sortParam) {
+        params.sort = sortParam;
+      }
+    }
     
     // Only add filter if searchQuery is not empty
     if (searchQuery && searchQuery.trim()) {
-      // Spring Filter format: Try using filter parameter without brackets
-      // Format: filter=name~'*query*' (contains) or filter=name:'query' (equals)
+      // Spring Filter format: filter=name~'*query*'
       const trimmedQuery = searchQuery.trim();
-      const params = new URLSearchParams();
-      params.append("page", page.toString());
-      params.append("size", size.toString());
-      // Try format without brackets: filter=name~'*query*'
-      // The ~ operator means "contains" in Spring Filter
-      params.append("filter", `name~'*${trimmedQuery}*'`);
-      
-      const url = `/products?${params.toString()}`;
-      
-      const response = await axiosInstance.get<ProductsResponse>(url);
-      
-      if (response.status === 200) {
-        return response.data;
-      }
-      
-      throw new Error("Search products failed");
-    } else {
-      // If no search query, return all products
-      const response = await axiosInstance.get<ProductsResponse>("/products", {
-        params: { page, size },
-      });
-      
-      if (response.status === 200) {
-        return response.data;
-      }
-      
-      throw new Error("Fetch products failed");
+      params.filter = `name~'*${trimmedQuery}*'`;
     }
+    
+    const response = await axiosInstance.get<ProductsResponse>("/products", {
+      params,
+    });
+    
+    if (response.status === 200) {
+      return response.data;
+    }
+    
+    throw new Error("Search products failed");
   } catch (error) {
     throw error;
   }

@@ -17,6 +17,8 @@ import { Category, SubCategory } from "@/base/types/category";
 import "./page.scss";
 import "../product/components/Product.scss";
 import { ProductGridSkeleton } from "../components/Skeleton/ProductSkeleton";
+import WishlistButton from "../components/WishlistButton/WishlistButton";
+import FilterSort, { FilterState, SortOption } from "../components/FilterSort/FilterSort";
 
 // Component that uses useSearchParams - must be wrapped in Suspense
 const AllProductsPageContent: React.FC = () => {
@@ -25,7 +27,12 @@ const AllProductsPageContent: React.FC = () => {
   const searchQuery = searchParams.get("q") || "";
   const categoryId = searchParams.get("category") || "";
   const mainCategoryId = searchParams.get("maincategory") || "";
+  const minPriceParam = searchParams.get("minPrice");
+  const maxPriceParam = searchParams.get("maxPrice");
+  const sortParam = searchParams.get("sort");
+  
   const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -33,6 +40,11 @@ const AllProductsPageContent: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [allSubCategories, setAllSubCategories] = useState<SubCategory[]>([]);
   const [allCategories, setAllCategories] = useState<Category[]>([]);
+  const [filters, setFilters] = useState<FilterState>({
+    minPrice: minPriceParam ? parseFloat(minPriceParam) : null,
+    maxPrice: maxPriceParam ? parseFloat(maxPriceParam) : null,
+  });
+  const [sort, setSort] = useState<SortOption>((sortParam as SortOption) || "default");
   const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -88,7 +100,7 @@ const AllProductsPageContent: React.FC = () => {
     } else {
       fetchProducts(1);
     }
-  }, [searchQuery, categoryId, mainCategoryId, categories, router]);
+  }, [searchQuery, categoryId, mainCategoryId, categories, router, sort]);
 
   useEffect(() => {
     // Infinite scroll setup
@@ -115,7 +127,7 @@ const AllProductsPageContent: React.FC = () => {
   const fetchProducts = async (pageNum: number) => {
     setLoading(true);
     try {
-      const response = await fetchAllProductApi(pageNum, 20);
+      const response = await fetchAllProductApi(pageNum, 20, sort);
       
       if (response) {
         let productsData: Product[] = [];
@@ -129,10 +141,19 @@ const AllProductsPageContent: React.FC = () => {
           productsData = response;
         }
         
+        // Apply price filters on client-side
+        let filteredData = productsData;
+        if (filters.minPrice !== null && filters.minPrice > 0) {
+          filteredData = filteredData.filter((p) => p.minPrice >= filters.minPrice!);
+        }
+        if (filters.maxPrice !== null && filters.maxPrice > 0) {
+          filteredData = filteredData.filter((p) => p.maxPrice <= filters.maxPrice!);
+        }
+        
         if (pageNum === 1) {
-          setProducts(productsData);
+          setProducts(filteredData);
         } else {
-          setProducts((prev) => [...prev, ...productsData]);
+          setProducts((prev) => [...prev, ...filteredData]);
         }
         
         // Check if there are more pages
@@ -209,7 +230,8 @@ const AllProductsPageContent: React.FC = () => {
                 const categoryProductsResponse = await fetchProductsByCategoryId(
                   catId.toString(),
                   1,
-                  1000
+                  1000,
+                  sort
                 );
                 
                 let categoryProducts: Product[] = [];
@@ -243,7 +265,7 @@ const AllProductsPageContent: React.FC = () => {
           }
         } else {
           // categoryId is a Category (level 3) ID, search within that category
-          const categoryResponse = await fetchProductsByCategoryId(categoryId, 1, 1000);
+          const categoryResponse = await fetchProductsByCategoryId(categoryId, 1, 1000, sort);
           if (categoryResponse && categoryResponse.result) {
             const allProducts = Array.isArray(categoryResponse.result) 
               ? categoryResponse.result 
@@ -257,7 +279,7 @@ const AllProductsPageContent: React.FC = () => {
         }
       } else {
         // No category filter, search all products by name
-        const response = await searchProductsApi(query, pageNum, 20);
+        const response = await searchProductsApi(query, pageNum, 20, sort);
         
         if (response) {
           // Handle different response structures
@@ -382,11 +404,12 @@ const AllProductsPageContent: React.FC = () => {
           // Fetch products for each matching category
           const categoryPromises = Array.from(matchingCategoryIds).map(async (catId) => {
             try {
-              const categoryProductsResponse = await fetchProductsByCategoryId(
-                catId.toString(),
-                1,
-                1000
-              );
+            const categoryProductsResponse = await fetchProductsByCategoryId(
+              catId.toString(),
+              1,
+              1000,
+              sort
+            );
               
               let categoryProducts: Product[] = [];
               if (categoryProductsResponse) {
@@ -443,7 +466,7 @@ const AllProductsPageContent: React.FC = () => {
   const fetchProductsByCategory = async (categoryId: string, pageNum: number) => {
     setLoading(true);
     try {
-      const response = await fetchProductsByCategoryId(categoryId, pageNum, 20);
+      const response = await fetchProductsByCategoryId(categoryId, pageNum, 20, sort);
       
       if (response) {
         let productsData: Product[] = [];
@@ -511,7 +534,8 @@ const AllProductsPageContent: React.FC = () => {
             const categoryProductsResponse = await fetchProductsByCategoryId(
               categoryId.toString(),
               1,
-              1000
+              1000,
+              sort
             );
             
             let categoryProducts: Product[] = [];
@@ -587,6 +611,39 @@ const AllProductsPageContent: React.FC = () => {
     return category ? category.name : "";
   }, [categories]);
 
+  // Apply price filters only (sort is handled by backend)
+  const applyFilters = useCallback((productsToFilter: Product[], filterState: FilterState): Product[] => {
+    let filtered = [...productsToFilter];
+
+    // Apply price filters
+    if (filterState.minPrice !== null && filterState.minPrice > 0) {
+      filtered = filtered.filter((p) => p.minPrice >= filterState.minPrice!);
+    }
+    if (filterState.maxPrice !== null && filterState.maxPrice > 0) {
+      filtered = filtered.filter((p) => p.maxPrice <= filterState.maxPrice!);
+    }
+
+    return filtered;
+  }, []);
+
+  // Apply filters whenever products or filters change
+  useEffect(() => {
+    if (products.length > 0) {
+      const filtered = applyFilters(products, filters);
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts([]);
+    }
+  }, [products, filters, applyFilters]);
+
+  const handleFilterChange = useCallback((newFilters: FilterState) => {
+    setFilters(newFilters);
+  }, []);
+
+  const handleSortChange = useCallback((newSort: SortOption) => {
+    setSort(newSort);
+  }, []);
+
   const getTitle = useMemo(() => {
     if (searchQuery && categoryId) {
       const categoryName = getCategoryName(categoryId);
@@ -606,28 +663,31 @@ const AllProductsPageContent: React.FC = () => {
   }, [searchQuery, categoryId, mainCategoryId, getCategoryName]);
 
   const getInfoText = useMemo(() => {
-    if (searchQuery && categoryId && totalResults > 0) {
+    const displayCount = filteredProducts.length;
+    const totalCount = totalResults > 0 ? totalResults : products.length;
+    
+    if (searchQuery && categoryId && totalCount > 0) {
       const categoryName = getCategoryName(categoryId);
       return categoryName
-        ? `Found ${totalResults} ${totalResults === 1 ? "product" : "products"} for "${searchQuery}" in ${categoryName}`
-        : `Found ${totalResults} ${totalResults === 1 ? "product" : "products"} for "${searchQuery}"`;
-    } else if (searchQuery && totalResults > 0) {
-      return `Found ${totalResults} ${totalResults === 1 ? "product" : "products"} for "${searchQuery}"`;
-    } else if (mainCategoryId && totalResults > 0) {
+        ? `Found ${displayCount} ${displayCount === 1 ? "product" : "products"} for "${searchQuery}" in ${categoryName}`
+        : `Found ${displayCount} ${displayCount === 1 ? "product" : "products"} for "${searchQuery}"`;
+    } else if (searchQuery && totalCount > 0) {
+      return `Found ${displayCount} ${displayCount === 1 ? "product" : "products"} for "${searchQuery}"`;
+    } else if (mainCategoryId && totalCount > 0) {
       const categoryName = getCategoryName(mainCategoryId);
       return categoryName
-        ? `Showing ${products.length} of ${totalResults} products in ${categoryName}`
-        : `Showing ${products.length} of ${totalResults} products`;
-    } else if (categoryId && totalResults > 0) {
+        ? `Showing ${displayCount} of ${totalCount} products in ${categoryName}`
+        : `Showing ${displayCount} of ${totalCount} products`;
+    } else if (categoryId && totalCount > 0) {
       const categoryName = getCategoryName(categoryId);
       return categoryName
-        ? `Showing ${products.length} of ${totalResults} products in ${categoryName}`
-        : `Showing ${products.length} of ${totalResults} products`;
-    } else if (totalResults > 0) {
-      return `Showing ${products.length} of ${totalResults} products`;
+        ? `Showing ${displayCount} of ${totalCount} products in ${categoryName}`
+        : `Showing ${displayCount} of ${totalCount} products`;
+    } else if (totalCount > 0) {
+      return `Showing ${displayCount} of ${totalCount} products`;
     }
     return null;
-  }, [searchQuery, categoryId, mainCategoryId, totalResults, products.length, getCategoryName]);
+  }, [searchQuery, categoryId, mainCategoryId, totalResults, filteredProducts.length, products.length, getCategoryName]);
 
   return (
     <div className="product__wrapper">
@@ -639,20 +699,25 @@ const AllProductsPageContent: React.FC = () => {
           </div>
         )}
 
-        {products.length === 0 && !loading ? (
+        <FilterSort
+          onFilterChange={handleFilterChange}
+          onSortChange={handleSortChange}
+        />
+
+        {filteredProducts.length === 0 && !loading ? (
           <div style={{ padding: "60px 20px", textAlign: "center", color: "#6d6d72" }}>
             <p>No products found.</p>
           </div>
         ) : (
           <>
             <div className="product__list__wrapper">
-              {loading && products.length === 0 && (
+              {loading && filteredProducts.length === 0 && (
                 <ProductGridSkeleton count={8} />
               )}
-              {products.length > 0 && (
+              {filteredProducts.length > 0 && (
                 <div className="product__list__table">
                   <div className="product__list">
-                    {products.map((product, index) => (
+                    {filteredProducts.map((product, index) => (
                       <div
                         key={product.id}
                         className={`product__list__inner${
@@ -701,23 +766,7 @@ const AllProductsPageContent: React.FC = () => {
                                 )}
                               </div>
                               <div className="product__list__item__desc__heart-button__wrapper">
-                                <button
-                                  type="button"
-                                  className="product__list__item__desc__heart-button"
-                                >
-                                  <span className="product__list__item__desc__heart-button-image">
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="20"
-                                      height="20"
-                                      fill="#FFFFFF"
-                                      stroke="#E0CEAA"
-                                      color="#FFFFFF"
-                                    >
-                                      <path d="M14.63 2.047c-3.47-.433-4.498 2.226-4.68 2.846 0 .035-.057.035-.068 0-.194-.621-1.21-3.28-4.681-2.846-4.407.551-5.251 6.185-2.98 8.844 1.541 1.792 5.913 6.325 7.295 7.766a.534.534 0 0 0 .776 0l7.306-7.766c2.226-2.507 1.427-8.293-2.968-8.832v-.012z"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <WishlistButton productId={product.id} />
                               </div>
                             </div>
                           </div>
@@ -729,13 +778,14 @@ const AllProductsPageContent: React.FC = () => {
               )}
             </div>
 
-            {loading && products.length > 0 && (
+            {loading && filteredProducts.length > 0 && (
               <div className="loader__wrapper">
                 <div className="loader"></div>
               </div>
             )}
 
-            {hasMore && (
+            {/* Only show infinite scroll if no filters/sort are applied */}
+            {hasMore && !filters.minPrice && !filters.maxPrice && sort === "default" && (
               <div ref={observerRef} style={{ height: "20px", width: "100%" }} />
             )}
           </>

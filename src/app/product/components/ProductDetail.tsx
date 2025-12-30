@@ -17,17 +17,27 @@ import { message } from "antd";
 import { setTotalQuantity } from "@/base/redux/features/cartSlice";
 import authStorage from "@/base/storage/auth";
 import { useRouter } from "next/navigation";
+import { addToWishlistApi, removeFromWishlistApi, checkWishlistApi } from "@/base/utils/api/wishlist";
+import { addToWishlist, removeFromWishlist } from "@/base/redux/features/wishlistSlice";
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
-
-  console.log("isLoading", isLoading);
+  const [isInWishlist, setIsInWishlist] = useState<boolean>(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState<boolean>(false);
 
   const user = useAppSelector((state) => state.user.user);
-  // const cart = useAppSelector((state) => state.cart);
+  const wishlist = useAppSelector((state) => state.wishlist);
+
+  // Check Redux state for wishlist status
+  useEffect(() => {
+    if (wishlist?.productIds && Array.isArray(wishlist.productIds)) {
+      const inWishlist = wishlist.productIds.includes(Number(productId));
+      setIsInWishlist(inWishlist);
+    }
+  }, [wishlist?.productIds, productId]);
 
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -54,9 +64,22 @@ const ProductDetail: React.FC = () => {
         const response = await fetchProductByIdApi(productId);
         if (response) {
           setProduct(response.data);
+          // Check if product is in wishlist
+          if (authStorage.authenticated()) {
+            try {
+              const inWishlist = await checkWishlistApi(Number(productId));
+              // Ensure we set a proper boolean value
+              setIsInWishlist(Boolean(inWishlist));
+            } catch (error) {
+              // Error checking wishlist status - default to false
+              setIsInWishlist(false);
+            }
+          } else {
+            setIsInWishlist(false);
+          }
         }
       } catch (error) {
-        console.error(error);
+        // Error fetching product
       }
     };
 
@@ -103,9 +126,39 @@ const ProductDetail: React.FC = () => {
         );
       }
     } catch (error) {
-      console.error("Add to cart Error: ", error);
+      // Error adding to cart
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleToggleWishlist = async () => {
+    // Check if user is logged in
+    if (!authStorage.getAccessToken() || !user?.id) {
+      message.warning("Please login to add items to wishlist");
+      router.push("/auth/login");
+      return;
+    }
+
+    if (!product) return;
+
+    setIsWishlistLoading(true);
+    try {
+      if (isInWishlist) {
+        await removeFromWishlistApi(product.id);
+        setIsInWishlist(false);
+        dispatch(removeFromWishlist({ productId: product.id }));
+        message.success("Product removed from wishlist");
+      } else {
+        await addToWishlistApi(product.id);
+        setIsInWishlist(true);
+        dispatch(addToWishlist({ productId: product.id }));
+        message.success("Product added to wishlist");
+      }
+    } catch (error) {
+      message.error("Failed to update wishlist");
+    } finally {
+      setIsWishlistLoading(false);
     }
   };
 
@@ -333,15 +386,18 @@ const ProductDetail: React.FC = () => {
                 <button
                   type="button"
                   className="product-detail__description__info__heart__button"
+                  onClick={handleToggleWishlist}
+                  disabled={isWishlistLoading}
+                  aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
                 >
                   <span className="product-detail__description__info__heart__icon">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
                       height="20"
-                      fill="#FFFFFF"
-                      stroke="#E0CEAA"
-                      color="#FFFFFF"
+                      fill={isInWishlist ? "#d26d69" : "#FFFFFF"}
+                      stroke={isInWishlist ? "#d26d69" : "#E0CEAA"}
+                      color={isInWishlist ? "#d26d69" : "#FFFFFF"}
                     >
                       <path d="M14.63 2.047c-3.47-.433-4.498 2.226-4.68 2.846 0 .035-.057.035-.068 0-.194-.621-1.21-3.28-4.681-2.846-4.407.551-5.251 6.185-2.98 8.844 1.541 1.792 5.913 6.325 7.295 7.766a.534.534 0 0 0 .776 0l7.306-7.766c2.226-2.507 1.427-8.293-2.968-8.832v-.012z"></path>
                     </svg>
