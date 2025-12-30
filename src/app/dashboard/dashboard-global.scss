@@ -97,3 +97,31 @@ $muji-border: #d4d4d4;
   }
 }
 
+// Smooth page transitions
+.dashboard-layout__main {
+  > * {
+    animation: fadeInUp 0.3s ease-out;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Smooth sidebar transitions
+.sidebar__wrapper {
+  transition: transform 0.3s ease;
+}
+
+// Smooth header transitions
+.header__wrapper {
+  transition: all 0.3s ease;
+}
+

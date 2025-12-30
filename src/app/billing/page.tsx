@@ -8,6 +8,7 @@ import { message } from "antd";
 import authStorage from "@/base/storage/auth";
 import { convertToNumberFormat } from "@/base/utils";
 import "./page.scss";
+import { OrderCardSkeleton } from "../components/Skeleton/PageSkeleton";
 
 export default function BillingPage() {
   const router = useRouter();
@@ -120,7 +121,11 @@ export default function BillingPage() {
         <div className="billing-page__title">
           <h1>Billing & Orders</h1>
         </div>
-        <div>Loading orders...</div>
+        <div className="billing-page__content">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <OrderCardSkeleton key={i} />
+          ))}
+        </div>
       </div>
     );
   }

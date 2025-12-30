@@ -110,6 +110,20 @@ export const createProductApi = async (formData: FormData) => {
   }
 };
 
+export const updateProductApi = async (productId: number, formData: FormData) => {
+  try {
+    const response = await axiosInstance.put<Product>(`/products/${productId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Update product API error:", error);
+    throw error;
+  }
+};
+
 export const deleteProductApi = async (productId: number) => {
   try {
     const response = await axiosInstance.delete(`/products/${productId}`);

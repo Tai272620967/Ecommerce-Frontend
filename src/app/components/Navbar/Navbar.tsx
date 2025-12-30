@@ -3,7 +3,7 @@ import "./Navbar.scss";
 import Image from "next/image";
 import Logo from "../../../../public/images/logo-muji.svg";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Category, SubCategory } from "@/base/types/category";
 import {
   fetchAllMainCategoryApi,
@@ -62,7 +62,7 @@ const NavbarCommon: React.FC<NavbarProps> = () => {
           );
         }
       } catch (error) {
-        console.error(error);
+        // Error fetching cart total quantity
       }
     };
 
@@ -71,25 +71,23 @@ const NavbarCommon: React.FC<NavbarProps> = () => {
     }
   }, []);
 
-  const handleChangeMainCategory = (mainCategoryId: number) => {
+  const handleChangeMainCategory = useCallback((mainCategoryId: number) => {
     setSubCategoriesDataFilter(
       subCategoriesData?.filter(
         (category) => category.mainCategory?.id === mainCategoryId
       ) || []
     );
-  };
+  }, [subCategoriesData]);
 
   useEffect(() => {
     const fetchAllMainCategories = async () => {
       try {
         const response = await fetchAllMainCategoryApi();
-        console.log("response", response);
         if (response) {
           setMainCategories(response.data.result);
         }
       } catch (err) {
-        // setError("Failed to fetch categories");
-        console.error(err);
+        // Error fetching main categories
       } finally {
         // setLoading(false);
       }

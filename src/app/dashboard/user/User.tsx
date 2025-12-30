@@ -180,7 +180,22 @@ export const UserDashboard: React.FC = () => {
         <div className="user-dashboard__title">
           <h1>Users</h1>
         </div>
-        <div>Loading users...</div>
+        <div className="user-dashboard__table">
+          <div className="skeleton-table">
+            <div className="skeleton-table__header">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="skeleton-loader skeleton-loader--text" style={{ width: "100%", height: "20px" }} />
+              ))}
+            </div>
+            {Array.from({ length: 10 }).map((_, rowIndex) => (
+              <div key={rowIndex} className="skeleton-table__row">
+                {Array.from({ length: 6 }).map((_, colIndex) => (
+                  <div key={colIndex} className="skeleton-loader skeleton-loader--text" style={{ width: "100%", height: "16px" }} />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }

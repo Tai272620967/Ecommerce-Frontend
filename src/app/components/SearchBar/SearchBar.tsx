@@ -181,7 +181,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onClose }) => {
                           <span className="search-bar__result-item__price-value">
                             {convertToNumberFormat(product.minPrice)}
                           </span>
-                          <span className="search-bar__result-item__price-unit">¥</span>
+                          <span className="search-bar__result-item__price-unit">$</span>
                         </div>
                       </div>
                     </div>

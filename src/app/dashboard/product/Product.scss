@@ -1,3 +1,5 @@
+@import "../components/Skeleton/SkeletonLoader.scss";
+
 .product-dashboard {
   &__wrapper {
     padding: 32px 50px 50px;
@@ -22,6 +24,65 @@
     background-color: #ffffff;
     border: 1px solid #e8e8e8;
     padding: 0;
-    overflow: hidden;
+    overflow: visible;
+    
+    // Ensure pagination is visible
+    .ant-pagination {
+      margin: 24px 0;
+    }
+    
+    // Custom pagination styles
+    .custom-pagination {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      
+      &__button {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 12px;
+        border: 1px solid #e8e8e8;
+        background-color: #ffffff;
+        color: #3c3c43;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        &:hover:not(:disabled) {
+          background-color: #f4eede;
+          border-color: #d4c4a8;
+        }
+        
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          background-color: #f5f5f5;
+          pointer-events: none;
+        }
+        
+        &.active {
+          background-color: #3c3c43;
+          color: #ffffff;
+          border-color: #3c3c43;
+          
+          &:hover {
+            background-color: #2a2a2f;
+          }
+        }
+      }
+      
+      &__ellipsis {
+        min-width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6d6d72;
+        font-size: 14px;
+      }
+    }
   }
 }

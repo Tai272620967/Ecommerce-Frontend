@@ -83,7 +83,7 @@ export default function OrderConfirmation({ orderId }: OrderConfirmationProps) {
                   </span>
                 </div>
                 <span className="order-confirmation__item-price">
-                  ¥{convertToNumberFormat(item.subtotal)}
+                  ${convertToNumberFormat(item.subtotal)}
                 </span>
               </div>
             ))}
@@ -141,19 +141,19 @@ export default function OrderConfirmation({ orderId }: OrderConfirmationProps) {
           <div className="order-confirmation__totals">
             <div className="order-confirmation__total-row">
               <span>Subtotal</span>
-              <span>¥{convertToNumberFormat(order.subtotal)}</span>
+              <span>${convertToNumberFormat(order.subtotal)}</span>
             </div>
             <div className="order-confirmation__total-row">
               <span>Shipping Fee</span>
-              <span>¥{convertToNumberFormat(order.shippingFee)}</span>
+              <span>${convertToNumberFormat(order.shippingFee)}</span>
             </div>
             <div className="order-confirmation__total-row">
               <span>Tax</span>
-              <span>¥{convertToNumberFormat(order.tax)}</span>
+              <span>${convertToNumberFormat(order.tax)}</span>
             </div>
             <div className="order-confirmation__total-row order-confirmation__total-row--total">
               <span>Total Amount</span>
-              <span>¥{convertToNumberFormat(order.total)}</span>
+              <span>${convertToNumberFormat(order.total)}</span>
             </div>
           </div>
         </div>

@@ -21,7 +21,7 @@ const TopNavbar: React.FC = () => {
           <span className="top-navbar__header-text top-navbar__header-text--center">
             Apparel, Daily Goods, etc. Tax included
             <span className="top-navbar__header-text-large">5,000</span>
-            ¥ or more purchase
+            $ or more purchase
           </span>
           <span className="top-navbar__header-text top-navbar__header-text--right">
             Free Shipping

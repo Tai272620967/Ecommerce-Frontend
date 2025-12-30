@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchAllUsersApi } from "@/base/utils/api/user";
 import { fetchAllOrdersApi } from "@/base/utils/api/order";
 import { fetchAllProductApi } from "@/base/utils/api/product";
@@ -124,7 +124,7 @@ export default function DashboardContent() {
     }
   };
 
-  const formatDate = (dateString: string | undefined) => {
+  const formatDate = useCallback((dateString: string | undefined) => {
     if (!dateString) return "-";
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -132,9 +132,9 @@ export default function DashboardContent() {
       month: "short",
       day: "numeric",
     });
-  };
+  }, []);
 
-  const getStatusBadge = (status: string) => {
+  const getStatusBadge = useCallback((status: string) => {
     const statusColors: { [key: string]: string } = {
       PENDING: "#f59e0b",
       CONFIRMED: "#3b82f6",
@@ -160,13 +160,26 @@ export default function DashboardContent() {
         {status}
       </span>
     );
-  };
+  }, []);
 
   if (loading) {
     return (
       <div className="dashboard-content">
         <h1 className="dashboard-content__title">Dashboard</h1>
-        <div className="dashboard-content__loading">Loading dashboard data...</div>
+        <div className="dashboard-content__stats">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="skeleton-card">
+              <div className="skeleton-loader skeleton-loader--circle" style={{ width: "48px", height: "48px" }} />
+              <div className="skeleton-card__content">
+                <div className="skeleton-loader skeleton-loader--text" style={{ width: "60%", height: "16px" }} />
+                <div className="skeleton-loader skeleton-loader--text" style={{ width: "40%", height: "24px" }} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="dashboard-content__section">
+          <div className="skeleton-loader skeleton-loader--table" style={{ width: "100%", height: "400px" }} />
+        </div>
       </div>
     );
   }

@@ -8,6 +8,7 @@ import { message } from "antd";
 import UserProfileForm from "./components/UserProfileForm";
 import "./page.scss";
 import authStorage from "@/base/storage/auth";
+import { FormSkeleton } from "../components/Skeleton/PageSkeleton";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -58,7 +59,9 @@ export default function ProfilePage() {
         <div className="profile-page__title">
           <h1>My Profile</h1>
         </div>
-        <div>Loading profile...</div>
+        <div className="profile-page__content">
+          <FormSkeleton />
+        </div>
       </div>
     );
   }

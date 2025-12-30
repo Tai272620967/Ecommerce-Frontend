@@ -513,7 +513,7 @@ export default function OrderCheckout() {
                     </span>
                   </div>
                   <span className="order-checkout__summary-item-price">
-                    ¥{convertToNumberFormat(item.price * item.quantity)}
+                    ${convertToNumberFormat(item.price * item.quantity)}
                   </span>
                 </div>
               ))}
@@ -522,19 +522,19 @@ export default function OrderCheckout() {
             <div className="order-checkout__summary-totals">
               <div className="order-checkout__summary-total-row">
                 <span>Subtotal</span>
-                <span>¥{convertToNumberFormat(subtotal)}</span>
+                <span>${convertToNumberFormat(subtotal)}</span>
               </div>
               <div className="order-checkout__summary-total-row">
                 <span>Shipping Fee</span>
-                <span>¥{convertToNumberFormat(shippingFee)}</span>
+                <span>${convertToNumberFormat(shippingFee)}</span>
               </div>
               <div className="order-checkout__summary-total-row">
                 <span>Tax</span>
-                <span>¥{convertToNumberFormat(tax)}</span>
+                <span>${convertToNumberFormat(tax)}</span>
               </div>
               <div className="order-checkout__summary-total-row order-checkout__summary-total-row--total">
                 <span>Total Amount</span>
-                <span>¥{convertToNumberFormat(total)}</span>
+                <span>${convertToNumberFormat(total)}</span>
               </div>
             </div>
           </div>

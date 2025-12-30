@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import SideBar from "./components/SideBar/SideBar";
 import HeaderDashboard from "./components/Header/Header";
 import AdminGuard from "./components/AdminGuard";
+import DashboardPageTransition from "./components/DashboardPageTransition/DashboardPageTransition";
 
 export default function DashboardLayoutClient({
   children,
@@ -32,7 +33,9 @@ export default function DashboardLayoutClient({
         <SideBar />
         <main className="dashboard-layout__main">
           <HeaderDashboard />
-          {children}
+          <DashboardPageTransition>
+            {children}
+          </DashboardPageTransition>
         </main>
       </div>
     </AdminGuard>

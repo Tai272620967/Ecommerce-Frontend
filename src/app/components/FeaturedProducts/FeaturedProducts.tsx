@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/base/types/Product";
@@ -26,7 +26,7 @@ const FeaturedProducts: React.FC = () => {
           setProducts(response.result);
         }
       } catch (error) {
-        console.error("Failed to fetch featured products:", error);
+        // Error fetching featured products
       } finally {
         setLoading(false);
       }
@@ -80,7 +80,7 @@ const FeaturedProducts: React.FC = () => {
                     <span className="featured-products__item__price__value">
                       {convertToNumberFormat(product.minPrice)}
                     </span>
-                    <span className="featured-products__item__price__unit">¥</span>
+                    <span className="featured-products__item__price__unit">$</span>
                     {product.maxPrice && product.maxPrice !== product.minPrice && (
                       <>
                         <span className="featured-products__item__price__separator">
@@ -89,7 +89,7 @@ const FeaturedProducts: React.FC = () => {
                         <span className="featured-products__item__price__value">
                           {convertToNumberFormat(product.maxPrice)}
                         </span>
-                        <span className="featured-products__item__price__unit">¥</span>
+                        <span className="featured-products__item__price__unit">$</span>
                       </>
                     )}
                   </div>
@@ -108,5 +108,5 @@ const FeaturedProducts: React.FC = () => {
   );
 };
 
-export default FeaturedProducts;
+export default memo(FeaturedProducts);
 

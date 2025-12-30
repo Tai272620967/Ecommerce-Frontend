@@ -23,6 +23,24 @@ body {
   letter-spacing: -0.01em;
 }
 
+// Smooth page transitions for main content
+main {
+  > * {
+    animation: fadeInContent 0.4s ease-out;
+  }
+}
+
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .login-input {
   width: 100%;
   border-radius: 4px 4px 4px 4px;

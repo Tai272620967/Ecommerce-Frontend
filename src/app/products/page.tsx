@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Product } from "@/base/types/Product";
@@ -16,6 +16,7 @@ import {
 import { Category, SubCategory } from "@/base/types/category";
 import "./page.scss";
 import "../product/components/Product.scss";
+import { ProductGridSkeleton } from "../components/Skeleton/ProductSkeleton";
 
 const AllProductsPage: React.FC = () => {
   const router = useRouter();
@@ -479,7 +480,7 @@ const AllProductsPage: React.FC = () => {
     }
   };
 
-  const loadMore = () => {
+  const loadMore = useCallback(() => {
     if (!loading && hasMore) {
       const nextPage = page + 1;
       setPage(nextPage);
@@ -494,14 +495,14 @@ const AllProductsPage: React.FC = () => {
         fetchProducts(nextPage);
       }
     }
-  };
+  }, [loading, hasMore, page, searchQuery, categoryId, mainCategoryId]);
 
-  const getCategoryName = (id: string) => {
+  const getCategoryName = useCallback((id: string) => {
     const category = categories.find((cat) => cat.id.toString() === id);
     return category ? category.name : "";
-  };
+  }, [categories]);
 
-  const getTitle = () => {
+  const getTitle = useMemo(() => {
     if (searchQuery && categoryId) {
       const categoryName = getCategoryName(categoryId);
       return categoryName 
@@ -517,9 +518,9 @@ const AllProductsPage: React.FC = () => {
       return categoryName ? categoryName : "Products";
     }
     return "All Products";
-  };
+  }, [searchQuery, categoryId, mainCategoryId, getCategoryName]);
 
-  const getInfoText = () => {
+  const getInfoText = useMemo(() => {
     if (searchQuery && categoryId && totalResults > 0) {
       const categoryName = getCategoryName(categoryId);
       return categoryName
@@ -541,15 +542,15 @@ const AllProductsPage: React.FC = () => {
       return `Showing ${products.length} of ${totalResults} products`;
     }
     return null;
-  };
+  }, [searchQuery, categoryId, mainCategoryId, totalResults, products.length, getCategoryName]);
 
   return (
     <div className="product__wrapper">
       <div className="product">
-        <div className="product__title">{getTitle()}</div>
-        {getInfoText() && (
+        <div className="product__title">{getTitle}</div>
+        {getInfoText && (
           <div style={{ marginTop: "16px", fontSize: "14px", color: "#6d6d72" }}>
-            {getInfoText()}
+            {getInfoText}
           </div>
         )}
 
@@ -561,7 +562,7 @@ const AllProductsPage: React.FC = () => {
           <>
             <div className="product__list__wrapper">
               {loading && products.length === 0 && (
-                <div style={{ padding: "20px", textAlign: "center" }}>Loading products...</div>
+                <ProductGridSkeleton count={8} />
               )}
               {products.length > 0 && (
                 <div className="product__list__table">

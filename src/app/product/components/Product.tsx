@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import "./Product.scss";
 import Image from "next/image";
 import { Product } from "@/base/types/Product";
@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import CategorySelectionModal from "./CategorySelectionModal";
 import { convertToNumberFormat } from "@/base/utils";
 import { getImageUrl } from "@/base/utils/imageUrl";
+import { ProductGridSkeleton } from "../../components/Skeleton/ProductSkeleton";
 
 interface ProductListProps {
   isRenderedByCategory?: boolean;
@@ -40,7 +41,7 @@ const ProductList: React.FC<ProductListProps> = ({
   const observerRef = useRef<HTMLDivElement>(null);
 
   // Function to get pickup title based on category/subcategory
-  const getPickupTitle = (): string => {
+  const getPickupTitle = useMemo((): string => {
     if (isRenderedByCategory && category?.name) {
       const categoryName = category.name.toLowerCase();
       
@@ -82,7 +83,7 @@ const ProductList: React.FC<ProductListProps> = ({
     
     // Default fallback
     return "How to Choose the Right Furniture for Your Space";
-  };
+  }, [isRenderedByCategory, category?.name, isRenderedBySubCategory, subCategory?.name]);
 
   useEffect(() => {
     const fetchSubCategory = async () => {
@@ -256,17 +257,17 @@ const ProductList: React.FC<ProductListProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  // Hàm chia mảng thành các nhóm nhỏ (mỗi nhóm chứa 4 sản phẩm)
-  const chunkProducts = (arr: Product[], chunkSize: number) => {
+  // Hàm chia mảng thành các nhóm nhỏ (mỗi nhóm chứa 4 sản phẩm) - memoized
+  const chunkProducts = useCallback((arr: Product[], chunkSize: number) => {
     const chunks = [];
     for (let i = 0; i < arr.length; i += chunkSize) {
       chunks.push(arr.slice(i, i + chunkSize));
     }
     return chunks;
-  };
+  }, []);
 
-  // Chia mảng products thành các nhóm nhỏ, mỗi nhóm chứa 4 sản phẩm
-  const productChunks = chunkProducts(products, 4);
+  // Chia mảng products thành các nhóm nhỏ, mỗi nhóm chứa 4 sản phẩm - memoized
+  const productChunks = useMemo(() => chunkProducts(products, 4), [products, chunkProducts]);
 
   // Infinite scroll using IntersectionObserver
   useEffect(() => {
@@ -392,9 +393,9 @@ const ProductList: React.FC<ProductListProps> = ({
       </div>
       <div className="product__pickup-item__wrapper">
         <div className="product__pickup-item">
-          <div className="product__pickup-item__title">
-            <span>{getPickupTitle()}</span>
-          </div>
+                 <div className="product__pickup-item__title">
+                   <span>{getPickupTitle}</span>
+                 </div>
         </div>
         <div className="product__pickup-item">
           <div className="product__pickup-item__title">
@@ -414,7 +415,7 @@ const ProductList: React.FC<ProductListProps> = ({
               />
             </div>
       <div className="product__list__wrapper">
-        {loading && <div style={{ padding: "20px", textAlign: "center" }}>Loading products...</div>}
+        {loading && products.length === 0 && <ProductGridSkeleton count={4} />}
         {!loading && products.length === 0 && (
           <div style={{ padding: "20px", textAlign: "center" }}>
             No products found for this category.

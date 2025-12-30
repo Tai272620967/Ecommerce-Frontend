@@ -5,7 +5,7 @@ import Image from "next/image";
 import InputField from "@/base/components/Input/Input";
 import { useForm } from "react-hook-form";
 import { Button } from "@/base/components/Button/Button";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import {
   cartTotalQuantityApi,
   deleteCartItemByIdApi,
@@ -49,7 +49,7 @@ const Cart: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const fetchCartTotalQuantity = async () => {
+  const fetchCartTotalQuantity = useCallback(async () => {
     try {
       const cartTotalQuantityRes = await cartTotalQuantityApi();
       if (cartTotalQuantityRes) {
@@ -60,12 +60,12 @@ const Cart: React.FC = () => {
         );
       }
     } catch (error) {
-      console.error(error);
+      // Error fetching cart total quantity
     }
-  };
+  }, [dispatch]);
   /* eslint-disable @typescript-eslint/no-explicit-any */
 
-  const handleUpdateCartItemQuantity = async (data: any) => {
+  const handleUpdateCartItemQuantity = useCallback(async (data: any) => {
     try {
       const response = await updateCartItemQuantityApi(data);
       setCartItems((prevItems) =>
@@ -78,11 +78,11 @@ const Cart: React.FC = () => {
 
       fetchCartTotalQuantity();
     } catch (error) {
-      console.error(error);
+      // Error updating cart item quantity
     }
-  };
+  }, [fetchCartTotalQuantity]);
 
-  const handleDeleteCartItem = async (id: string) => {
+  const handleDeleteCartItem = useCallback(async (id: string) => {
     setIsDeleting(true);
     try {
       const response = await deleteCartItemByIdApi(id);
@@ -100,20 +100,19 @@ const Cart: React.FC = () => {
         // dispatch(setTotalQuantity({ totalQuantity: totalItem }));
       }, 1000);
     } catch (error) {
-      console.error(error);
+      // Error deleting cart item
     }
-  };
+  }, [fetchCartTotalQuantity]);
 
   useEffect(() => {
     const fetchAllCartItems = async () => {
       try {
         const response = await fetchAllCartItemsByCartIdApi();
         if (response) {
-          console.log("response", response);
           setCartItems(response.data);
         }
       } catch (error) {
-        console.error("Error fetching cart items:", error);
+        // Error fetching cart items
       }
     };
 
@@ -166,7 +165,7 @@ const Cart: React.FC = () => {
                         <span className="cart__item-price-value">
                           {convertToNumberFormat(cartItem.product.minPrice)}
                         </span>
-                        <span className="cart__item-price-unit">¥ / item</span>
+                        <span className="cart__item-price-unit">$ / item</span>
                       </p>
                       <p className="cart__item-code">
                         <span className="cart__item-code-value">
@@ -242,7 +241,7 @@ const Cart: React.FC = () => {
                               )}
                             </span>
                             <span className="cart__item-info-price-unit">
-                              ¥
+                              $
                             </span>
                           </p>
                         </div>
@@ -276,7 +275,7 @@ const Cart: React.FC = () => {
                       {convertToNumberFormat(totalAmount)}
                     </span>
                     <span className="cart__price-summary__total-content__item-price-unit">
-                      ¥
+                      $
                     </span>
                   </div>
                 </li>
