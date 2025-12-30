@@ -95,7 +95,14 @@ const CategorySelectionModal: React.FC<CategorySelectionModalProps> = ({
           </Space>
         }
       >
-        <div className="category-selection__row">
+        <div 
+          className="category-selection__row"
+          onClick={() => {
+            router.push("/products");
+            onClose();
+          }}
+          style={{ cursor: "pointer" }}
+        >
           <p className="category-selection__row__text">All Furniture</p>
           <span className="category-selection__row__next-icon">
             <svg
@@ -115,14 +122,6 @@ const CategorySelectionModal: React.FC<CategorySelectionModalProps> = ({
             key={index}
             onClick={() => router.push(`/product/category/${category.id}`)}
           >
-            <div className="category-selection__row__image">
-              <Image
-                src={category?.imageUrl}
-                alt="Search icon"
-                width={105}
-                height={104}
-              />
-            </div>
             <div className="category-selection__row__text-wrapper">
               <span className="category-selection__row__text">
                 {category?.name}

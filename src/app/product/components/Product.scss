@@ -61,17 +61,17 @@
     }
 
     &__title {
-      font-size: 38px;
+      font-size: 32px;
       font-weight: 700;
 
       // iPad
       @media (max-width: 1024px) and (min-width: 769px) {
-        font-size: 32px;
+        font-size: 28px;
       }
 
       // Mobile
       @media (max-width: 768px) {
-        font-size: 24px;
+        font-size: 20px;
       }
     }
 
@@ -204,13 +204,26 @@
 
       &__item {
         padding: 0;
-        padding-bottom: 20px;
+        padding-bottom: 24px;
+        margin-bottom: 24px;
         border: 1px solid #e8e8e8;
         border-radius: 4px;
         cursor: pointer;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         background-color: #ffffff;
         overflow: hidden;
+
+        // iPad
+        @media (max-width: 1024px) and (min-width: 769px) {
+          padding-bottom: 20px;
+          margin-bottom: 20px;
+        }
+
+        // Mobile
+        @media (max-width: 768px) {
+          padding-bottom: 16px;
+          margin-bottom: 16px;
+        }
 
         &:hover {
           transform: translateY(-4px);

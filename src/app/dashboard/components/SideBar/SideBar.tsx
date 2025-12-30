@@ -29,12 +29,6 @@ const SideBar: React.FC = () => {
       icon: "/images/rectangle-list.svg",
       path: "/dashboard/order",
     },
-    {
-      id: 4,
-      text: "Chart",
-      icon: "/images/chart-simple.svg",
-      path: "/dashboard/chart",
-    },
   ];
 
   // Define dynamic accordionItems based on the selected item

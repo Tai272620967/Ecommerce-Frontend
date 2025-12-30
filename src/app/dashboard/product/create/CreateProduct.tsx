@@ -323,7 +323,7 @@ const CreateProduct: React.FC = () => {
           handleChangeMainCategory(selected);
         }}
         placeholder="Choose an option"
-        label="Product Category"
+        label="Product Main Category"
         className="custom-select__wrapper"
         labelClassName="custom-label"
         selectClassName="custom-select"
@@ -335,7 +335,7 @@ const CreateProduct: React.FC = () => {
           handleChangeSubCategory(selected); // Update local state
         }}
         placeholder="Choose a sub category"
-        label="Product Main Category"
+        label="Product Sub Category"
         className="custom-select__wrapper"
         labelClassName="custom-label"
         selectClassName="custom-select"
@@ -352,7 +352,7 @@ const CreateProduct: React.FC = () => {
               handleChange(selected); // Update local state
             }}
             placeholder="Choose an option"
-            label="Product Sub Category"
+            label="Product Category"
             className="custom-select__wrapper"
             labelClassName="custom-label"
             selectClassName="custom-select"

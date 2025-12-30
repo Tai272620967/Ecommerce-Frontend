@@ -17,15 +17,22 @@ const NavbarSearch: React.FC<NavbarSearchProps> = ({ categories }) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      const query = searchQuery.trim();
-      if (selectedCategory && selectedCategory !== "all") {
-        router.push(`/product/search?q=${encodeURIComponent(query)}&category=${selectedCategory}`);
-      } else {
-        router.push(`/product/search?q=${encodeURIComponent(query)}`);
-      }
-      setSearchQuery("");
+    const query = searchQuery.trim();
+    const params = new URLSearchParams();
+    
+    // If there's a search query, add it
+    if (query) {
+      params.set("q", query);
     }
+    
+    // If a specific category is selected (not "all"), add it
+    if (selectedCategory && selectedCategory !== "all") {
+      params.set("category", selectedCategory);
+    }
+    
+    // Navigate to products page with params (even if empty, it will show all products)
+    router.push(`/products?${params.toString()}`);
+    setSearchQuery("");
   };
 
   return (

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import "./Product.scss";
 import Image from "next/image";
 import { Product } from "@/base/types/Product";
@@ -32,10 +32,12 @@ const ProductList: React.FC<ProductListProps> = ({
   const [category, setCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const [size] = useState(4);
   const { categoryId } = useParams<{ categoryId: string }>();
   const router = useRouter();
   const isFetchingRef = useRef<boolean>(false);
+  const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchSubCategory = async () => {
@@ -55,7 +57,7 @@ const ProductList: React.FC<ProductListProps> = ({
           }
         }
       } catch (err) {
-        console.error(err);
+        // Error fetching category/subcategory
       }
     };
 
@@ -68,12 +70,12 @@ const ProductList: React.FC<ProductListProps> = ({
     // Reset products và page khi categoryId thay đổi
     setProducts([]);
     setPage(1);
+    setHasMore(true);
     isFetchingRef.current = false;
     
     const fetchProducts = async () => {
       // Nếu đang fetch, không gọi API nữa
       if (isFetchingRef.current) {
-        console.log("Already fetching, skipping...");
         return;
       }
 
@@ -81,111 +83,72 @@ const ProductList: React.FC<ProductListProps> = ({
       setLoading(true);
       
       try {
+        let response;
+        
         if (isRenderedBySubCategory) {
-          console.log("Fetching products for subCategory:", categoryId, "page: 1");
-          const response = await fetchProductsBySubCategoryId(
+          response = await fetchProductsBySubCategoryId(
             categoryId,
             1,
             size
           );
-          console.log("SubCategory products response (full):", JSON.stringify(response, null, 2));
-          console.log("Response type:", typeof response);
-          console.log("Response result:", response?.result);
-          console.log("Is array:", Array.isArray(response?.result));
-          console.log("Result length:", response?.result?.length);
-          
-          // Handle different possible response structures
-          let productsData: Product[] = [];
-          
-          if (response) {
-            // Check if result is directly in response (expected structure)
-            if (Array.isArray(response.result)) {
-              productsData = response.result;
-            } 
-            // Check if result is nested in data (fallback)
-            else if ((response as any).data && Array.isArray((response as any).data.result)) {
-              productsData = (response as any).data.result;
-            }
-            // Check if response itself is an array (fallback)
-            else if (Array.isArray(response)) {
-              productsData = response;
-            }
-          }
-          
-          console.log("Final products data to set:", productsData);
-          console.log("Products data length:", productsData.length);
-          
-          if (productsData.length > 0) {
-            console.log("Setting products:", productsData);
-            setProducts(productsData);
-          } else {
-            console.warn("No products found. Response:", response);
-            setProducts([]);
-          }
+        } else if (isRenderedByCategory) {
+          response = await fetchProductsByCategoryId(
+            categoryId,
+            1,
+            size
+          );
         }
-
-        if (isRenderedByCategory) {
-          console.log("Fetching products for category:", categoryId, "page: 1");
-          const response = await fetchProductsByCategoryId(
-            categoryId,
-            1,
-            size
-          );
-          console.log("Category products response (full):", JSON.stringify(response, null, 2));
-          console.log("Response type:", typeof response);
-          console.log("Response result:", response?.result);
-          console.log("Is array:", Array.isArray(response?.result));
-          console.log("Result length:", response?.result?.length);
-          
+        
+        if (response) {
           // Handle different possible response structures
           let productsData: Product[] = [];
           
-          if (response) {
-            // Check if result is directly in response (expected structure)
-            if (Array.isArray(response.result)) {
-              productsData = response.result;
-            } 
-            // Check if result is nested in data (fallback)
-            else if ((response as any).data && Array.isArray((response as any).data.result)) {
-              productsData = (response as any).data.result;
-            }
-            // Check if response itself is an array (fallback)
-            else if (Array.isArray(response)) {
-              productsData = response;
-            }
+          if (Array.isArray(response.result)) {
+            productsData = response.result;
+          } else if ((response as any).data && Array.isArray((response as any).data.result)) {
+            productsData = (response as any).data.result;
+          } else if (Array.isArray(response)) {
+            productsData = response;
           }
           
-          console.log("Final products data to set:", productsData);
-          console.log("Products data length:", productsData.length);
+          setProducts(productsData);
           
-          if (productsData.length > 0) {
-            console.log("Setting products:", productsData);
-            setProducts(productsData);
+          // Check if there are more pages
+          if (response.meta) {
+            setHasMore(1 < (response.meta.pages || 1));
           } else {
-            console.warn("No products found. Response:", response);
-            setProducts([]);
+            // If no meta, assume no more if less than page size
+            setHasMore(productsData.length >= size);
           }
+        } else {
+          setProducts([]);
+          setHasMore(false);
         }
       } catch (err) {
-        console.error("Error fetching products:", err);
         setProducts([]);
+        setHasMore(false);
       } finally {
         setLoading(false);
         isFetchingRef.current = false;
-        console.log("Fetch completed, isFetchingRef set to false");
       }
     };
 
     fetchProducts();
-  }, [categoryId, isRenderedBySubCategory, isRenderedByCategory]); // Chỉ fetch lại khi categoryId thay đổi
+  }, [categoryId, isRenderedBySubCategory, isRenderedByCategory, size]);
+
+  const loadMore = useCallback(() => {
+    if (!loading && hasMore && !isFetchingRef.current && categoryId) {
+      const nextPage = page + 1;
+      setPage(nextPage);
+    }
+  }, [loading, hasMore, categoryId, page]);
 
   // Fetch thêm products khi page > 1 (lazy load)
   useEffect(() => {
-    if (!categoryId || page === 1) return;
+    if (!categoryId || page === 1 || !hasMore || loading) return;
     
     // Nếu đang fetch, không gọi API nữa
     if (isFetchingRef.current) {
-      console.log("Already fetching, skipping...");
       return;
     }
 
@@ -194,35 +157,50 @@ const ProductList: React.FC<ProductListProps> = ({
       setLoading(true);
       
       try {
+        let response;
+        
         if (isRenderedBySubCategory) {
-          console.log("Fetching more products for subCategory:", categoryId, "page:", page);
-          const response = await fetchProductsBySubCategoryId(
+          response = await fetchProductsBySubCategoryId(
             categoryId,
             page,
             size
           );
-          
-          if (response && response.result && Array.isArray(response.result) && response.result.length > 0) {
-            console.log("Appending products:", response.result);
-            setProducts((prev) => [...prev, ...response.result]);
-          }
+        } else if (isRenderedByCategory) {
+          response = await fetchProductsByCategoryId(
+            categoryId,
+            page,
+            size
+          );
         }
-
-        if (isRenderedByCategory) {
-          console.log("Fetching more products for category:", categoryId, "page:", page);
-          const response = await fetchProductsByCategoryId(
-            categoryId,
-            page,
-            size
-          );
+        
+        if (response) {
+          let productsData: Product[] = [];
           
-          if (response && response.result && Array.isArray(response.result) && response.result.length > 0) {
-            console.log("Appending products:", response.result);
-            setProducts((prev) => [...prev, ...response.result]);
+          if (Array.isArray(response.result)) {
+            productsData = response.result;
+          } else if ((response as any).data && Array.isArray((response as any).data.result)) {
+            productsData = (response as any).data.result;
+          } else if (Array.isArray(response)) {
+            productsData = response;
           }
+          
+          if (productsData.length > 0) {
+            setProducts((prev) => [...prev, ...productsData]);
+            
+            // Check if there are more pages
+            if (response.meta) {
+              setHasMore(page < (response.meta.pages || 1));
+            } else {
+              setHasMore(productsData.length >= size);
+            }
+          } else {
+            setHasMore(false);
+          }
+        } else {
+          setHasMore(false);
         }
       } catch (err) {
-        console.error("Error fetching more products:", err);
+        setHasMore(false);
       } finally {
         setLoading(false);
         isFetchingRef.current = false;
@@ -230,7 +208,8 @@ const ProductList: React.FC<ProductListProps> = ({
     };
 
     fetchMoreProducts();
-  }, [page]); // Chỉ fetch thêm khi page > 1
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   // Hàm chia mảng thành các nhóm nhỏ (mỗi nhóm chứa 4 sản phẩm)
   const chunkProducts = (arr: Product[], chunkSize: number) => {
@@ -243,30 +222,30 @@ const ProductList: React.FC<ProductListProps> = ({
 
   // Chia mảng products thành các nhóm nhỏ, mỗi nhóm chứa 4 sản phẩm
   const productChunks = chunkProducts(products, 4);
-  console.log("Current products state:", products);
-  console.log("Products length:", products.length);
-  console.log("Product chunks:", productChunks);
-  console.log("Product chunks length:", productChunks.length);
 
-  // Xử lý khi người dùng kéo xuống dưới cùng của trang (lazy load)
-  const handleScroll = () => {
-    const bottom =
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight;
-    if (bottom && !loading) {
-      setPage((prev) => prev + 1); // Tăng trang để lấy thêm sản phẩm
-    }
-  };
-
+  // Infinite scroll using IntersectionObserver
   useEffect(() => {
-    // Lắng nghe sự kiện scroll để kích hoạt lazy load
-    window.addEventListener("scroll", handleScroll);
+    if (!hasMore || loading) return;
 
-    // Cleanup event listener khi component unmount
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
     };
-  }, [loading]);
+  }, [hasMore, loading, loadMore]);
 
   return (
     <div className="product__wrapper">
@@ -287,7 +266,19 @@ const ProductList: React.FC<ProductListProps> = ({
           </li>
           <li className="product__bread-crumbs__list__item">
             {(isRenderedBySubCategory || isRenderedByCategory) && (
-              <a href="">
+              <a 
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const mainCategoryId = isRenderedBySubCategory
+                    ? subCategory?.mainCategory?.id
+                    : category?.subCategory?.mainCategory?.id;
+                  if (mainCategoryId) {
+                    router.push(`/products?maincategory=${mainCategoryId}`);
+                  }
+                }}
+                style={{ cursor: "pointer" }}
+              >
                 {isRenderedBySubCategory
                   ? subCategory?.mainCategory.name
                   : category?.subCategory?.mainCategory.name}
@@ -306,7 +297,19 @@ const ProductList: React.FC<ProductListProps> = ({
           </li>
           <li className="product__bread-crumbs__list__item">
             {(isRenderedBySubCategory || isRenderedByCategory) && (
-              <a href="">
+              <a 
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const subCategoryId = isRenderedBySubCategory
+                    ? subCategory?.id
+                    : category?.subCategory?.id;
+                  if (subCategoryId) {
+                    router.push(`/product/subCategory/${subCategoryId}`);
+                  }
+                }}
+                style={{ cursor: "pointer" }}
+              >
                 {isRenderedBySubCategory
                   ? subCategory?.name
                   : category?.subCategory.name}
@@ -366,9 +369,17 @@ const ProductList: React.FC<ProductListProps> = ({
           </div>
         </div>
       </div>
-      <div className="product__filter__wrapper">
-        <CategorySelectionModal subCategoryId={categoryId} />
-      </div>
+            <div className="product__filter__wrapper">
+              <CategorySelectionModal 
+                subCategoryId={
+                  isRenderedByCategory && category?.subCategory?.id
+                    ? category.subCategory.id.toString()
+                    : isRenderedBySubCategory && subCategory?.id
+                    ? subCategory.id.toString()
+                    : categoryId
+                } 
+              />
+            </div>
       <div className="product__list__wrapper">
         {loading && <div style={{ padding: "20px", textAlign: "center" }}>Loading products...</div>}
         {!loading && products.length === 0 && (
@@ -460,10 +471,16 @@ const ProductList: React.FC<ProductListProps> = ({
           </div>
         ))}
       </div>
-      {/* Thêm phần loading nếu cần */}
-      {/* <div className="loader__wrapper">
-        {loading && <div className="loader"></div>}
-      </div> */}
+      
+      {loading && products.length > 0 && (
+        <div className="loader__wrapper">
+          <div className="loader"></div>
+        </div>
+      )}
+      
+      {hasMore && (
+        <div ref={observerRef} style={{ height: "20px", width: "100%" }} />
+      )}
     </div>
   );
 };
