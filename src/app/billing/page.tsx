@@ -30,23 +30,15 @@ export default function BillingPage() {
       setLoading(true);
       const response = await getOrdersApi();
       
-      // Handle different response structures
-      let ordersData: Order[] = [];
-      
-      if (response) {
-        // API returns List<ResOrderDTO> directly
-        if (Array.isArray(response)) {
-          ordersData = response as any;
-        } else if (Array.isArray(response.data)) {
-          ordersData = response.data;
-        } else if (response.data && Array.isArray(response.data)) {
-          ordersData = response.data;
-        }
+      // API returns Order[] directly (List<ResOrderDTO>)
+      if (Array.isArray(response)) {
+        setOrders(response);
+      } else {
+        setOrders([]);
       }
-      
-      setOrders(ordersData);
     } catch (error) {
       message.error("Failed to fetch orders");
+      setOrders([]);
     } finally {
       setLoading(false);
     }

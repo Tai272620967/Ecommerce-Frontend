@@ -1,4 +1,4 @@
-import { UsersResponse, UserResponse } from "@/base/types/user";
+import { User, UsersResponse, UserResponse } from "@/base/types/user";
 import axiosInstance from "../axiosConfig";
 
 export const fetchAllUsersApi = async (

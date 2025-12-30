@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useRef, useCallback, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Product } from "@/base/types/Product";
@@ -18,7 +18,8 @@ import "./page.scss";
 import "../product/components/Product.scss";
 import { ProductGridSkeleton } from "../components/Skeleton/ProductSkeleton";
 
-const AllProductsPage: React.FC = () => {
+// Component that uses useSearchParams - must be wrapped in Suspense
+const AllProductsPageContent: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") || "";
@@ -153,7 +154,13 @@ const AllProductsPage: React.FC = () => {
   const fetchSearchResults = async (query: string, pageNum: number, categoryId?: string) => {
     if (!query.trim()) {
       if (categoryId) {
-        fetchProductsByCategory(categoryId, 1);
+        // Check if categoryId is a MainCategory ID
+        const isMainCategory = categories.some(cat => cat.id.toString() === categoryId);
+        if (isMainCategory) {
+          fetchProductsByMainCategory(categoryId, 1);
+        } else {
+          fetchProductsByCategory(categoryId, 1);
+        }
       } else {
         fetchProducts(1);
       }
@@ -162,174 +169,252 @@ const AllProductsPage: React.FC = () => {
 
     setLoading(true);
     try {
-      // Search by product name
-      const response = await searchProductsApi(query, pageNum, 20);
-      
       let productsData: Product[] = [];
-      
-      if (response) {
-        // Handle different response structures
-        if (Array.isArray(response.result)) {
-          productsData = response.result;
-        } else if ((response as any).data) {
-          const data = (response as any).data;
-          if (Array.isArray(data.result)) {
-            productsData = data.result;
-          } else if (Array.isArray(data)) {
-            productsData = data;
-          }
-        } else if (response.result && typeof response.result === 'object' && !Array.isArray(response.result)) {
-          const resultObj = response.result as any;
-          if (Array.isArray(resultObj.result)) {
-            productsData = resultObj.result;
-          } else if (Array.isArray(resultObj.data)) {
-            productsData = resultObj.data;
-          } else {
-            const keys = Object.keys(resultObj);
-            for (const key of keys) {
-              if (Array.isArray(resultObj[key])) {
-                productsData = resultObj[key];
-                break;
-              }
-            }
-          }
-        } else if (Array.isArray(response)) {
-          productsData = response;
-        }
-      }
-
-      // Search by category names at all 3 levels (case-insensitive)
       const queryLower = query.toLowerCase().trim();
       
-      // Find matching MainCategories
-      const matchingMainCategories = categories.filter(
-        (cat) => cat.name.toLowerCase().includes(queryLower)
-      );
-
-      // Find matching SubCategories
-      const matchingSubCategories = allSubCategories.filter(
-        (subCat) => subCat.name.toLowerCase().includes(queryLower)
-      );
-
-      // Fetch all Categories (cấp 3) and find matching ones
-      const matchingCategoryIds = new Set<number>();
-      
-      // Get all categories from matching SubCategories
-      for (const subCategory of matchingSubCategories) {
-        try {
-          const categoriesResponse = await fetchCategoriesBySubCategoryIdApi(subCategory.id.toString());
-          const categoriesList: Category[] = Array.isArray(categoriesResponse) 
-            ? categoriesResponse 
-            : [];
-          categoriesList.forEach(cat => {
-            matchingCategoryIds.add(cat.id);
-            // Also check if category name matches
-            if (cat.name.toLowerCase().includes(queryLower)) {
-              matchingCategoryIds.add(cat.id);
-            }
-          });
-        } catch (error) {
-          // Continue if error
-        }
-      }
-
-      // Get all SubCategories from matching MainCategories, then get their Categories
-      for (const mainCategory of matchingMainCategories) {
-        try {
-          const subCategoriesResponse = await fetchSubCategoriesByMainCategoryIdApi(mainCategory.id.toString());
+      // If categoryId is provided, search within that category first
+      if (categoryId && categoryId !== "all") {
+        const isMainCategory = categories.some(cat => cat.id.toString() === categoryId);
+        
+        if (isMainCategory) {
+          // Get all products in this MainCategory, then filter by search query
+          // We need to manually fetch all products from this MainCategory
+          // Step 1: Get all SubCategories of this MainCategory
+          const subCategoriesResponse = await fetchSubCategoriesByMainCategoryIdApi(categoryId);
           const subCategories: SubCategory[] = Array.isArray(subCategoriesResponse?.data) 
             ? subCategoriesResponse.data 
             : (Array.isArray(subCategoriesResponse) ? subCategoriesResponse : []);
           
+          // Step 2: For each SubCategory, get all Categories (cấp 3)
+          const allCategoryIds: number[] = [];
           for (const subCategory of subCategories) {
             try {
               const categoriesResponse = await fetchCategoriesBySubCategoryIdApi(subCategory.id.toString());
               const categoriesList: Category[] = Array.isArray(categoriesResponse) 
                 ? categoriesResponse 
                 : [];
-              categoriesList.forEach(cat => {
-                matchingCategoryIds.add(cat.id);
-                // Also check if category name matches
-                if (cat.name.toLowerCase().includes(queryLower)) {
-                  matchingCategoryIds.add(cat.id);
-                }
-              });
+              categoriesList.forEach(cat => allCategoryIds.push(cat.id));
             } catch (error) {
               // Continue if error
             }
           }
-        } catch (error) {
-          // Continue if error
-        }
-      }
+          
+          // Step 3: Fetch products from all categories
+          if (allCategoryIds.length > 0) {
+            const allProducts: Product[] = [];
+            
+            // Fetch products for each category
+            const categoryPromises = allCategoryIds.map(async (catId) => {
+              try {
+                const categoryProductsResponse = await fetchProductsByCategoryId(
+                  catId.toString(),
+                  1,
+                  1000
+                );
+                
+                let categoryProducts: Product[] = [];
+                if (categoryProductsResponse) {
+                  if (Array.isArray(categoryProductsResponse.result)) {
+                    categoryProducts = categoryProductsResponse.result;
+                  } else if ((categoryProductsResponse as any).data && Array.isArray((categoryProductsResponse as any).data.result)) {
+                    categoryProducts = (categoryProductsResponse as any).data.result;
+                  } else if (Array.isArray(categoryProductsResponse)) {
+                    categoryProducts = categoryProductsResponse;
+                  }
+                }
+                return categoryProducts;
+              } catch (error) {
+                return [];
+              }
+            });
 
-      // Also search for Categories (cấp 3) that match directly by fetching all subcategories first
-      // Then get all their categories and check names
-      for (const subCategory of allSubCategories) {
-        try {
-          const categoriesResponse = await fetchCategoriesBySubCategoryIdApi(subCategory.id.toString());
-          const categoriesList: Category[] = Array.isArray(categoriesResponse) 
-            ? categoriesResponse 
-            : [];
-          categoriesList.forEach(cat => {
-            if (cat.name.toLowerCase().includes(queryLower)) {
-              matchingCategoryIds.add(cat.id);
-            }
-          });
-        } catch (error) {
-          // Continue if error
-        }
-      }
-
-      // Fetch products from all matching categories
-      if (matchingCategoryIds.size > 0 && pageNum === 1) {
-        const allCategoryProducts: Product[] = [];
-        
-        // Fetch products for each matching category
-        const categoryPromises = Array.from(matchingCategoryIds).map(async (categoryId) => {
-          try {
-            const categoryProductsResponse = await fetchProductsByCategoryId(
-              categoryId.toString(),
-              1,
-              1000
+            const categoryProductsArrays = await Promise.all(categoryPromises);
+            allProducts.push(...categoryProductsArrays.flat());
+            
+            // Remove duplicates
+            const uniqueProducts = allProducts.filter(
+              (product, index, self) => index === self.findIndex((p) => p.id === product.id)
             );
             
-            let categoryProducts: Product[] = [];
-            if (categoryProductsResponse) {
-              if (Array.isArray(categoryProductsResponse.result)) {
-                categoryProducts = categoryProductsResponse.result;
-              } else if ((categoryProductsResponse as any).data && Array.isArray((categoryProductsResponse as any).data.result)) {
-                categoryProducts = (categoryProductsResponse as any).data.result;
-              } else if (Array.isArray(categoryProductsResponse)) {
-                categoryProducts = categoryProductsResponse;
+            // Filter products by search query (case-insensitive)
+            productsData = uniqueProducts.filter((product: Product) => 
+              product.name.toLowerCase().includes(queryLower)
+            );
+          }
+        } else {
+          // categoryId is a Category (level 3) ID, search within that category
+          const categoryResponse = await fetchProductsByCategoryId(categoryId, 1, 1000);
+          if (categoryResponse && categoryResponse.result) {
+            const allProducts = Array.isArray(categoryResponse.result) 
+              ? categoryResponse.result 
+              : [];
+            
+            // Filter products by search query (case-insensitive)
+            productsData = allProducts.filter((product: Product) => 
+              product.name.toLowerCase().includes(queryLower)
+            );
+          }
+        }
+      } else {
+        // No category filter, search all products by name
+        const response = await searchProductsApi(query, pageNum, 20);
+        
+        if (response) {
+          // Handle different response structures
+          if (Array.isArray(response.result)) {
+            productsData = response.result;
+          } else if ((response as any).data) {
+            const data = (response as any).data;
+            if (Array.isArray(data.result)) {
+              productsData = data.result;
+            } else if (Array.isArray(data)) {
+              productsData = data;
+            }
+          } else if (response.result && typeof response.result === 'object' && !Array.isArray(response.result)) {
+            const resultObj = response.result as any;
+            if (Array.isArray(resultObj.result)) {
+              productsData = resultObj.result;
+            } else if (Array.isArray(resultObj.data)) {
+              productsData = resultObj.data;
+            } else {
+              const keys = Object.keys(resultObj);
+              for (const key of keys) {
+                if (Array.isArray(resultObj[key])) {
+                  productsData = resultObj[key];
+                  break;
+                }
               }
             }
-            return categoryProducts;
-          } catch (error) {
-            return [];
+          } else if (Array.isArray(response)) {
+            productsData = response;
           }
-        });
-
-        const categoryProductsArrays = await Promise.all(categoryPromises);
-        allCategoryProducts.push(...categoryProductsArrays.flat());
-        
-        // Combine and remove duplicates by product ID
-        const allProducts = [...productsData, ...allCategoryProducts];
-        const uniqueProducts = allProducts.filter(
-          (product, index, self) => index === self.findIndex((p) => p.id === product.id)
-        );
-        
-        productsData = uniqueProducts;
+        }
       }
-      
-      // Filter by category if provided
-      if (categoryId && categoryId !== "all" && productsData.length > 0) {
-        productsData = productsData.filter(
-          (product: any) => {
-            const productCategoryId = (product as any).category?.id || (product as any).subCategory?.mainCategory?.id;
-            return productCategoryId?.toString() === categoryId;
-          }
+
+      // If no category filter, also search by category names at all 3 levels (case-insensitive)
+      if (!categoryId || categoryId === "all") {
+        const queryLower = query.toLowerCase().trim();
+        
+        // Find matching MainCategories
+        const matchingMainCategories = categories.filter(
+          (cat) => cat.name.toLowerCase().includes(queryLower)
         );
+
+        // Find matching SubCategories
+        const matchingSubCategories = allSubCategories.filter(
+          (subCat) => subCat.name.toLowerCase().includes(queryLower)
+        );
+
+        // Fetch all Categories (cấp 3) and find matching ones
+        const matchingCategoryIds = new Set<number>();
+        
+        // Get all categories from matching SubCategories
+        for (const subCategory of matchingSubCategories) {
+          try {
+            const categoriesResponse = await fetchCategoriesBySubCategoryIdApi(subCategory.id.toString());
+            const categoriesList: Category[] = Array.isArray(categoriesResponse) 
+              ? categoriesResponse 
+              : [];
+            categoriesList.forEach(cat => {
+              matchingCategoryIds.add(cat.id);
+              // Also check if category name matches
+              if (cat.name.toLowerCase().includes(queryLower)) {
+                matchingCategoryIds.add(cat.id);
+              }
+            });
+          } catch (error) {
+            // Continue if error
+          }
+        }
+
+        // Get all SubCategories from matching MainCategories, then get their Categories
+        for (const mainCategory of matchingMainCategories) {
+          try {
+            const subCategoriesResponse = await fetchSubCategoriesByMainCategoryIdApi(mainCategory.id.toString());
+            const subCategories: SubCategory[] = Array.isArray(subCategoriesResponse?.data) 
+              ? subCategoriesResponse.data 
+              : (Array.isArray(subCategoriesResponse) ? subCategoriesResponse : []);
+            
+            for (const subCategory of subCategories) {
+              try {
+                const categoriesResponse = await fetchCategoriesBySubCategoryIdApi(subCategory.id.toString());
+                const categoriesList: Category[] = Array.isArray(categoriesResponse) 
+                  ? categoriesResponse 
+                  : [];
+                categoriesList.forEach(cat => {
+                  matchingCategoryIds.add(cat.id);
+                  // Also check if category name matches
+                  if (cat.name.toLowerCase().includes(queryLower)) {
+                    matchingCategoryIds.add(cat.id);
+                  }
+                });
+              } catch (error) {
+                // Continue if error
+              }
+            }
+          } catch (error) {
+            // Continue if error
+          }
+        }
+
+        // Also search for Categories (cấp 3) that match directly by fetching all subcategories first
+        // Then get all their categories and check names
+        for (const subCategory of allSubCategories) {
+          try {
+            const categoriesResponse = await fetchCategoriesBySubCategoryIdApi(subCategory.id.toString());
+            const categoriesList: Category[] = Array.isArray(categoriesResponse) 
+              ? categoriesResponse 
+              : [];
+            categoriesList.forEach(cat => {
+              if (cat.name.toLowerCase().includes(queryLower)) {
+                matchingCategoryIds.add(cat.id);
+              }
+            });
+          } catch (error) {
+            // Continue if error
+          }
+        }
+
+        // Fetch products from all matching categories
+        if (matchingCategoryIds.size > 0 && pageNum === 1) {
+          const allCategoryProducts: Product[] = [];
+          
+          // Fetch products for each matching category
+          const categoryPromises = Array.from(matchingCategoryIds).map(async (catId) => {
+            try {
+              const categoryProductsResponse = await fetchProductsByCategoryId(
+                catId.toString(),
+                1,
+                1000
+              );
+              
+              let categoryProducts: Product[] = [];
+              if (categoryProductsResponse) {
+                if (Array.isArray(categoryProductsResponse.result)) {
+                  categoryProducts = categoryProductsResponse.result;
+                } else if ((categoryProductsResponse as any).data && Array.isArray((categoryProductsResponse as any).data.result)) {
+                  categoryProducts = (categoryProductsResponse as any).data.result;
+                } else if (Array.isArray(categoryProductsResponse)) {
+                  categoryProducts = categoryProductsResponse;
+                }
+              }
+              return categoryProducts;
+            } catch (error) {
+              return [];
+            }
+          });
+
+          const categoryProductsArrays = await Promise.all(categoryPromises);
+          allCategoryProducts.push(...categoryProductsArrays.flat());
+          
+          // Combine and remove duplicates by product ID
+          const allProducts = [...productsData, ...allCategoryProducts];
+          const uniqueProducts = allProducts.filter(
+            (product, index, self) => index === self.findIndex((p) => p.id === product.id)
+          );
+          
+          productsData = uniqueProducts;
+        }
       }
       
       if (pageNum === 1) {
@@ -339,11 +424,11 @@ const AllProductsPage: React.FC = () => {
       }
       
       // Set total results
-      if (response && response.meta) {
-        setTotalResults(response.meta.total || productsData.length);
-        setHasMore(pageNum < (response.meta.pages || 1));
+      setTotalResults(productsData.length);
+      // If category filter is applied, we've fetched all products, so no pagination
+      if (categoryId && categoryId !== "all") {
+        setHasMore(false);
       } else {
-        setTotalResults(productsData.length);
         setHasMore(productsData.length >= 20);
       }
     } catch (error) {
@@ -657,6 +742,15 @@ const AllProductsPage: React.FC = () => {
         )}
       </div>
     </div>
+  );
+};
+
+// Wrapper component with Suspense boundary
+const AllProductsPage: React.FC = () => {
+  return (
+    <Suspense fallback={<ProductGridSkeleton count={8} />}>
+      <AllProductsPageContent />
+    </Suspense>
   );
 };
 

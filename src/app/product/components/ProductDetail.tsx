@@ -117,44 +117,119 @@ const ProductDetail: React.FC = () => {
       <div className="product-detail__bread-crumbs">
         <ul className="product-detail__bread-crumbs__list">
           <li className="product-detail__bread-crumbs__list__item">
-            <a href="">MUJI</a>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="none"
-              stroke="#D8D8D9"
-              className="BreadCrumbs_list__icon__vqjGm"
+            <a 
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/");
+              }}
+              style={{ cursor: "pointer" }}
             >
-              <path d="m6 13 5-5-5-5"></path>
-            </svg>
+              MUJI
+            </a>
+            {product && (product as any).category && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="#D8D8D9"
+                className="BreadCrumbs_list__icon__vqjGm"
+              >
+                <path d="m6 13 5-5-5-5"></path>
+              </svg>
+            )}
           </li>
-          <li className="product-detail__bread-crumbs__list__item">
-            <a href="">Furniture, Storage, Appliances</a>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="none"
-              stroke="#D8D8D9"
-              className="BreadCrumbs_list__icon__vqjGm"
-            >
-              <path d="m6 13 5-5-5-5"></path>
-            </svg>
-          </li>
-          <li className="product-detail__bread-crumbs__list__item">
-            <a href="">Furniture</a>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="none"
-              stroke="#D8D8D9"
-              className="BreadCrumbs_list__icon__vqjGm"
-            >
-              <path d="m6 13 5-5-5-5"></path>
-            </svg>
-          </li>
+          {product && (product as any).category?.subCategory?.mainCategory && (
+            <>
+              <li className="product-detail__bread-crumbs__list__item">
+                <a 
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const mainCategoryId = (product as any).category?.subCategory?.mainCategory?.id;
+                    if (mainCategoryId) {
+                      router.push(`/products?maincategory=${mainCategoryId}`);
+                    }
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {(product as any).category.subCategory.mainCategory.name}
+                </a>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="#D8D8D9"
+                  className="BreadCrumbs_list__icon__vqjGm"
+                >
+                  <path d="m6 13 5-5-5-5"></path>
+                </svg>
+              </li>
+              {(product as any).category?.subCategory && (
+                <li className="product-detail__bread-crumbs__list__item">
+                  <a 
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const subCategoryId = (product as any).category?.subCategory?.id;
+                      if (subCategoryId) {
+                        router.push(`/product/subCategory/${subCategoryId}`);
+                      }
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {(product as any).category.subCategory.name}
+                  </a>
+                  {(product as any).category && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="none"
+                      stroke="#D8D8D9"
+                      className="BreadCrumbs_list__icon__vqjGm"
+                    >
+                      <path d="m6 13 5-5-5-5"></path>
+                    </svg>
+                  )}
+                </li>
+              )}
+              {(product as any).category && (
+                <li className="product-detail__bread-crumbs__list__item">
+                  <a 
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const categoryId = (product as any).category?.id;
+                      if (categoryId) {
+                        router.push(`/product/category/${categoryId}`);
+                      }
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {(product as any).category.name}
+                  </a>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="none"
+                    stroke="#D8D8D9"
+                    className="BreadCrumbs_list__icon__vqjGm"
+                  >
+                    <path d="m6 13 5-5-5-5"></path>
+                  </svg>
+                </li>
+              )}
+            </>
+          )}
+          {product && (
+            <li className="product-detail__bread-crumbs__list__item">
+              <span>{product.name}</span>
+            </li>
+          )}
         </ul>
       </div>
       <div className="product-detail">

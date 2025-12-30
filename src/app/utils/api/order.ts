@@ -1,4 +1,4 @@
-import { OrderDTO, OrderResponse, OrdersResponse, OrdersPaginationResponse } from "@/base/types/order";
+import { Order, OrderDTO, OrderResponse, OrdersResponse, OrdersPaginationResponse } from "@/base/types/order";
 import axiosInstance from "../axiosConfig";
 
 export const createOrderApi = async (data: OrderDTO) => {

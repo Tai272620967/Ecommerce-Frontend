@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
-const SearchResultsPage: React.FC = () => {
+const SearchResultsPageContent: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -23,6 +23,14 @@ const SearchResultsPage: React.FC = () => {
   }, [searchParams, router]);
 
   return null;
+};
+
+const SearchResultsPage: React.FC = () => {
+  return (
+    <Suspense fallback={null}>
+      <SearchResultsPageContent />
+    </Suspense>
+  );
 };
 
 export default SearchResultsPage;
