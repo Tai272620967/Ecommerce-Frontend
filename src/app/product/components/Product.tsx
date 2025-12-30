@@ -39,6 +39,51 @@ const ProductList: React.FC<ProductListProps> = ({
   const isFetchingRef = useRef<boolean>(false);
   const observerRef = useRef<HTMLDivElement>(null);
 
+  // Function to get pickup title based on category/subcategory
+  const getPickupTitle = (): string => {
+    if (isRenderedByCategory && category?.name) {
+      const categoryName = category.name.toLowerCase();
+      
+      // Map category names to appropriate titles
+      if (categoryName.includes("sofa")) {
+        return "How to Choose a Comfortable Sofa for Relaxation";
+      } else if (categoryName.includes("tv stand") || categoryName.includes("tvstand")) {
+        return "How to Choose the Right TV Stand for Your Space";
+      } else if (categoryName.includes("coffee table") || categoryName.includes("coffeetable")) {
+        return "How to Choose the Perfect Coffee Table";
+      } else if (categoryName.includes("dining table") || categoryName.includes("diningtable")) {
+        return "How to Choose the Ideal Dining Table";
+      } else if (categoryName.includes("bed") || categoryName.includes("bedroom")) {
+        return "How to Choose the Perfect Bed for Your Bedroom";
+      } else if (categoryName.includes("chair")) {
+        return "How to Choose a Comfortable Chair";
+      } else if (categoryName.includes("desk") || categoryName.includes("workspace")) {
+        return "How to Choose the Right Desk for Your Workspace";
+      } else if (categoryName.includes("storage") || categoryName.includes("cabinet")) {
+        return "How to Choose the Right Storage Solution";
+      } else if (categoryName.includes("shelf") || categoryName.includes("bookcase")) {
+        return "How to Choose the Perfect Shelf for Your Space";
+      } else {
+        return `How to Choose the Right ${category.name} for Your Space`;
+      }
+    } else if (isRenderedBySubCategory && subCategory?.name) {
+      const subCategoryName = subCategory.name.toLowerCase();
+      
+      if (subCategoryName.includes("sofa") || subCategoryName.includes("seating")) {
+        return "How to Choose a Comfortable Sofa for Relaxation";
+      } else if (subCategoryName.includes("table")) {
+        return "How to Choose the Perfect Table for Your Space";
+      } else if (subCategoryName.includes("storage")) {
+        return "How to Choose the Right Storage Solution";
+      } else {
+        return `How to Choose the Right ${subCategory.name} for Your Space`;
+      }
+    }
+    
+    // Default fallback
+    return "How to Choose the Right Furniture for Your Space";
+  };
+
   useEffect(() => {
     const fetchSubCategory = async () => {
       try {
@@ -347,23 +392,11 @@ const ProductList: React.FC<ProductListProps> = ({
       </div>
       <div className="product__pickup-item__wrapper">
         <div className="product__pickup-item">
-          {/* <Image
-            src="/images/products/furniture/sofa.avif"
-            alt="Search icon"
-            width={435}
-            height={272}
-          /> */}
           <div className="product__pickup-item__title">
-            <span>How to Choose a Comfortable Sofa for Relaxation</span>
+            <span>{getPickupTitle()}</span>
           </div>
         </div>
         <div className="product__pickup-item">
-          {/* <Image
-            src="/images/products/furniture/hannyu.avif"
-            alt="Search icon"
-            width={435}
-            height={272}
-          /> */}
           <div className="product__pickup-item__title">
             <span>Delivery Space Simulator</span>
           </div>
@@ -385,10 +418,6 @@ const ProductList: React.FC<ProductListProps> = ({
         {!loading && products.length === 0 && (
           <div style={{ padding: "20px", textAlign: "center" }}>
             No products found for this category.
-            <br />
-            <small>Category ID: {categoryId}</small>
-            <br />
-            <small>Check console for API response details.</small>
           </div>
         )}
         {productChunks.length > 0 && productChunks.map((productChunk, index) => (
