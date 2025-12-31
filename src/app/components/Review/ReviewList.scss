@@ -1,59 +1,75 @@
 .review-list {
-  margin-top: 24px;
+  margin-top: 32px;
 
   &__loading,
   &__empty {
     text-align: center;
     color: #6d6d72;
-    padding: 40px 20px;
+    padding: 60px 20px;
     font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.2px;
   }
 
   &__item {
-    padding: 20px 0;
+    padding: 32px 0;
     border-bottom: 1px solid #e8e8e8;
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease, padding 0.3s ease;
+
+    &:first-child {
+      padding-top: 0;
+    }
 
     &:last-child {
       border-bottom: none;
+      padding-bottom: 0;
     }
 
     &__header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     &__user {
       display: flex;
-      gap: 12px;
+      gap: 16px;
       align-items: center;
 
       &__avatar {
         border-radius: 50%;
         object-fit: cover;
+        border: 1px solid #f5f5f0;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: scale(1.05);
+        }
       }
 
       &__info {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 6px;
       }
 
       &__name {
-        font-size: 14px;
-        font-weight: 500;
+        font-size: 15px;
+        font-weight: 400;
         color: #3c3c43;
         margin: 0;
+        letter-spacing: 0.2px;
       }
 
       &__date {
-        font-size: 12px;
+        font-size: 13px;
+        font-weight: 300;
         color: #6d6d72;
         margin: 0;
+        letter-spacing: 0.1px;
       }
     }
 
@@ -64,73 +80,117 @@
       &__button {
         background: none;
         border: 1px solid #e8e8e8;
-        padding: 4px 12px;
-        border-radius: 4px;
-        font-size: 12px;
+        padding: 6px 16px;
+        border-radius: 0;
+        font-size: 13px;
+        font-weight: 300;
         color: #6d6d72;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        letter-spacing: 0.2px;
 
         &:hover {
-          background-color: #f5f5f5;
-          border-color: #d8d8d9;
+          background-color: #f5f5f0;
+          border-color: #3c3c43;
           color: #3c3c43;
         }
 
         &--delete {
           color: #d26d69;
+          border-color: #e8e8e8;
 
           &:hover {
             background-color: #fff5f5;
             border-color: #d26d69;
+            color: #d26d69;
           }
         }
       }
     }
 
     &__rating {
-      margin-bottom: 8px;
+      margin-bottom: 12px;
 
       &__star {
         font-size: 16px;
         color: #e8e8e8;
-        margin-right: 2px;
+        margin-right: 3px;
+        transition: color 0.3s ease, transform 0.2s ease;
 
         &--filled {
-          color: #fbbf24;
+          color: #E0CEAA;
         }
       }
     }
 
     &__comment {
       font-size: 14px;
+      font-weight: 300;
       color: #3c3c43;
-      line-height: 1.6;
+      line-height: 1.8;
       margin: 0;
+      letter-spacing: 0.1px;
     }
   }
 
   &__load-more {
-    margin-top: 20px;
+    margin-top: 32px;
     width: 100%;
-    padding: 10px;
+    padding: 14px 20px;
     background: none;
     border: 1px solid #e8e8e8;
-    border-radius: 4px;
+    border-radius: 0;
     font-size: 14px;
+    font-weight: 300;
     color: #6d6d72;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.3px;
 
     &:hover:not(:disabled) {
-      background-color: #f5f5f5;
-      border-color: #d8d8d9;
+      background-color: #f5f5f0;
+      border-color: #3c3c43;
       color: #3c3c43;
+      transform: translateY(-1px);
     }
 
     &:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .review-list {
+    margin-top: 24px;
+
+    &__item {
+      padding: 24px 0;
+
+      &__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      &__user {
+        gap: 12px;
+
+        &__avatar {
+          width: 36px;
+          height: 36px;
+        }
+      }
+
+      &__actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+
+    &__load-more {
+      margin-top: 24px;
     }
   }
 }

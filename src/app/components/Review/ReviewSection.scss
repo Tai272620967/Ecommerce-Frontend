@@ -1,70 +1,85 @@
 .review-section {
-  margin-top: 48px;
-  padding-top: 48px;
+  margin-top: 64px;
+  padding-top: 64px;
   border-top: 1px solid #e8e8e8;
+  animation: fadeIn 0.5s ease-out;
 
   &__header {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
 
     &__title {
-      font-size: 20px;
-      font-weight: 500;
+      font-size: 24px;
+      font-weight: 400;
       color: #3c3c43;
-      margin: 0 0 16px 0;
+      margin: 0 0 20px 0;
+      letter-spacing: 0.3px;
     }
   }
 
   &__stats {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
     transition: opacity 0.3s ease;
+    padding: 20px 0;
 
     &__rating {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
 
       &__star {
-        font-size: 20px;
+        font-size: 18px;
         color: #e8e8e8;
         transition: color 0.3s ease;
+        line-height: 1;
 
         &--filled {
-          color: #fbbf24;
+          color: #E0CEAA;
         }
       }
 
       &__value {
-        font-size: 18px;
-        font-weight: 500;
+        font-size: 20px;
+        font-weight: 400;
         color: #3c3c43;
         transition: all 0.3s ease;
+        letter-spacing: 0.2px;
       }
     }
 
     &__count {
       font-size: 14px;
+      font-weight: 300;
       color: #6d6d72;
       margin: 0;
       transition: all 0.3s ease;
+      letter-spacing: 0.1px;
     }
   }
 
   &__add-button {
-    margin-bottom: 24px;
-    padding: 10px 20px;
+    margin-bottom: 32px;
+    padding: 12px 28px;
     background-color: #3c3c43;
     border: 1px solid #3c3c43;
-    border-radius: 4px;
+    border-radius: 0;
     font-size: 14px;
+    font-weight: 400;
     color: #ffffff;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.3px;
 
     &:hover {
       background-color: #2a2a2f;
       border-color: #2a2a2f;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(60, 60, 67, 0.15);
+    }
+
+    &:active {
+      transform: translateY(0);
     }
   }
 
@@ -105,27 +120,29 @@
 
 @media (max-width: 768px) {
   .review-section {
-    width: 95%;
-    margin: 30px auto;
-    padding: 15px 0;
+    margin-top: 48px;
+    padding-top: 48px;
 
     &__header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-    }
+      margin-bottom: 24px;
 
-    &__header__title {
-      font-size: 20px;
+      &__title {
+        font-size: 20px;
+        margin-bottom: 16px;
+      }
     }
 
     &__stats {
+      flex-direction: column;
       align-items: flex-start;
+      gap: 12px;
+      padding: 16px 0;
     }
 
     &__add-button {
       width: 100%;
       text-align: center;
+      margin-bottom: 24px;
     }
 
     &__already-reviewed {
