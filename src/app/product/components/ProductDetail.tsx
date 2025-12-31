@@ -19,6 +19,9 @@ import authStorage from "@/base/storage/auth";
 import { useRouter } from "next/navigation";
 import { addToWishlistApi, removeFromWishlistApi, checkWishlistApi } from "@/base/utils/api/wishlist";
 import { addToWishlist, removeFromWishlist } from "@/base/redux/features/wishlistSlice";
+import ReviewSection from "../../components/Review/ReviewSection";
+import { getReviewsApi } from "@/base/utils/api/review";
+import { Review } from "@/base/types/review";
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -27,6 +30,7 @@ const ProductDetail: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
   const [isInWishlist, setIsInWishlist] = useState<boolean>(false);
   const [isWishlistLoading, setIsWishlistLoading] = useState<boolean>(false);
+  const [recentReviews, setRecentReviews] = useState<Review[]>([]);
 
   const user = useAppSelector((state) => state.user.user);
   const wishlist = useAppSelector((state) => state.wishlist);
@@ -84,6 +88,23 @@ const ProductDetail: React.FC = () => {
     };
 
     fetchProductById();
+  }, [productId]);
+
+  // Fetch recent reviews for product detail page
+  useEffect(() => {
+    const fetchRecentReviews = async () => {
+      try {
+        const response = await getReviewsApi(Number(productId), 1, 3);
+        setRecentReviews(response.content || []);
+      } catch (error) {
+        console.error("Error fetching recent reviews:", error);
+        setRecentReviews([]);
+      }
+    };
+
+    if (productId) {
+      fetchRecentReviews();
+    }
   }, [productId]);
 
   // Hàm tăng số lượng
@@ -163,8 +184,8 @@ const ProductDetail: React.FC = () => {
   };
 
   return (
+    <div className="product-detail__wrapper">
     <form
-      className="product-detail__wrapper"
       onSubmit={handleSubmit(handleAddToCart)}
     >
       <div className="product-detail__bread-crumbs">
@@ -523,11 +544,48 @@ const ProductDetail: React.FC = () => {
                     href="#productReviews"
                     className="product-detail__description__info__rating__inner__score__amount"
                   >
-                    (188 reviews)
+                    ({recentReviews.length > 0 ? recentReviews.length : 0} reviews)
                   </a>
                 </div>
               </div>
             </div>
+            {recentReviews.length > 0 && (
+              <div className="product-detail__description__info__reviews-preview">
+                <h3 className="product-detail__description__info__reviews-preview__title">
+                  Recent Reviews
+                </h3>
+                <div className="product-detail__description__info__reviews-preview__list">
+                  {recentReviews.slice(0, 2).map((review) => (
+                    <div key={review.id} className="product-detail__description__info__reviews-preview__item">
+                      <div className="product-detail__description__info__reviews-preview__item__header">
+                        <span className="product-detail__description__info__reviews-preview__item__name">
+                          {review.userName}
+                        </span>
+                        <div className="product-detail__description__info__reviews-preview__item__rating">
+                          {Array.from({ length: 5 }, (_, index) => (
+                            <span
+                              key={index}
+                              className={`product-detail__description__info__reviews-preview__item__rating__star ${
+                                index < review.rating ? "product-detail__description__info__reviews-preview__item__rating__star--filled" : ""
+                              }`}
+                            >
+                              ★
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      {review.comment && (
+                        <p className="product-detail__description__info__reviews-preview__item__comment">
+                          {review.comment.length > 100 
+                            ? `${review.comment.substring(0, 100)}...` 
+                            : review.comment}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="product-detail__description__info__price-group">
               <div className="product-detail__description__info__price-group__box">
                 <div className="product-detail__description__info__price-group__box__label">
@@ -644,6 +702,20 @@ const ProductDetail: React.FC = () => {
         </div>
       </div>
     </form>
+    <ReviewSection 
+      productId={Number(productId)} 
+      onReviewAdded={async () => {
+        // Refresh recent reviews in background without blocking UI
+        try {
+          const response = await getReviewsApi(Number(productId), 1, 3);
+          setRecentReviews(response.content || []);
+        } catch (error) {
+          console.error("Error fetching recent reviews:", error);
+          // Don't clear reviews on error to prevent flickering
+        }
+      }}
+    />
+    </div>
   );
 };
 

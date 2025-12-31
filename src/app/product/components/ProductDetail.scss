@@ -169,6 +169,61 @@
           }
         }
 
+        &__reviews-preview {
+          margin-top: 24px;
+          padding-top: 24px;
+          border-top: 1px solid #e8e8e8;
+
+          &__title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #3c3c43;
+            margin: 0 0 16px 0;
+          }
+
+          &__list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+          }
+
+          &__item {
+            &__header {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 8px;
+            }
+
+            &__name {
+              font-size: 14px;
+              font-weight: 500;
+              color: #3c3c43;
+            }
+
+            &__rating {
+              display: flex;
+              gap: 2px;
+
+              &__star {
+                font-size: 12px;
+                color: #e8e8e8;
+
+                &--filled {
+                  color: #fbbf24;
+                }
+              }
+            }
+
+            &__comment {
+              font-size: 13px;
+              color: #6d6d72;
+              line-height: 1.5;
+              margin: 0;
+            }
+          }
+        }
+
         &__price-group {
           &__box {
             display: flex;
