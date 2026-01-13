@@ -72,27 +72,45 @@ export default function DashboardContent() {
         // First fetch to get recent orders
         const recentOrdersResponse = await fetchAllOrdersApi(1, 5);
         
+        // Debug: log response structure
+        console.log("Orders response:", recentOrdersResponse);
+        
         // Get orders for recent orders table
+        // Backend returns: { meta: {...}, result: [...] }
         if (Array.isArray(recentOrdersResponse?.result)) {
           orders = recentOrdersResponse.result;
-        } else if ((recentOrdersResponse as any)?.data && Array.isArray((recentOrdersResponse as any).data.result)) {
+        } else if ((recentOrdersResponse as any)?.data?.result && Array.isArray((recentOrdersResponse as any).data.result)) {
           orders = (recentOrdersResponse as any).data.result;
         } else if (Array.isArray(recentOrdersResponse)) {
           orders = recentOrdersResponse;
         }
         
-        // Get total count
+        // Get total count from meta
         if (recentOrdersResponse?.meta?.total !== undefined) {
-          totalOrders = recentOrdersResponse.meta.total;
+          totalOrders = Number(recentOrdersResponse.meta.total);
+        } else if ((recentOrdersResponse as any)?.data?.meta?.total !== undefined) {
+          totalOrders = Number((recentOrdersResponse as any).data.meta.total);
         } else {
           // If no meta, fetch with large page size to count
-          const allOrdersResponse = await fetchAllOrdersApi(1, 1000);
-          if (allOrdersResponse?.meta?.total !== undefined) {
-            totalOrders = allOrdersResponse.meta.total;
-          } else if (Array.isArray(allOrdersResponse?.result)) {
-            totalOrders = allOrdersResponse.result.length;
+          try {
+            const allOrdersResponse = await fetchAllOrdersApi(1, 1000);
+            console.log("All orders response:", allOrdersResponse);
+            
+            if (allOrdersResponse?.meta?.total !== undefined) {
+              totalOrders = Number(allOrdersResponse.meta.total);
+            } else if ((allOrdersResponse as any)?.data?.meta?.total !== undefined) {
+              totalOrders = Number((allOrdersResponse as any).data.meta.total);
+            } else if (Array.isArray(allOrdersResponse?.result)) {
+              totalOrders = allOrdersResponse.result.length;
+            } else if (Array.isArray((allOrdersResponse as any)?.data?.result)) {
+              totalOrders = (allOrdersResponse as any).data.result.length;
+            }
+          } catch (innerError) {
+            console.error("Error fetching all orders:", innerError);
           }
         }
+        
+        console.log("Total orders calculated:", totalOrders);
         
         // Calculate total revenue from all orders (simplified - in real app use dedicated API)
         if (Array.isArray(orders)) {
@@ -102,8 +120,13 @@ export default function DashboardContent() {
             }
           });
         }
-      } catch (error) {
+      } catch (error: any) {
         // Error fetching orders
+        console.error("Error fetching orders:", error);
+        if (error?.response) {
+          console.error("Error response:", error.response.data);
+          console.error("Error status:", error.response.status);
+        }
       }
 
       setStats({
