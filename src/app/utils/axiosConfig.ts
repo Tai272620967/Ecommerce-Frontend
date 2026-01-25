@@ -10,15 +10,32 @@ const axiosInstance = axios.create({
   withCredentials: true, // If your API requires cookies (JWT or session-based auth)
 });
 
+// List of public endpoints that don't require JWT token
+const PUBLIC_ENDPOINTS = [
+  '/auth/login',
+  '/auth/refresh',
+  '/users/register',
+  '/users/verify-email',
+  '/users/checkVerifyCode',
+];
+
 // Add an interceptor to attach the token to every request
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Get the access token from cookies
-    const accessToken = authStorage.getAccessToken();
+    // Check if this is a public endpoint
+    const isPublicEndpoint = PUBLIC_ENDPOINTS.some(endpoint => 
+      config.url?.includes(endpoint)
+    );
 
-    // If there is an access token, attach it to the request headers
-    if (accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    // Only add Authorization header for non-public endpoints
+    if (!isPublicEndpoint) {
+      // Get the access token from cookies
+      const accessToken = authStorage.getAccessToken();
+
+      // If there is an access token, attach it to the request headers
+      if (accessToken) {
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
+      }
     }
 
     return config;

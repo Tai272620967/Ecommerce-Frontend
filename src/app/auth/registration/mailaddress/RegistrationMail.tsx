@@ -8,7 +8,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import InputField from "@/base/components/Input/Input";
 import { Button } from "@/base/components/Button/Button";
 import { message } from "antd";
-import { checkRegistMailAddressApi } from "@/base/utils/api/checkRegistMailAddress";
 import { VALIDATE_MESSAGES } from "@/base/utils/constant/constant";
 
 export default function RegistrationMailAddress() {
@@ -37,16 +36,12 @@ export default function RegistrationMailAddress() {
     setIsLoading(true);
 
     try {
-      const responseData = await checkRegistMailAddressApi(data);
-
-      if (responseData.data.verifyEmail) {
-        message.success(responseData.data.message);
-        router.push("/auth/registration/mailaddress/checkVerifyCode");
-        localStorage.setItem("email", data.to);
-      }
-
+      // Skip email verification, go directly to registration form
+      // Save email to localStorage for registration form
+      localStorage.setItem("email", data.to);
+      router.push("/auth/registration/edit/new");
     } catch (error: any) {
-      if (error.response.data.error) {
+      if (error.response?.data?.error) {
         message.error(error.response.data.error);
       }
     } finally {
@@ -68,15 +63,10 @@ export default function RegistrationMailAddress() {
       <div className="registration-mail-layout">
         <div className="registration-mail-content">
           <div className="registration-mail-message">
-            <span>We will verify your email address for member registration.</span>
+            <span>Please enter your email address for member registration.</span>
           </div>
           <div className="registration-mail-message">
-            <span>Please enter an email address that can receive emails.</span>
-          </div>
-          <div className="registration-mail-message">
-            <span>
-              We will send a verification code to the email address you entered.
-            </span>
+            <span>The email address will be used for login.</span>
           </div>
           <div className="registration-mail-input__wrapper">
             <InputField
@@ -120,7 +110,7 @@ export default function RegistrationMailAddress() {
             className="login-button mt-0 registration-button"
             isLoading={isLoading}
           >
-            {!isLoading && "Send Verification Code"}
+            {!isLoading && "Continue to Registration"}
           </Button>
         </div>
     </form>

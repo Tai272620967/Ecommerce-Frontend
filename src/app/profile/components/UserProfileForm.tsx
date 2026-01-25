@@ -27,8 +27,6 @@ export default function UserProfileForm({ user, onUpdate }: UserProfileFormProps
     defaultValues: {
       firstName: user.firstName || "",
       lastName: user.lastName || "",
-      kataFirstName: user.kataFirstName || "",
-      kataLastName: user.kataLastName || "",
       address1: user.address1 || "",
       address2: user.address2 || "",
       address3: user.address3 || "",
@@ -127,27 +125,6 @@ export default function UserProfileForm({ user, onUpdate }: UserProfileFormProps
             <label className="custom-label">Last Name</label>
             <InputField
               name="lastName"
-              register={register}
-              errors={errors}
-              className="input__user-profile"
-            />
-          </div>
-        </div>
-
-        <div className="user-profile-form__row">
-          <div className="user-profile-form__field">
-            <label className="custom-label">Kata First Name</label>
-            <InputField
-              name="kataFirstName"
-              register={register}
-              errors={errors}
-              className="input__user-profile"
-            />
-          </div>
-          <div className="user-profile-form__field">
-            <label className="custom-label">Kata Last Name</label>
-            <InputField
-              name="kataLastName"
               register={register}
               errors={errors}
               className="input__user-profile"

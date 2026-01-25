@@ -47,8 +47,6 @@ export const updateUserApi = async (
     // Add user data fields
     if (userData.firstName) formData.append("firstName", userData.firstName);
     if (userData.lastName) formData.append("lastName", userData.lastName);
-    if (userData.kataFirstName) formData.append("kataFirstName", userData.kataFirstName);
-    if (userData.kataLastName) formData.append("kataLastName", userData.kataLastName);
     if (userData.address1) formData.append("address1", userData.address1);
     if (userData.address2) formData.append("address2", userData.address2);
     if (userData.address3) formData.append("address3", userData.address3);
@@ -94,8 +92,6 @@ export const updateCurrentUserProfileApi = async (
     // Add user data fields
     if (userData.firstName) formData.append("firstName", userData.firstName);
     if (userData.lastName) formData.append("lastName", userData.lastName);
-    if (userData.kataFirstName) formData.append("kataFirstName", userData.kataFirstName);
-    if (userData.kataLastName) formData.append("kataLastName", userData.kataLastName);
     if (userData.address1) formData.append("address1", userData.address1);
     if (userData.address2) formData.append("address2", userData.address2);
     if (userData.address3) formData.append("address3", userData.address3);

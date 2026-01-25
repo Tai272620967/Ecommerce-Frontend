@@ -107,7 +107,7 @@ export default function LoginForm() {
   };
 
   const handleRedirect = () => {
-    router.push("/auth/registration/mailaddress");
+    router.push("/auth/registration/edit/new");
   };
 
   return (

@@ -3,7 +3,7 @@ import axiosInstance from "@/utils/axiosConfig";
 
 export const checkRegistMailAddressApi = async (data: Record<string, any>) => {
   try {
-    const response = await axiosInstance.post("/users/checkRegistMailAddress", data);
+    const response = await axiosInstance.post("/users/verify-email", data);
 
     if (response.status === 200) {
       return response.data;

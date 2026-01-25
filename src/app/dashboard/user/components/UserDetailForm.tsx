@@ -28,8 +28,6 @@ export default function UserDetailForm({ user, onUpdate }: UserDetailFormProps) 
     defaultValues: {
       firstName: user.firstName || "",
       lastName: user.lastName || "",
-      kataFirstName: user.kataFirstName || "",
-      kataLastName: user.kataLastName || "",
       address1: user.address1 || "",
       address2: user.address2 || "",
       address3: user.address3 || "",
@@ -128,27 +126,6 @@ export default function UserDetailForm({ user, onUpdate }: UserDetailFormProps) 
             <label className="custom-label">Last Name</label>
             <InputField
               name="lastName"
-              register={register}
-              errors={errors}
-              className="input__user-detail"
-            />
-          </div>
-        </div>
-
-        <div className="user-detail-form__row">
-          <div className="user-detail-form__field">
-            <label className="custom-label">Kata First Name</label>
-            <InputField
-              name="kataFirstName"
-              register={register}
-              errors={errors}
-              className="input__user-detail"
-            />
-          </div>
-          <div className="user-detail-form__field">
-            <label className="custom-label">Kata Last Name</label>
-            <InputField
-              name="kataLastName"
               register={register}
               errors={errors}
               className="input__user-detail"

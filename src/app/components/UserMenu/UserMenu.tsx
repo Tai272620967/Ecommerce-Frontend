@@ -109,7 +109,7 @@ const UserMenu: React.FC = () => {
       key: "1",
       label: "New Member Registration",
       icon: <UserOutlined />,
-      onClick: () => router.push("/auth/registration/mailaddress"),
+      onClick: () => router.push("/auth/registration/edit/new"),
     },
     {
       key: "2",

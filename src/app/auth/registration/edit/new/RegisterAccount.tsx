@@ -26,6 +26,7 @@ export default function RegisterAccount() {
   }, []);
 
   const yupSchema = yup.object().shape({
+    email: yup.string().email(VALIDATE_MESSAGES.VALID_EMAIL).required(VALIDATE_MESSAGES.FIELD_REQUIRED),
     password: yup.string().required(VALIDATE_MESSAGES.FIELD_REQUIRED),
     confirmPassword: yup
       .string()
@@ -33,8 +34,6 @@ export default function RegisterAccount() {
       .required(VALIDATE_MESSAGES.FIELD_REQUIRED),
     firstName: yup.string().required(VALIDATE_MESSAGES.FIELD_REQUIRED),
     lastName: yup.string().required(VALIDATE_MESSAGES.FIELD_REQUIRED),
-    kataFirstName: yup.string().required(VALIDATE_MESSAGES.FIELD_REQUIRED),
-    kataLastName: yup.string().required(VALIDATE_MESSAGES.FIELD_REQUIRED),
     postalCode: yup.string().required(VALIDATE_MESSAGES.FIELD_REQUIRED),
     address1: yup.string().required(VALIDATE_MESSAGES.FIELD_REQUIRED),
     address2: yup.string().required(VALIDATE_MESSAGES.FIELD_REQUIRED),
@@ -43,13 +42,11 @@ export default function RegisterAccount() {
   });
 
   const defaultValues = {
-    email: emailValue,
+    email: emailValue || "",
     password: "",
     confirmPassword: "",
     firstName: "",
     lastName: "",
-    kataFirstName: "",
-    kataLastName: "",
     postalCode: "",
     address1: "",
     address2: "",
@@ -93,7 +90,10 @@ export default function RegisterAccount() {
   };  
 
   const handleRegisterAccount = async (data: Record<string, any>) => {
-    data.email = localStorage.getItem("email");
+    // Use email from form, or fallback to localStorage if available
+    if (!data.email && emailValue) {
+      data.email = emailValue;
+    }
     setIsLoading(true);
 
     try {
@@ -127,10 +127,18 @@ export default function RegisterAccount() {
         <div className="registration-mail-content">
           <div className="registration-mail-message">
             <span>Login Information</span>
-            <br />
-            <span>Email Address (Login ID)</span>
-            <br />
-            <span>{emailValue}</span>
+          </div>
+          <div className="registration-mail-input__wrapper registration-account">
+            <InputField
+              className="registration-mail-input"
+              name="email"
+              register={register}
+              errors={errors}
+              placeHolder="example@email.com"
+              label="Email Address (Login ID) (Required)"
+              type="email"
+              isCustom
+            />
           </div>
           <div className="registration-mail-input__wrapper registration-account">
             <InputField
@@ -188,28 +196,6 @@ export default function RegisterAccount() {
               name="lastName"
               register={register}
               errors={errors}
-              placeHolder="Smith"
-              isCustom
-            />
-          </div>
-          <div className="registration-mail-input__wrapper registration-account">
-            <InputField
-              className="registration-mail-input"
-              name="kataFirstName"
-              register={register}
-              errors={errors}
-              label="Furigana (First Name) (Required)"
-              placeHolder="John"
-              isCustom
-            />
-          </div>
-          <div className="registration-mail-input__wrapper registration-account">
-            <InputField
-              className="registration-mail-input"
-              name="kataLastName"
-              register={register}
-              errors={errors}
-              label="Furigana (Last Name) (Required)"
               placeHolder="Smith"
               isCustom
             />
