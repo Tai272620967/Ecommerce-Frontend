@@ -445,7 +445,25 @@ main {
   display: flex;
   align-items: center;
   padding-top: 0;
-  width: 50%;
+  width: 55%;
+  gap: 6px;
+  // Ensure inputs have enough space
+  > div {
+    flex-shrink: 0;
+  }
+  // Style inputs within birthday fields to prevent text cutoff
+  .registration-mail-input {
+    min-width: 60px;
+    padding: 4px 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    width: 100%;
+  }
+  // Year input container (first div without specific class)
+  > div:first-child {
+    width: 35%;
+    min-width: 100px;
+  }
 }
 
 .registration-account--birthday {
@@ -461,10 +479,30 @@ main {
     margin-right: 5px;
   }
   &__month {
-    width: 35%;
+    width: 22%;
+    min-width: 65px;
+    flex-shrink: 0;
+    // Ensure input inside has proper width
+    .input-field {
+      width: 100%;
+    }
+    .registration-mail-input {
+      width: 100%;
+      min-width: 60px;
+    }
   }
   &__day {
-    width: 35%;
+    width: 22%;
+    min-width: 65px;
+    flex-shrink: 0;
+    // Ensure input inside has proper width
+    .input-field {
+      width: 100%;
+    }
+    .registration-mail-input {
+      width: 100%;
+      min-width: 60px;
+    }
   }
 }
 
