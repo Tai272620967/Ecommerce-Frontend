@@ -1,7 +1,6 @@
 import "./Footer.scss";
 import Image from "next/image";
 import Link from "next/link";
-import Logo from "../../../../public/images/logo-muji.svg";
 
 const Footer: React.FC = () => {
   return (
@@ -9,7 +8,13 @@ const Footer: React.FC = () => {
       <div className="footer__site-map">
         <div className="footer__site-map__logo-box">
           <Link href={"/"} className="navbar-logo">
-            <Logo />
+            <Image
+              src="/images/logo.png"
+              alt="Logo"
+              width={180}
+              height={60}
+              style={{ objectFit: "contain" }}
+            />
           </Link>
           <ul className="footer__site-map__logo-box__socials">
             <li>

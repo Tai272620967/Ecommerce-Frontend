@@ -7,6 +7,7 @@ import NavbarCommon from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import DashboardLayoutClient from "./dashboard/DashboardLayoutClient";
 import PageTransition from "./components/PageTransition/PageTransition";
+import Chatbot from "./components/Chatbot/Chatbot";
 import { useAppDispatch, useAppSelector } from "@/base/redux/hook";
 import { getWishlistCountApi, getWishlistApi } from "@/base/utils/api/wishlist";
 import { setWishlistCount, setWishlistProducts, clearWishlist } from "@/base/redux/features/wishlistSlice";
@@ -71,6 +72,7 @@ export default function LayoutClient({
       <NavbarCommon />
       <main>{children}</main>
       <Footer />
+      <Chatbot />
     </>
   );
 }

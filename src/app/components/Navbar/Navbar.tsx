@@ -1,7 +1,6 @@
 "use client";
 import "./Navbar.scss";
 import Image from "next/image";
-import Logo from "../../../../public/images/logo-muji.svg";
 import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import { Category, SubCategory } from "@/base/types/category";
@@ -125,7 +124,13 @@ const NavbarCommon: React.FC<NavbarProps> = () => {
           className="navbar-logo"
           onClick={handleCloseCategoryModal}
         >
-          <Logo />
+          <Image
+            src="/images/logo.png"
+            alt="Logo"
+            width={180}
+            height={60}
+            style={{ objectFit: "contain" }}
+          />
         </Link>
         <div className="navbar-center">
           <ul>

@@ -3,7 +3,7 @@
 import "./LoginForm.scss";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Logo from "../../../../../public/images/logo-muji.svg"; // Import SVG
+import Image from "next/image";
 import { useAppDispatch } from "@/base/redux/hook";
 import { login } from "@/base/redux/features/authSlice";
 import { loginApi } from "@/base/utils/api/auth";
@@ -116,7 +116,13 @@ export default function LoginForm() {
       onSubmit={handleSubmit(handleLoginSubmit)}
     >
       <div className="logo">
-        <Logo />
+        <Image
+          src="/images/logo.png"
+          alt="Logo"
+          width={200}
+          height={70}
+          style={{ objectFit: "contain" }}
+        />
       </div>
       <h4>Login</h4>
       <div className="login-form__wrapper">

@@ -8,12 +8,12 @@ export const HeaderDashboard: React.FC = () => {
     <div className="header__wrapper">
       <div className="header__logo">
         <Image
-          src="/images/logo-muji.svg"
-          alt="MUJI Logo"
-          width={120}
-          height={24}
+          src="/images/logo.png"
+          alt="Logo"
+          width={180}
+          height={60}
+          style={{ objectFit: "contain" }}
         />
-        <span className="header__logo__text">無印良品</span>
       </div>
       <div className="header__right">
         <div className="header__right__notification">

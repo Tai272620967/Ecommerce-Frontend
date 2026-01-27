@@ -73,9 +73,9 @@ const SideBar: React.FC = () => {
     <div className="sidebar__wrapper">
       <div className="sidebar__title">
         <Image 
-          src="/images/logo-muji.svg" 
-          width={120} 
-          height={24} 
+          src="/images/logo.png" 
+          width={180} 
+          height={60} 
           alt="Logo" 
           style={{ objectFit: "contain" }}
         />

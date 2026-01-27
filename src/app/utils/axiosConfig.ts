@@ -17,6 +17,7 @@ const PUBLIC_ENDPOINTS = [
   '/users/register',
   '/users/verify-email',
   '/users/checkVerifyCode',
+  '/chatbot/message',
 ];
 
 // Add an interceptor to attach the token to every request

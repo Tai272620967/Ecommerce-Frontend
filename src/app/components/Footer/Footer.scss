@@ -45,9 +45,9 @@
         .navbar-logo {
           // Mobile - adjust logo size
           @media (max-width: 768px) {
-            svg {
-              width: 120px;
-              height: auto;
+            img {
+              width: 160px !important;
+              height: auto !important;
             }
           }
         }
