@@ -166,7 +166,7 @@ export const ProductDashboard: React.FC = () => {
         Cell: ({ row }: { row: Row<any> }) => (
           <div style={{ display: "flex", gap: "8px" }}>
             <button
-              className="muji-button"
+              className="amax-button"
               style={{
                 padding: "8px 16px",
                 fontSize: "13px",
@@ -176,7 +176,7 @@ export const ProductDashboard: React.FC = () => {
               View
             </button>
             <button
-              className="muji-button"
+              className="amax-button"
               style={{
                 padding: "8px 16px",
                 fontSize: "13px",
@@ -187,7 +187,7 @@ export const ProductDashboard: React.FC = () => {
             </button>
             <button
               onClick={() => handleDeleteProduct(row.original)}
-              className="muji-button muji-button--danger"
+              className="amax-button amax-button--danger"
               style={{
                 padding: "8px 16px",
                 fontSize: "13px",

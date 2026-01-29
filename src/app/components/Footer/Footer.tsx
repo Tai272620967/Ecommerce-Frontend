@@ -84,27 +84,27 @@ const Footer: React.FC = () => {
             <li className="footer__site-map__list__item">Store Information</li>
             <li className="footer__site-map__list__item">Events</li>
             <li className="footer__site-map__list__item">Local Japan</li>
-            <li className="footer__site-map__list__item">MUJI SUPPORT</li>
+            <li className="footer__site-map__list__item">AMAX SUPPORT</li>
             <li className="footer__site-map__list__item">Space Design</li>
             <li className="footer__site-map__list__item">Contact Us</li>
           </ul>
         </div>
         <div className="footer__site-map__list-wrapper">
           <ul className="footer__site-map__list">
-            <li className="footer__site-map__list__item">MUJI House</li>
-            <li className="footer__site-map__list__item">Café&Meal MUJI</li>
+            <li className="footer__site-map__list__item">AMAX House</li>
+            <li className="footer__site-map__list__item">Café&Meal AMAX</li>
             <li className="footer__site-map__list__item">Campground</li>
-            <li className="footer__site-map__list__item">Found MUJI</li>
-            <li className="footer__site-map__list__item">MUJI BOOKS</li>
-            <li className="footer__site-map__list__item">MUJI HOTEL</li>
+            <li className="footer__site-map__list__item">Found AMAX</li>
+            <li className="footer__site-map__list__item">AMAX BOOKS</li>
+            <li className="footer__site-map__list__item">AMAX HOTEL</li>
           </ul>
         </div>
         <div className="footer__site-map__list-wrapper">
           <ul className="footer__site-map__list">
-            <li className="footer__site-map__list__item">MUJI passport</li>
+            <li className="footer__site-map__list__item">AMAX passport</li>
             <li className="footer__site-map__list__item">Catalog</li>
-            <li className="footer__site-map__list__item">MUJI Card</li>
-            <li className="footer__site-map__list__item">MUJI GIFT CARD</li>
+            <li className="footer__site-map__list__item">AMAX Card</li>
+            <li className="footer__site-map__list__item">AMAX GIFT CARD</li>
             <li className="footer__site-map__list__item">For Corporate Customers</li>
             <li className="footer__site-map__list__item">Tax-free Services</li>
           </ul>
@@ -113,8 +113,8 @@ const Footer: React.FC = () => {
           <ul className="footer__site-map__list">
             <li className="footer__site-map__list__item">News Release</li>
             <li className="footer__site-map__list__item">Careers</li>
-            <li className="footer__site-map__list__item">MUJI Message</li>
-            <li className="footer__site-map__list__item">About MUJI</li>
+            <li className="footer__site-map__list__item">AMAX Message</li>
+            <li className="footer__site-map__list__item">About AMAX</li>
             <li className="footer__site-map__list__item">Ryohin Keikaku Co., Ltd.</li>
           </ul>
         </div>

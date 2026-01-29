@@ -299,7 +299,7 @@ const ProductList: React.FC<ProductListProps> = ({
       <div className="product__bread-crumbs">
         <ul className="product__bread-crumbs__list">
           <li className="product__bread-crumbs__list__item">
-            <a href="/">MUJI</a>
+            <a href="/">AMAX</a>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"

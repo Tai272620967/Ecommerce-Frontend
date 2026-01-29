@@ -199,7 +199,7 @@ const ProductDetail: React.FC = () => {
               }}
               style={{ cursor: "pointer" }}
             >
-              MUJI
+              AMAX
             </a>
             {product && (product as any).category && (
               <svg

@@ -20,7 +20,7 @@ export default function RegistrationMailAddress() {
 
   const defaultValues = {
     to: "",
-    subject: "[MUJI Online Store] Verification Code Issued",
+    subject: "[AMAX Online Store] Verification Code Issued",
   };
 
   const {
@@ -74,7 +74,7 @@ export default function RegistrationMailAddress() {
               name="to"
               register={register}
               errors={errors}
-              placeHolder="abcdef1234@muji.com"
+              placeHolder="abcdef1234@amax.com"
             />
           </div>
           <ul className="registration-mail-note-list">
@@ -84,14 +84,14 @@ export default function RegistrationMailAddress() {
             <li>
               <span>
                 ※
-                If you have domain restrictions set in your email settings, please allow (@muji.net) to receive emails.
+                If you have domain restrictions set in your email settings, please allow (@amax.net) to receive emails.
               </span>
             </li>
             <li>
               <span>
                 ※
                 In accordance with internet standard specifications, some email addresses cannot be registered. For more details, please check
-                <a href="https://faq.muji.com/--656d4e431c58e70026d3c45f">
+                <a href="https://faq.amax.com/--656d4e431c58e70026d3c45f">
                   here
                 </a>
                 .

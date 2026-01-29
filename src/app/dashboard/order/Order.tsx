@@ -60,7 +60,7 @@ export const OrderDashboard: React.FC = () => {
     });
   };
 
-  // Format status badge (Muji style)
+  // Format status badge (Amax style)
   const getStatusBadge = (status: string) => {
     const statusStyles: { [key: string]: { bg: string; text: string; border: string } } = {
       pending: { bg: "#ffffff", text: "#6d6d72", border: "#e8e8e8" },
@@ -90,7 +90,7 @@ export const OrderDashboard: React.FC = () => {
     );
   };
 
-  // Format payment status badge (Muji style)
+  // Format payment status badge (Amax style)
   const getPaymentStatusBadge = (paymentStatus: string) => {
     const statusStyles: { [key: string]: { bg: string; text: string; border: string } } = {
       pending: { bg: "#ffffff", text: "#6d6d72", border: "#e8e8e8" },

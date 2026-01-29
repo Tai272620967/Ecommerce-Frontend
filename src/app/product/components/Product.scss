@@ -8,7 +8,7 @@
   box-sizing: border-box;
   overflow-x: hidden;
 
-  // Large desktop - giảm padding dần khi màn nhỏ (theo style MUJI)
+  // Large desktop - giảm padding dần khi màn nhỏ (theo style AMAX)
   @media (max-width: 1600px) {
     padding: 10px 48px;
   }
@@ -276,7 +276,7 @@
       box-sizing: border-box;
       grid-auto-flow: row;
 
-      // Desktop - luôn giữ 4 columns, giảm gap dần khi màn nhỏ (theo style MUJI)
+      // Desktop - luôn giữ 4 columns, giảm gap dần khi màn nhỏ (theo style AMAX)
       @media (max-width: 1600px) {
         grid-template-columns: repeat(4, 1fr);
         gap: 20px;
@@ -504,7 +504,7 @@
           max-width: 100%;
           box-sizing: border-box;
 
-          // Desktop - maintain square ratio, giảm height dần khi màn nhỏ (theo style MUJI)
+          // Desktop - maintain square ratio, giảm height dần khi màn nhỏ (theo style AMAX)
           min-height: 320px;
           max-height: 400px;
 

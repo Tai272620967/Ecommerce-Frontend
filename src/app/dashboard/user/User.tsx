@@ -161,7 +161,7 @@ export const UserDashboard: React.FC = () => {
       width: 100,
       Cell: ({ row }: { row: Row<User> }) => (
         <button
-          className="muji-button"
+          className="amax-button"
           style={{
             padding: "8px 16px",
             fontSize: "13px",

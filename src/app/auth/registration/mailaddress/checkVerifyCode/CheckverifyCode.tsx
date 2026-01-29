@@ -68,7 +68,7 @@ export default function CheckVerifyCode() {
       if (emailValue) {
         const responseData = await checkRegistMailAddressApi({
           to: emailValue,
-          subject: "[MUJI Online Store] Verification Code Issued",
+          subject: "[AMAX Online Store] Verification Code Issued",
         });
 
         if (responseData.data.verifyEmail) {

@@ -13,7 +13,7 @@ const LifestyleSection: React.FC = () => {
       id: 1,
       image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80",
       title: "Simple Living",
-      subtitle: "MUJI Philosophy",
+      subtitle: "AMAX Philosophy",
       description: "Eliminate the unnecessary and choose only what you truly need",
     },
     {

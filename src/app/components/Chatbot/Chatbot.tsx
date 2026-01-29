@@ -15,7 +15,7 @@ export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatbotMessage[]>([
     {
-      text: "Xin chào! Tôi là trợ lý ảo của Muji. Tôi có thể giúp bạn tìm kiếm sản phẩm, tra cứu đơn hàng và hỗ trợ các thông tin khác. Bạn cần hỗ trợ gì?",
+      text: "Xin chào! Tôi là trợ lý ảo của Amax. Tôi có thể giúp bạn tìm kiếm sản phẩm, tra cứu đơn hàng và hỗ trợ các thông tin khác. Bạn cần hỗ trợ gì?",
       isUser: false,
       timestamp: new Date(),
     },
@@ -135,7 +135,7 @@ export default function Chatbot() {
       {isOpen && (
         <div className="chatbot__window">
           <div className="chatbot__header">
-            <h3>Trợ lý ảo Muji</h3>
+            <h3>Trợ lý ảo Amax</h3>
             <button
               className="chatbot__close"
               onClick={handleToggle}

@@ -79,7 +79,7 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
             <li>Find Stores</li>
             <li>Online Store Convenient Services</li>
             <li>About Ryohin Keikaku</li>
-            <li>MUJI Donation Vouchers</li>
+            <li>AMAX Donation Vouchers</li>
           </ul>
         </div>
       </div>

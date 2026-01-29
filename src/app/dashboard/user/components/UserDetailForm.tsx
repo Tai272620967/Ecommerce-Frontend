@@ -98,7 +98,7 @@ export default function UserDetailForm({ user, onUpdate }: UserDetailFormProps) 
           />
         </div>
         <div className="user-detail-form__avatar-upload">
-          <label htmlFor="avatar-upload" className="muji-button">
+          <label htmlFor="avatar-upload" className="amax-button">
             Upload Avatar
           </label>
           <input
@@ -225,7 +225,7 @@ export default function UserDetailForm({ user, onUpdate }: UserDetailFormProps) 
         <div className="user-detail-form__button-wrapper">
           <Button
             type="submit"
-            className="muji-button muji-button--primary"
+            className="amax-button amax-button--primary"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Updating..." : "Update User"}

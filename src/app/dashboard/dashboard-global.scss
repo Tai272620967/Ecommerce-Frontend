@@ -1,18 +1,18 @@
-// Muji-style global dashboard styles
-// Colors inspired by Muji's minimalist aesthetic
-$muji-beige: #f5f5f0;
-$muji-gray-light: #e8e8e8;
-$muji-gray: #6d6d72;
-$muji-gray-dark: #3c3c43;
-$muji-black: #1a1a1a;
-$muji-white: #ffffff;
-$muji-border: #d4d4d4;
+// Amax-style global dashboard styles
+// Colors inspired by Amax's minimalist aesthetic
+$amax-beige: #f5f5f0;
+$amax-gray-light: #e8e8e8;
+$amax-gray: #6d6d72;
+$amax-gray-dark: #3c3c43;
+$amax-black: #1a1a1a;
+$amax-white: #ffffff;
+$amax-border: #d4d4d4;
 
 // Dashboard layout
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
-  background-color: $muji-beige;
+  background-color: $amax-beige;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
 
   &__main {
@@ -20,7 +20,7 @@ $muji-border: #d4d4d4;
     margin-left: 250px;
     padding-top: 60px;
     min-height: 100vh;
-    background-color: $muji-beige;
+    background-color: $amax-beige;
     overflow-x: hidden;
   }
 }
@@ -34,42 +34,42 @@ $muji-border: #d4d4d4;
   &__title {
     font-size: 28px;
     font-weight: 300;
-    color: $muji-gray-dark;
+    color: $amax-gray-dark;
     margin-bottom: 40px;
     letter-spacing: 0.5px;
   }
 
   &__content {
-    background-color: $muji-white;
+    background-color: $amax-white;
     padding: 30px;
-    border: 1px solid $muji-gray-light;
+    border: 1px solid $amax-gray-light;
   }
 }
 
 // Common table wrapper
 .dashboard-table-wrapper {
-  background-color: $muji-white;
-  border: 1px solid $muji-gray-light;
+  background-color: $amax-white;
+  border: 1px solid $amax-gray-light;
   padding: 0;
   overflow: hidden;
 }
 
-// Common button styles (Muji style)
-.muji-button {
+// Common button styles (Amax style)
+.amax-button {
   padding: 12px 24px;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.3px;
-  border: 1px solid $muji-gray-dark;
-  background-color: $muji-white;
-  color: $muji-gray-dark;
+  border: 1px solid $amax-gray-dark;
+  background-color: $amax-white;
+  color: $amax-gray-dark;
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 0;
 
   &:hover:not(:disabled) {
-    background-color: $muji-gray-dark;
-    color: $muji-white;
+    background-color: $amax-gray-dark;
+    color: $amax-white;
   }
 
   &:disabled {
@@ -78,11 +78,11 @@ $muji-border: #d4d4d4;
   }
 
   &--primary {
-    background-color: $muji-gray-dark;
-    color: $muji-white;
+    background-color: $amax-gray-dark;
+    color: $amax-white;
 
     &:hover:not(:disabled) {
-      background-color: $muji-black;
+      background-color: $amax-black;
     }
   }
 
@@ -92,7 +92,7 @@ $muji-border: #d4d4d4;
 
     &:hover:not(:disabled) {
       background-color: #d26d69;
-      color: $muji-white;
+      color: $amax-white;
     }
   }
 }
